@@ -54,8 +54,15 @@ processResources {
 
 dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
-}
 
+//    compile "com.azanor.baubles:Baubles:1.12-1.5.2"
+    compile "vazkii.botania:Botania:r1.10-363.148"
+    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.617"
+    compile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
+    compile "mezz.jei:jei_1.12.2:4.16.1.302"
+    compile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.11.0-v50"
+
+}
 repositories {
     mavenCentral()
     maven {
@@ -73,5 +80,21 @@ repositories {
     maven {
         name = "Botania"
         url = 'https://maven.blamejared.com'
+    }
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+    maven {
+        name = 'blamejared'
+        url = 'https://maven.blamejared.com'
+    }
+    maven {
+        name = 'jared maven'
+        url = 'https://maven.blamejared.com/'
+    }
+    maven {
+        name = 'hellfirepvp'
+        url = 'https://maven.hellfiredev.net/'
     }
 }
