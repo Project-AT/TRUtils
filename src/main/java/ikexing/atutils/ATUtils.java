@@ -1,11 +1,17 @@
 package ikexing.atutils;
 
-import net.minecraft.init.Blocks;
+import com.google.common.collect.BiMap;
+import ikexing.atutils.botania.subtitle.SubTileHydroangeasModified;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
+import vazkii.botania.api.BotaniaAPI;
+import vazkii.botania.api.subtile.SubTileEntity;
+import vazkii.botania.common.lib.LibBlockNames;
+
+import java.lang.reflect.Field;
 
 @Mod(modid = ATUtils.MODID, name = ATUtils.NAME, version = ATUtils.VERSION)
 public class ATUtils
@@ -17,15 +23,29 @@ public class ATUtils
     private static Logger logger;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event){
         logger = event.getModLog();
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-        // some example code
-        logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+    public void init(FMLInitializationEvent event){
+        registryOverride();
+    }
+
+    public void registryOverride(){
+        final BiMap<String, Class<? extends SubTileEntity>> subTiles;
+        try {
+            Field field = BotaniaAPI.class.getDeclaredField("subTiles");
+            field.setAccessible(true);
+            subTiles = (BiMap<String, Class<? extends SubTileEntity>>) field.get(null);
+
+            if(subTiles != null){
+                subTiles.forcePut(LibBlockNames.SUBTILE_HYDROANGEAS, SubTileHydroangeasModified.class);
+            }
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 }
