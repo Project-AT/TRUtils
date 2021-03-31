@@ -20,6 +20,8 @@ import vazkii.botania.common.lexicon.LexiconData;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ikexing.atutils.config.ATConfig.HydroangeasDecay;
+
 // This class is copied and modified from vazkii.botania.common.block.subtile.generating.SubTileHydroangeas,
 // which is written by <Pokefenn>.
 public class SubTileHydroangeasModified extends SubTileGenerating {
@@ -160,4 +162,8 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
         return 0;
     }
 
+    @Override
+    public boolean isPassiveFlower() {
+        return HydroangeasDecay;
+    }
 }

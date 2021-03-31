@@ -13,6 +13,8 @@ import vazkii.botania.common.lib.LibBlockNames;
 
 import java.lang.reflect.Field;
 
+import static ikexing.atutils.config.ATConfig.HydroangeasModified;
+
 @Mod(modid = ATUtils.MODID, name = ATUtils.NAME, version = ATUtils.VERSION)
 public class ATUtils
 {
@@ -29,7 +31,7 @@ public class ATUtils
 
     @EventHandler
     public void init(FMLInitializationEvent event){
-        registryOverride();
+        if (!HydroangeasModified) registryOverride();
     }
 
     public void registryOverride(){
