@@ -34,7 +34,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
-@ZenClass("mod.atutils.ATTeleporter")
+@ZenClass("mods.atutils.ATTeleporter")
 @ZenRegister
 public class ATTeleporter extends Teleporter {
 
@@ -58,12 +58,11 @@ public class ATTeleporter extends Teleporter {
 
     @Override
     public void placeInPortal(Entity entity, float facing) {
-        if (!this.placeInExistingPortal(entity, facing)) {
-            this.moveToSafeCoords(entity);
-            this.makePortal(entity);
-            this.placeInExistingPortal(entity, facing);
-        }
+        // it tp player on the sky, strange...
+        // WIP
+        this.moveToSafeCoords(entity);
     }
+
 
     private void moveToSafeCoords(Entity entity) {
         // if we're in enforced progression mode, check the biomes for safety
@@ -507,7 +506,7 @@ public class ATTeleporter extends Teleporter {
     }
 
     @ZenMethod
-    public void teleportPlayer(IPlayer playerIn) {
+    public static void teleportPlayer(IPlayer playerIn) {
         int destination = TFConfig.dimension.dimensionID;
 
         EntityPlayer player = CraftTweakerMC.getPlayer(playerIn);
