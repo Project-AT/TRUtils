@@ -21,7 +21,7 @@ public class ModHydroangeas {
         }
 
         public int getManaGen() {
-            return manaGen;
+            return this.manaGen;
         }
 
     }

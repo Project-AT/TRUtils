@@ -61,6 +61,8 @@ public class ATTeleporter extends Teleporter {
         // it tp player on the sky, strange...
         // WIP
         this.moveToSafeCoords(entity);
+        BlockPos spot = findPortalCoords(entity, this::isOkayForPortal);
+        entity.setLocationAndAngles(spot.getX(), spot.getY() + 1, spot.getZ(), entity.rotationYaw, entity.rotationPitch);
     }
 
 
@@ -428,6 +430,7 @@ public class ATTeleporter extends Teleporter {
         destinationCoordinateCache.put(ChunkPos.asLong(x, z), new PortalPosition(pos, world.getTotalWorldTime()));
     }
 
+    // not use
     private BlockPos makePortalAt(World world, BlockPos pos) {
 
         if (pos.getY() < 30) {
