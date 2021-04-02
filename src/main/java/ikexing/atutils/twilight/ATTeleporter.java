@@ -1,13 +1,9 @@
-package ikexing.atutils.world;
+package ikexing.atutils.twilight;
 
-import crafttweaker.annotations.ZenRegister;
-import crafttweaker.api.minecraft.CraftTweakerMC;
-import crafttweaker.api.player.IPlayer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
@@ -19,8 +15,6 @@ import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
 import twilightforest.TFConfig;
 import twilightforest.TwilightForestMod;
 import twilightforest.block.BlockTFPortal;
@@ -34,14 +28,12 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
-@ZenClass("mods.atutils.ATTeleporter")
-@ZenRegister
 public class ATTeleporter extends Teleporter {
 
     public static ATTeleporter getTeleporterForDim(MinecraftServer server, int dim) {
         WorldServer ws = server.getWorld(dim);
 
-        for (Teleporter t : ws.customTeleporters) {
+        for (net.minecraft.world.Teleporter t : ws.customTeleporters) {
             if (t instanceof ATTeleporter) {
                 return (ATTeleporter) t;
             }
@@ -504,20 +496,6 @@ public class ATTeleporter extends Teleporter {
     private IBlockState randNatureBlock(Random random) {
         Block[] blocks = {Blocks.BROWN_MUSHROOM, Blocks.RED_MUSHROOM, Blocks.TALLGRASS, Blocks.RED_FLOWER, Blocks.YELLOW_FLOWER};
         return blocks[random.nextInt(blocks.length)].getDefaultState();
-    }
-
-    @ZenMethod
-    public static void teleportPlayer(IPlayer playerIn) {
-        int destination = TFConfig.dimension.dimensionID;
-
-        EntityPlayer player = CraftTweakerMC.getPlayer(playerIn);
-        if (player.isDead || player.world.isRemote) {
-            return;
-        }
-
-        if (player instanceof EntityPlayerMP) {
-            player.changeDimension(destination, ATTeleporter.getTeleporterForDim(((EntityPlayerMP) player).mcServer, destination));
-        }
     }
 
 }
