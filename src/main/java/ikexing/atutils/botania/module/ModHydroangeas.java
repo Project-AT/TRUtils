@@ -11,10 +11,17 @@ public class ModHydroangeas {
 
     public static List<HydroangeasHandler> handlerList = new ArrayList<>();
 
-    public class HydroangeasHandler {
+    public static class HydroangeasHandler {
 
         ILiquidStack liquidConsume;
         int manaGen;
+        double factor;
+
+        public HydroangeasHandler(ILiquidStack input, int manaGen, double factor) {
+            this.liquidConsume = input;
+            this.manaGen = manaGen;
+            this.factor = factor;
+        }
 
         public BlockLiquid getBlockLiquid() {
             return (BlockLiquid) CraftTweakerMC.getLiquidStack(liquidConsume).getFluid().getBlock();
@@ -24,9 +31,9 @@ public class ModHydroangeas {
             return this.manaGen;
         }
 
-    }
-
-    public static void init() {
+        public double getManaFactor() {
+            return this.factor;
+        }
 
     }
 

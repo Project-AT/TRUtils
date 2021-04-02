@@ -58,8 +58,6 @@ public class ATTeleporter extends Teleporter {
 
     @Override
     public void placeInPortal(Entity entity, float facing) {
-        // it tp player on the sky, strange...
-        // WIP
         this.moveToSafeCoords(entity);
         BlockPos spot = findPortalCoords(entity, this::isOkayForPortal);
         entity.setLocationAndAngles(spot.getX(), spot.getY() + 1, spot.getZ(), entity.rotationYaw, entity.rotationPitch);

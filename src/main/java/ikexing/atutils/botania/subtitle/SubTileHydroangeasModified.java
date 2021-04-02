@@ -1,15 +1,18 @@
 package ikexing.atutils.botania.subtitle;
 
+import ikexing.atutils.botania.module.ModHydroangeas;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.BlockFluidBase;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileGenerating;
@@ -17,7 +20,6 @@ import vazkii.botania.common.Botania;
 import vazkii.botania.common.core.helper.ItemNBTHelper;
 import vazkii.botania.common.lexicon.LexiconData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static ikexing.atutils.config.ATConfig.HydroangeasDecay;
@@ -28,10 +30,14 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
 
     private static final String TAG_BURN_TIME = "burnTime";
     private static final String TAG_COOLDOWN = "cooldown";
+    private static final int RANGE = 2;
+    private static final int RANGE_Y = 2;
 
     int burnTime, cooldown;
 
-    int manaGen;
+    double manaGen = 1;
+    double manaFactor = 2;
+    boolean lavaFactor = false;
 
     // be modified to not only accept water, but also other liquids, which can be set by crt method.
     @Override
@@ -46,50 +52,57 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
 
         BlockPos pos = supertile.getPos();
 
-        if (burnTime > 0) {
-            burnTime--;
-            addMana(manaGen);
-        }
-
         if (burnTime == 0) {
             if (mana < getMaxMana() && !getWorld().isRemote) {
-                List<BlockPos> offsets = new ArrayList<BlockPos>();
-                boolean hasLava = false;
-
                 for (BlockPos.MutableBlockPos mb : BlockPos.getAllInBoxMutable(
-                        pos.add(-2, 0, -2),
-                        pos.add(2, 0, 2))) {
+                        pos.add(-RANGE, -RANGE_Y, -RANGE),
+                        pos.add(RANGE, RANGE_Y, RANGE))) {
 
-                    if (getWorld().getBlockState(mb).getMaterial() == Material.LAVA) {
-                        hasLava = true;
+                    if (supertile.getWorld().getBlockState(pos).getMaterial() == Material.LAVA) {
+                        lavaFactor = true;
                     }
 
-                    int fluidAround = 0;
-                    for (EnumFacing dir : EnumFacing.HORIZONTALS) {
-                        if (supertile.getWorld().getBlockState(mb.offset(dir)).getMaterial() == Material.LAVA)
-                            fluidAround++;
-                        if (fluidAround > 2)
-                            supertile.getWorld().setBlockToAir(mb);
+                    PropertyInteger prop = supertile.getWorld().getBlockState(pos).getBlock() instanceof BlockLiquid ? BlockLiquid.LEVEL :
+                            supertile.getWorld().getBlockState(pos).getBlock() instanceof BlockFluidBase ? BlockFluidBase.LEVEL : null;
+
+                    for (ModHydroangeas.HydroangeasHandler handler : ModHydroangeas.handlerList) {
+
+                        if (getWorld().getBlockState(mb).getBlock() == handler.getBlockLiquid()
+                                && (prop == null || supertile.getWorld().getBlockState(pos).getValue(prop) == 0)) {
+                            supertile.getWorld().setBlockToAir(pos);
+                            manaGen = handler.getManaGen();
+                            manaFactor = handler.getManaFactor();
+
+                            if (cooldown == 0)
+                                burnTime += getBurnTime();
+                            else cooldown = getCooldown();
+
+                            sync();
+                            playSound();
+                            break;
+                        }
+
                     }
 
-                    if (cooldown == 0)
-                        burnTime += getBurnTime();
-                    else cooldown = getCooldown();
-
-                    sync();
-                    playSound();
-                    break;
                 }
             }
         } else {
             if (supertile.getWorld().rand.nextInt(8) == 0)
                 doBurnParticles();
             burnTime--;
+            if (lavaFactor) {
+                manaGen = manaGen * manaFactor;
+            }
+            addMana((int) manaGen);
             if (burnTime == 0) {
                 cooldown = getCooldown();
                 sync();
             }
         }
+    }
+
+    public void setManaGen(int manaGen) {
+        this.manaGen = manaGen;
     }
 
     public void doBurnParticles() {
