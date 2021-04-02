@@ -2,7 +2,6 @@ package ikexing.atutils.botania.subtitle;
 
 import ikexing.atutils.botania.module.ModHydroangeas;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,22 +53,18 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
 
         if (burnTime == 0) {
             if (mana < getMaxMana() && !getWorld().isRemote) {
-                for (BlockPos.MutableBlockPos mb : BlockPos.getAllInBoxMutable(
+                for (BlockPos.MutableBlockPos posCheck : BlockPos.getAllInBoxMutable(
                         pos.add(-RANGE, -RANGE_Y, -RANGE),
                         pos.add(RANGE, RANGE_Y, RANGE))) {
 
-                    if (supertile.getWorld().getBlockState(pos).getBlock() == ModHydroangeas.HydroangeasHandler.fluidFactor) {
-                        fluidFactor = true;
-                    }
-
-                    PropertyInteger prop = supertile.getWorld().getBlockState(pos).getBlock() instanceof BlockLiquid ? BlockLiquid.LEVEL :
-                            supertile.getWorld().getBlockState(pos).getBlock() instanceof BlockFluidBase ? BlockFluidBase.LEVEL : null;
+                    PropertyInteger prop = supertile.getWorld().getBlockState(posCheck).getBlock() instanceof BlockLiquid ? BlockLiquid.LEVEL :
+                            supertile.getWorld().getBlockState(posCheck).getBlock() instanceof BlockFluidBase ? BlockFluidBase.LEVEL : null;
 
                     for (ModHydroangeas.HydroangeasHandler handler : ModHydroangeas.handlerList) {
 
-                        if (getWorld().getBlockState(mb).getBlock() == handler.getBlockLiquid()
-                                && (prop == null || supertile.getWorld().getBlockState(pos).getValue(prop) == 0)) {
-                            supertile.getWorld().setBlockToAir(pos);
+                        if (getWorld().getBlockState(posCheck).getBlock() == handler.getBlockLiquid()
+                                && (prop == null || supertile.getWorld().getBlockState(posCheck).getValue(prop) == 0)) {
+                            supertile.getWorld().setBlockToAir(posCheck);
                             manaGen = handler.getManaGen();
                             manaFactor = handler.getManaFactor();
 
@@ -90,10 +85,23 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
             if (supertile.getWorld().rand.nextInt(8) == 0)
                 doBurnParticles();
             burnTime--;
-            if (fluidFactor) {
-                manaGen = manaGen * manaFactor;
+
+            for (BlockPos.MutableBlockPos posCheck : BlockPos.getAllInBoxMutable(
+                    pos.add(-RANGE, -RANGE_Y, -RANGE),
+                    pos.add(RANGE, RANGE_Y, RANGE))) {
+
+                if (supertile.getWorld().getBlockState(posCheck).getBlock() == ModHydroangeas.HydroangeasHandler.fluidFactor) {
+                    fluidFactor = true;
+                }
+
             }
-            addMana((int) manaGen);
+            if (fluidFactor) {
+                addMana((int) (manaGen * manaFactor));
+            } else {
+                addMana((int) manaGen);
+            }
+
+            fluidFactor = false;
             if (burnTime == 0) {
                 cooldown = getCooldown();
                 sync();
