@@ -2,7 +2,9 @@ package ikexing.atutils.botania.module;
 
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.material.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class ModHydroangeas {
 
     public static class HydroangeasHandler {
 
+        public static BlockLiquid fluidFactor;
         ILiquidStack liquidConsume;
         int manaGen;
         double factor;
@@ -21,6 +24,14 @@ public class ModHydroangeas {
             this.liquidConsume = input;
             this.manaGen = manaGen;
             this.factor = factor;
+        }
+
+        public static void setFluidFactor(ILiquidStack inputFluid){
+            fluidFactor = (BlockLiquid) getBlockLiquid(inputFluid);
+        }
+
+        public static BlockLiquid getBlockLiquid(ILiquidStack inputFluid) {
+            return (BlockLiquid) CraftTweakerMC.getLiquidStack(inputFluid).getFluid().getBlock();
         }
 
         public BlockLiquid getBlockLiquid() {

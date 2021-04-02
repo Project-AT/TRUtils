@@ -37,7 +37,7 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
 
     double manaGen = 1;
     double manaFactor = 2;
-    boolean lavaFactor = false;
+    boolean fluidFactor = false;
 
     // be modified to not only accept water, but also other liquids, which can be set by crt method.
     @Override
@@ -58,8 +58,8 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
                         pos.add(-RANGE, -RANGE_Y, -RANGE),
                         pos.add(RANGE, RANGE_Y, RANGE))) {
 
-                    if (supertile.getWorld().getBlockState(pos).getMaterial() == Material.LAVA) {
-                        lavaFactor = true;
+                    if (supertile.getWorld().getBlockState(pos).getBlock() == ModHydroangeas.HydroangeasHandler.fluidFactor) {
+                        fluidFactor = true;
                     }
 
                     PropertyInteger prop = supertile.getWorld().getBlockState(pos).getBlock() instanceof BlockLiquid ? BlockLiquid.LEVEL :
@@ -90,7 +90,7 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
             if (supertile.getWorld().rand.nextInt(8) == 0)
                 doBurnParticles();
             burnTime--;
-            if (lavaFactor) {
+            if (fluidFactor) {
                 manaGen = manaGen * manaFactor;
             }
             addMana((int) manaGen);

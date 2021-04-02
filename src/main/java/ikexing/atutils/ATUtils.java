@@ -41,7 +41,7 @@ public class ATUtils {
             subTiles = (BiMap<String, Class<? extends SubTileEntity>>) field.get(null);
 
             if (subTiles != null) {
-                if (HydroangeasModified)
+                if (!HydroangeasModified)
                     subTiles.forcePut(LibBlockNames.SUBTILE_HYDROANGEAS, SubTileHydroangeasModified.class);
             }
 
