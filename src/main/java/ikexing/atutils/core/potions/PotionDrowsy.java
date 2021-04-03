@@ -14,8 +14,8 @@ public class PotionDrowsy extends Potion {
 
     public PotionDrowsy() {
         super(false, 0x6688FF);
-        this.setPotionName("effect." + ATUtils.MODID + ".drowsy");
         this.setRegistryName(ATUtils.MODID + ":drowsy");
+        this.setPotionName("effect." + ATUtils.MODID + ".drowsy");
     }
 
     @Override
