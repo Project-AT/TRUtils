@@ -1,6 +1,7 @@
 package ikexing.atutils.botania.subtitle;
 
 import ikexing.atutils.botania.module.ModHydroangeas;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
@@ -36,8 +37,8 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
     int burnTime, cooldown;
 
     double manaGen = 1;
-    double manaFactor = 2;
-    boolean fluidFactor = false;
+    double manaFactorFluid = 2;
+    double manaFactorBlock = 1;
 
     // be modified to not only accept water, but also other liquids, which can be set by crt method.
     @Override
@@ -54,7 +55,9 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
 
         if (burnTime == 0) {
             if (mana < getMaxMana() && !getWorld().isRemote) {
-                for (BlockPos.MutableBlockPos posCheck : BlockPos.getAllInBoxMutable(
+
+                blockCheck:
+                for (BlockPos posCheck : BlockPos.getAllInBox(
                         pos.add(-RANGE, -RANGE_Y, -RANGE),
                         pos.add(RANGE, RANGE_Y, RANGE))) {
 
@@ -67,7 +70,7 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
                                 && (prop == null || supertile.getWorld().getBlockState(posCheck).getValue(prop) == 0)) {
                             supertile.getWorld().setBlockToAir(posCheck);
                             manaGen = handler.getManaGen();
-                            manaFactor = handler.getManaFactor();
+                            manaFactorFluid = handler.getManaFactor();
 
                             if (cooldown == 0)
                                 burnTime += getBurnTime();
@@ -75,7 +78,7 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
 
                             sync();
                             playSound();
-                            break;
+                            break blockCheck;
                         }
 
                     }
@@ -87,22 +90,23 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
                 doBurnParticles();
             burnTime--;
 
+            double t = manaFactorFluid;
+            manaFactorFluid = 1;
             for (BlockPos.MutableBlockPos posCheck : BlockPos.getAllInBoxMutable(
                     pos.add(-RANGE, -RANGE_Y, -RANGE),
                     pos.add(RANGE, RANGE_Y, RANGE))) {
 
-                if (supertile.getWorld().getBlockState(posCheck).getBlock() == ModHydroangeas.HydroangeasHandler.fluidFactor) {
-                    fluidFactor = true;
+                if (supertile.getWorld().getBlockState(posCheck).getBlock() == ModHydroangeas.fluidFactor) {
+                    manaFactorFluid = t;
+                    break;
                 }
-
             }
-            if (fluidFactor) {
-                addMana((int) (manaGen * manaFactor));
-            } else {
-                addMana((int) manaGen);
+            if (ModHydroangeas.blockFactorList.containsKey(supertile.getWorld().getBlockState(pos.down()).getBlock())) {
+                manaFactorBlock = ModHydroangeas.blockFactorList.get(supertile.getWorld().getBlockState(pos.down()).getBlock());
             }
 
-            fluidFactor = false;
+            addMana((int) (manaGen * manaFactorFluid * manaFactorBlock));
+
             if (burnTime == 0) {
                 cooldown = getCooldown();
                 sync();

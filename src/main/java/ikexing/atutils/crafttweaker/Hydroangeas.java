@@ -1,11 +1,10 @@
 package ikexing.atutils.crafttweaker;
 
 import crafttweaker.annotations.ZenRegister;
+import crafttweaker.api.item.IIngredient;
+import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
 import ikexing.atutils.botania.module.ModHydroangeas;
-import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.material.Material;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -25,9 +24,19 @@ public class Hydroangeas {
     }
 
     @ZenMethod
-    public static void setFactor(ILiquidStack inputFluid){
-        ModHydroangeas.HydroangeasHandler.setFluidFactor(inputFluid);
+    public static void setFactor(ILiquidStack inputFluid) {
+        ModHydroangeas.setFluidFactor(inputFluid);
     }
 
+    @ZenMethod
+    public static void setBlockBelowFactor(IItemStack block, double factor) {
+        ModHydroangeas.setBlockBelowFactor(block, factor);
+    }
+
+    // mana factor is 2.0 by default
+    @ZenMethod
+    public static void setBlockBelowFactor(IItemStack block) {
+        setBlockBelowFactor(block, 2.0D);
+    }
 
 }

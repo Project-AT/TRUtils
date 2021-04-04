@@ -1,20 +1,41 @@
 package ikexing.atutils.botania.module;
 
+import crafttweaker.CraftTweakerAPI;
+import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ModHydroangeas {
 
+    public static Block fluidFactor;
+
     public static List<HydroangeasHandler> handlerList = new ArrayList<>();
+    public static Map<Block, Double> blockFactorList = new HashMap();
+
+    public static void setBlockBelowFactor(IItemStack block, double factor) {
+        if (block.isItemBlock()) {
+            blockFactorList.put(CraftTweakerMC.getBlock(block), factor);
+        } else {
+            CraftTweakerAPI.getLogger().logError(block + " is not a block.");
+        }
+    }
+
+    public static void removeBlockBelowFactor() {
+        //
+    }
+
+    public static void setFluidFactor(ILiquidStack inputFluid) {
+        fluidFactor = getBlock(inputFluid);
+    }
+
 
     public static class HydroangeasHandler {
-
-        public static Block fluidFactor;
 
         ILiquidStack liquidConsume;
         int manaGen;
@@ -26,16 +47,8 @@ public class ModHydroangeas {
             this.factor = factor;
         }
 
-        public static void setFluidFactor(ILiquidStack inputFluid) {
-            fluidFactor = getBlockLiquid(inputFluid);
-        }
-
-        public static Block getBlockLiquid(ILiquidStack inputFluid) {
-            return CraftTweakerMC.getLiquidStack(inputFluid).getFluid().getBlock();
-        }
-
         public Block getBlockLiquid() {
-            return CraftTweakerMC.getLiquidStack(liquidConsume).getFluid().getBlock();
+            return getBlock(liquidConsume);
         }
 
         public int getManaGen() {
@@ -47,5 +60,10 @@ public class ModHydroangeas {
         }
 
     }
+
+    public static Block getBlock(ILiquidStack inputFluid) {
+        return CraftTweakerMC.getLiquidStack(inputFluid).getFluid().getBlock();
+    }
+
 
 }
