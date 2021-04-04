@@ -4,7 +4,6 @@ import crafttweaker.api.liquid.ILiquidStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
-import net.minecraft.block.material.Material;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,8 @@ public class ModHydroangeas {
 
     public static class HydroangeasHandler {
 
-        public static BlockLiquid fluidFactor;
+        public static Block fluidFactor;
+
         ILiquidStack liquidConsume;
         int manaGen;
         double factor;
@@ -26,16 +26,16 @@ public class ModHydroangeas {
             this.factor = factor;
         }
 
-        public static void setFluidFactor(ILiquidStack inputFluid){
-            fluidFactor = (BlockLiquid) getBlockLiquid(inputFluid);
+        public static void setFluidFactor(ILiquidStack inputFluid) {
+            fluidFactor = getBlockLiquid(inputFluid);
         }
 
-        public static BlockLiquid getBlockLiquid(ILiquidStack inputFluid) {
-            return (BlockLiquid) CraftTweakerMC.getLiquidStack(inputFluid).getFluid().getBlock();
+        public static Block getBlockLiquid(ILiquidStack inputFluid) {
+            return CraftTweakerMC.getLiquidStack(inputFluid).getFluid().getBlock();
         }
 
-        public BlockLiquid getBlockLiquid() {
-            return (BlockLiquid) CraftTweakerMC.getLiquidStack(liquidConsume).getFluid().getBlock();
+        public Block getBlockLiquid() {
+            return CraftTweakerMC.getLiquidStack(liquidConsume).getFluid().getBlock();
         }
 
         public int getManaGen() {
