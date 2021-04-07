@@ -132,7 +132,7 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
 
     @Override
     public RadiusDescriptor getRadius() {
-        return new RadiusDescriptor.Square(toBlockPos(), 1);
+        return new RadiusDescriptor.Square(toBlockPos(), RANGE);
     }
 
     // make its volume bigger
