@@ -12,6 +12,6 @@ public class ATConfig {
     @Comment("If true, the hydroangeas won't decay. [Valid only for modified results | default: true]")
     public static boolean HydroangeasDecay = true;
 
-    @Comment("How much mana is max of hydroangeas? [Valid only for modified results | default: 6000]")
-    public static int HydroangeasMaxMana = 6000;
+    @Comment("How much mana is max of hydroangeas? [Valid only for modified results | default: 18000]")
+    public static int HydroangeasMaxMana = 18000;
 }

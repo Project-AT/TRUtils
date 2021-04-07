@@ -32,7 +32,7 @@ public class SubTileHydroangeasModified extends SubTileGenerating {
     private static final String TAG_BURN_TIME = "burnTime";
     private static final String TAG_COOLDOWN = "cooldown";
     private static final int RANGE = 2;
-    private static final int RANGE_Y = 2;
+    private static final int RANGE_Y = 1;
 
     int burnTime, cooldown;
 
