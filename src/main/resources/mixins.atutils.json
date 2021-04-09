@@ -7,7 +7,7 @@
   "priority": 0,
   "refmap": "mixins.atutils.refmap.json",
   "mixins": [
-    "MixinSubTileEndoflame"
+    "MixinManaCraftBlocks"
   ],
   "client": [
   ]
