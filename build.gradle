@@ -2,12 +2,15 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "https://files.minecraftforge.net/maven" }
+        maven { url = "https://repo.spongepowered.org/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'org.spongepowered.mixin'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
@@ -28,7 +31,7 @@ minecraft {
     // snapshot_YYYYMMDD   snapshot are built nightly.
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
+        // simply re-run your setup task after changing the mappings to update your workspace.
     mappings = "snapshot_20171003"
 //    makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
@@ -61,10 +64,15 @@ dependencies {
     compile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     compile "mezz.jei:jei_1.12.2:4.16.1.302"
 //    compile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.11.0-v50"
-
+    provided('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
 }
 repositories {
     mavenCentral()
+    maven { url = "https://repo.spongepowered.org/maven" }
     maven {
         name = "forge"
         url = "http://files.minecraftforge.net/maven"
@@ -93,8 +101,23 @@ repositories {
         name = 'jared maven'
         url = 'https://maven.blamejared.com/'
     }
-    maven {
-        name = 'hellfirepvp'
-        url = 'https://maven.hellfiredev.net/'
+//    maven {
+//        name = 'hellfirepvp'
+//        url = 'https://maven.hellfiredev.net/'
+//    }
+}
+
+mixin {
+    add sourceSets.main, "mixins.atutils.refmap.json"
+}
+
+jar {
+    manifest {
+        attributes([
+                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
+                "FMLCorePlugin": "ikexing.atutils.core.AutoTechUtilsPlugin",
+                "FMLCorePluginContainsFMLMod": true,
+                "ForceLoadAsMod": true
+        ])
     }
 }

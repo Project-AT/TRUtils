@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "ikexing.atutils.mixins",
+  "minVersion": "0.7.11",
+  "setSourceFile": true,
+  "priority": 0,
+  "refmap": "mixins.atutils.refmap.json",
+  "mixins": [
+    "MixinSubTileEndoflame"
+  ],
+  "client": [
+  ]
+}
