@@ -9,7 +9,9 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.gui.GuiHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import vazkii.botania.common.block.ModBlocks;
+import vazkii.botania.common.item.block.ItemBlockFloatingSpecialFlower;
 import vazkii.botania.common.item.block.ItemBlockSpecialFlower;
 import vazkii.botania.common.lib.LibBlockNames;
 
@@ -37,6 +39,7 @@ public class JeiATPlugin implements IModPlugin {
     @Override
     public void register(IModRegistry registry) {
         registry.addRecipeCatalyst(ItemBlockSpecialFlower.ofType(LibBlockNames.SUBTILE_HYDROANGEAS), HydroangeasRecipeCategory.UID);
+        registry.addRecipeCatalyst(ItemBlockSpecialFlower.ofType(new ItemStack(ModBlocks.floatingSpecialFlower), LibBlockNames.SUBTILE_HYDROANGEAS), HydroangeasRecipeCategory.UID);
 
         for (Map.Entry<Block, Double> entry : ModHydroangeas.blockFactorList.entrySet()) {
             for (ModHydroangeas.HydroangeasHandler handler : ModHydroangeas.handlerList) {
