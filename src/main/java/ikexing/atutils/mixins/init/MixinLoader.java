@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Iterator;
 import java.util.List;
 
+//From Friendly's Code
+
 @Mixin(value = Loader.class, remap = false, priority = 800)
 public class MixinLoader {
     @Shadow

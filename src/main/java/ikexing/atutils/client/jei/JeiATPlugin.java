@@ -26,6 +26,7 @@ public class JeiATPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+        System.out.println("JEIPlugin loading");
     }
 
     @Override
