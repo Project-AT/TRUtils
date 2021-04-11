@@ -17,13 +17,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import static ikexing.atutils.core.config.ATConfig.HydroangeasModified;
-import static mana_craft.init.ManaCraftBlocks.orichalcum_block;
 
 @Mod(modid = ATUtils.MODID, name = ATUtils.NAME, version = ATUtils.VERSION, dependencies = ATUtils.dependencies)
 public class ATUtils {
     public static final String MODID = "atutils";
     public static final String NAME = "AutoTech Utils";
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "1.1.2";
     public static final String dependencies = "required-after:crafttweaker;after:twilightforest;after:botania;before:mana_craft";
 
     public static Logger logger;
@@ -36,7 +35,7 @@ public class ATUtils {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         registryOverride();
-        ManaCraftOorichalcum();
+        ManaCraftOrichalcum();
     }
 
     @SuppressWarnings("unchecked")
@@ -57,9 +56,8 @@ public class ATUtils {
         }
     }
 
-    public void ManaCraftOorichalcum(){
-        System.out.println("--------------------");
-        System.out.println(orichalcum_block.getRegistryName());
+    @SuppressWarnings("SpellCheckingInspection")
+    public void ManaCraftOrichalcum(){
         try {
             Field field = ManaCraftBlocks.class.getDeclaredField("orichalcum_block");
 
@@ -68,12 +66,8 @@ public class ATUtils {
             modifiers.setInt(field, field.getModifiers() &~ Modifier.FINAL);
 
             field.set(null, ModBlocks.storage);
-
-            System.out.println(orichalcum_block.getRegistryName());
-
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
     }
 }
