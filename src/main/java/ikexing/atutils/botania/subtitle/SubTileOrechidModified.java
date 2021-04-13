@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
-import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.lexicon.LexiconEntry;
 import vazkii.botania.api.subtile.RadiusDescriptor;
 import vazkii.botania.api.subtile.SubTileFunctional;
@@ -19,7 +18,6 @@ import vazkii.botania.common.lexicon.LexiconData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static ikexing.atutils.core.config.ATConfig.*;
 
@@ -59,7 +57,7 @@ public class SubTileOrechidModified extends SubTileFunctional {
     }
 
     public ItemStack getOreToPut(IBlockState state) {
-        return ModOrechid.OrechidMap.get();
+        return ModOrechid.OrechidMap.get(state);
     }
 
     private BlockPos getCoordsToPut() {
@@ -67,7 +65,7 @@ public class SubTileOrechidModified extends SubTileFunctional {
 
         for(BlockPos pos : BlockPos.getAllInBox(getPos().add(-RANGE, -RANGE_Y, -RANGE), getPos().add(RANGE, RANGE_Y, RANGE))) {
             IBlockState state = supertile.getWorld().getBlockState(pos);
-            if(state.getBlock().isReplaceableOreGen(state, supertile.getWorld(), pos, getReplaceMatcher()))
+            if(state.getBlock().isReplaceableOreGen(state, supertile.getWorld(), pos, getReplaceMatcher(pos)))
                 possibleCoords.add(pos);
         }
 
@@ -81,8 +79,8 @@ public class SubTileOrechidModified extends SubTileFunctional {
     }
 
 
-    public Predicate<IBlockState> getReplaceMatcher() {
-        return state -> state.equals();
+    public Predicate<IBlockState> getReplaceMatcher(BlockPos pos) {
+        return state -> ModOrechid.OrechidMap.get(state) != null;
     }
 
     public int getCost() {
@@ -116,16 +114,5 @@ public class SubTileOrechidModified extends SubTileFunctional {
     @Override
     public LexiconEntry getEntry() {
         return LexiconData.orechid;
-    }
-
-    private static class StringRandomItem extends WeightedRandom.Item {
-
-        public final String s;
-
-        public StringRandomItem(int par1, String s) {
-            super(par1);
-            this.s = s;
-        }
-
     }
 }
