@@ -2,6 +2,7 @@ package ikexing.atutils;
 
 import com.google.common.collect.BiMap;
 import ikexing.atutils.botania.subtitle.SubTileHydroangeasModified;
+import ikexing.atutils.botania.subtitle.SubTileOrechidModified;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -16,7 +17,7 @@ import vazkii.botania.common.lib.LibBlockNames;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-import static ikexing.atutils.core.config.ATConfig.HydroangeasModified;
+import static ikexing.atutils.core.config.ATConfig.*;
 
 @Mod(modid = ATUtils.MODID, name = ATUtils.NAME, version = ATUtils.VERSION, dependencies = ATUtils.dependencies)
 public class ATUtils {
@@ -49,6 +50,8 @@ public class ATUtils {
             if (subTiles != null) {
                 if (!HydroangeasModified)
                     subTiles.forcePut(LibBlockNames.SUBTILE_HYDROANGEAS, SubTileHydroangeasModified.class);
+                if (!OrechidModified)
+                    subTiles.forcePut(LibBlockNames.SUBTILE_ORECHID, SubTileOrechidModified.class);
             }
 
         } catch (NoSuchFieldException | IllegalAccessException e) {

@@ -8,7 +8,7 @@
   "refmap": "mixins.atutils.refmap.json",
   "mixins": [
     "MixinBiomeMana",
-    "MixinItemMPGenerator"
+    "MixinItemMPGenerator",
   ],
   "client": [
   ]
