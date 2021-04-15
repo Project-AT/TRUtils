@@ -9,8 +9,7 @@
   "mixins": [
     "MixinBiomeMana",
     "MixinItemMPGenerator",
-    ,
-    "MixinOrechidRecipeWrapper"
+    "MixinJEIBotaniaPlugin"
   ],
   "client": [
   ]

@@ -7,21 +7,18 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ModOrechid {
     public static Map<IBlockState, ItemStack> OrechidMap = new HashMap();
-    public static List<ItemStack> inputList = new ArrayList();
+    public static Map<ItemStack, ItemStack> OrechidItemMap = new HashMap();
 
     public static void addRecipe(IItemStack input, IItemStack output){
-        if(output.isItemBlock()){
+        if(output.isItemBlock() || input.isItemBlock()){
             OrechidMap.put(CraftTweakerMC.getBlockState(input.asBlock().getDefinition().getStateFromMeta(input.getMetadata())), CraftTweakerMC.getItemStack(output));
-            inputList.add(CraftTweakerMC.getItemStack(input));
+            OrechidItemMap.put(CraftTweakerMC.getItemStack(input),CraftTweakerMC.getItemStack(output));
         }else{
-            CraftTweakerAPI.getLogger().logError("output or input is not a block.");
+            CraftTweakerAPI.getLogger().logError("input or output is not a block.");
         }
 
     }

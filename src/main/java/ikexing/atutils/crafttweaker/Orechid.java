@@ -11,7 +11,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @ZenRegister
 public class Orechid {
     @ZenMethod
-    public static void addOrechidRecipe(IItemStack input, IItemStack output){
+    public static void addRecipe(IItemStack input, IItemStack output){
 
         ModOrechid.addRecipe(input, output);
     }
