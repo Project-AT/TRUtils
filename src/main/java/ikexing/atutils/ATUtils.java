@@ -35,29 +35,9 @@ public class ATUtils {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        registryOverride();
         ManaCraftOrichalcum();
     }
 
-    @SuppressWarnings("unchecked")
-    public void registryOverride() {
-        final BiMap<String, Class<? extends SubTileEntity>> subTiles;
-        try {
-            Field field = BotaniaAPI.class.getDeclaredField("subTiles");
-            field.setAccessible(true);
-            subTiles = (BiMap<String, Class<? extends SubTileEntity>>) field.get(null);
-
-            if (subTiles != null) {
-                if (!HydroangeasModified)
-                    subTiles.forcePut(LibBlockNames.SUBTILE_HYDROANGEAS, SubTileHydroangeasModified.class);
-                if (!OrechidModified)
-                    subTiles.forcePut(LibBlockNames.SUBTILE_ORECHID, SubTileOrechidModified.class);
-            }
-
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
     public void ManaCraftOrichalcum(){
         try {
             Field field = ManaCraftBlocks.class.getDeclaredField("orichalcum_block");
