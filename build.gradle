@@ -33,31 +33,21 @@ minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
 
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-        // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20171003"
-//    makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    mappings = "stable_39"
     clientJvmArgs += "-Dfml.coreMods.load=ikexing.atutils.core.AutoTechUtilsPlugin"
     serverJvmArgs += "-Dfml.coreMods.load=ikexing.atutils.core.AutoTechUtilsPlugin"
 }
 
 processResources {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
-        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
-    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
@@ -66,24 +56,23 @@ processResources {
 dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
 
-//    compile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.11.0-v50"
-//    compile "com.azanor.baubles:Baubles:1.12-1.5.2"
+    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.653"
     compile "vazkii.botania:Botania:r1.10-363.148"
-    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.617"
     compile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
-    compile "mezz.jei:jei_1.12.2:4.16.1.302"
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
         exclude module: 'gson'
     }
+
+    runtime "mezz.jei:jei_1.12.2:4.16.1.302"
 }
 repositories {
     mavenCentral()
     maven { url = "https://repo.spongepowered.org/maven" }
     maven {
         name = "forge"
-        url = "http://files.minecraftforge.net/maven"
+        url = "https://files.minecraftforge.net/maven"
     }
     maven {
         name = "The One Probe"
@@ -91,7 +80,7 @@ repositories {
     }
     maven {
         name = "jei"
-        url =  "http://dvs1.progwml6.com/files/maven"
+        url =  "https://dvs1.progwml6.com/files/maven"
     }
     maven {
         name = "Botania"
@@ -109,10 +98,6 @@ repositories {
         name = 'jared maven'
         url = 'https://maven.blamejared.com/'
     }
-//    maven {
-//        name = 'hellfirepvp'
-//        url = 'https://maven.hellfiredev.net/'
-//    }
 }
 
 mixin {
