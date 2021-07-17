@@ -1,26 +1,18 @@
 package ikexing.atutils;
 
-import com.google.common.collect.BiMap;
-import ikexing.atutils.botania.subtitle.SubTileHydroangeasModified;
-import ikexing.atutils.botania.subtitle.SubTileOrechidModified;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
-import vazkii.botania.api.BotaniaAPI;
-import vazkii.botania.api.subtile.SubTileEntity;
 import vazkii.botania.common.block.ModBlocks;
-import vazkii.botania.common.lib.LibBlockNames;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-
-import static ikexing.atutils.core.config.ATConfig.*;
 
 @Mod(modid = ATUtils.MODID, name = ATUtils.NAME, version = ATUtils.VERSION, dependencies = ATUtils.dependencies)
 public class ATUtils {
+
     public static final String MODID = "atutils";
     public static final String NAME = "AutoTech Utils";
     public static final String VERSION = "1.1.5";
@@ -38,13 +30,13 @@ public class ATUtils {
         ManaCraftOrichalcum();
     }
 
-    public void ManaCraftOrichalcum(){
+    public void ManaCraftOrichalcum() {
         try {
             Field field = ManaCraftBlocks.class.getDeclaredField("orichalcum_block");
 
             Field modifiers = Field.class.getDeclaredField("modifiers");
             modifiers.setAccessible(true);
-            modifiers.setInt(field, field.getModifiers() &~ Modifier.FINAL);
+            modifiers.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
             field.set(null, ModBlocks.storage);
         } catch (NoSuchFieldException | IllegalAccessException e) {
