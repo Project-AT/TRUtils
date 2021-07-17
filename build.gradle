@@ -33,7 +33,7 @@ minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
 
-    mappings = "stable_39"
+    mappings = "snapshot_20171003"
     clientJvmArgs += "-Dfml.coreMods.load=ikexing.atutils.core.AutoTechUtilsPlugin"
     serverJvmArgs += "-Dfml.coreMods.load=ikexing.atutils.core.AutoTechUtilsPlugin"
 }
