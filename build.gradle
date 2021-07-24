@@ -56,9 +56,10 @@ processResources {
 dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
 
-    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.653"
+    compile 'cn.hutool:hutool-core:5.7.5'
     compile "vazkii.botania:Botania:r1.10-363.148"
     compile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
+    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.653"
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
