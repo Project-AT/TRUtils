@@ -33,9 +33,15 @@ minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
 
-    mappings = "snapshot_20171003"
-    clientJvmArgs += "-Dfml.coreMods.load=ikexing.atutils.core.AutoTechUtilsPlugin"
-    serverJvmArgs += "-Dfml.coreMods.load=ikexing.atutils.core.AutoTechUtilsPlugin"
+    mappings = "stable_39"
+    def args = [
+            "-Dfml.coreMods.load=ink.ikx.rt.impl.core.RTPlugin",
+            "-Dmixin.hotSwap=true",
+            "-Dmixin.checks.interfaces=true"
+    ]
+
+    clientJvmArgs.addAll(args)
+    serverJvmArgs.addAll(args)
 }
 
 processResources {
