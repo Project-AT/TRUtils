@@ -4,6 +4,7 @@ import cn.hutool.core.util.ReflectUtil;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import mana_craft.init.ManaCraftBlocks;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -29,7 +30,9 @@ public class ATUtils {
 
     @EventHandler
     public void init(FMLInitializationEvent event) throws Exception {
-        ManaCraftOrichalcum();
+        if (Loader.isModLoaded("mana_craft")) {
+            ManaCraftOrichalcum();
+        }
     }
 
     private void ManaCraftOrichalcum() throws Exception {
