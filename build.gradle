@@ -75,6 +75,8 @@ dependencies {
     runtime "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     runtime "mezz.jei:jei_1.12.2:4.16.1.302"
 
+    runtime "com.teamacronymcoders:ContentTweaker:1.12.2-4.9.1"
+    runtime "com.teamacronymcoders.base:base:1.12.2-3.13.0-SNAPSHOT.+"
     deobfCompile "curse.maven:Baubles-227083:2518667"
     deobfCompile "curse.maven:SausageCore-312845:2762387"
     deobfCompile "curse.maven:guide-api-228832:2645992"

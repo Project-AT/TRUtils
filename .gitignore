@@ -20,4 +20,6 @@ build
 # other
 eclipse
 run
-*.jar
+src/main/resources/assets/base/models/item/wrench.json
+logs/debug.log
+logs/latest.log
