@@ -5,7 +5,3 @@ splash_potion.effect.atutils.drowsy=Splash Potion of Drowsy
 lingering_potion.effect.atutils.drowsy=Lingering potion of Drowsy
 
 tipped_arrow.effect.atutils.drowsy=Arrow of Drowsy
-
-atutils.jei.hydroangeas=Hydroangeas
-atutils.jei.hydroangeas.consume=Consume
-atutils.jei.hydroangeas.blockFactor=Block Factor

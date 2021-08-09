@@ -12,8 +12,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import vazkii.botania.common.block.ModBlocks;
 
-@SuppressWarnings("unchecked")
-@Mod(modid = ATUtils.MODID, name = ATUtils.NAME, version = ATUtils.VERSION, dependencies = ATUtils.dependencies)
+@Mod(
+    modid = ATUtils.MODID,
+    name = ATUtils.NAME,
+    version = ATUtils.VERSION,
+    dependencies = ATUtils.dependencies
+)
 public class ATUtils {
 
     public static final String MODID = "atutils";
