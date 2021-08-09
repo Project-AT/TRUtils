@@ -62,17 +62,23 @@ processResources {
 dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
 
-    compile 'cn.hutool:hutool-core:5.7.5'
+    compile "youyihj:zenutils:1.9.3"
+    compile 'cn.hutool:hutool-core:5.7.7'
     compile "vazkii.botania:Botania:r1.10-363.148"
-    compile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
-    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.653"
+    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
         exclude module: 'gson'
     }
 
+    runtime "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     runtime "mezz.jei:jei_1.12.2:4.16.1.302"
+
+    deobfCompile "curse.maven:Baubles-227083:2518667"
+    deobfCompile "curse.maven:SausageCore-312845:2762387"
+    deobfCompile "curse.maven:guide-api-228832:2645992"
+    deobfCompile "curse.maven:manacraft-312846:2762412"
 }
 repositories {
     mavenCentral()
@@ -94,16 +100,16 @@ repositories {
         url = 'https://maven.blamejared.com'
     }
     maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven/"
+        name = "CurseMaven"
+        url = "https://www.cursemaven.com"
     }
     maven {
         name = 'blamejared'
         url = 'https://maven.blamejared.com'
     }
     maven {
-        name = 'jared maven'
-        url = 'https://maven.blamejared.com/'
+        name = "youyihj"
+        url = "https://friendlyhj.github.io/maven"
     }
 }
 
