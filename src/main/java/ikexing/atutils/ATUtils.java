@@ -1,12 +1,14 @@
 package ikexing.atutils;
 
 import cn.hutool.core.util.ReflectUtil;
+import ikexing.atutils.core.item.AuthorFood;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
@@ -23,17 +25,22 @@ public class ATUtils {
     public static final String MODID = "atutils";
     public static final String NAME = "AutoTech Utils";
     public static final String VERSION = "1.1.5";
-    public static final String dependencies = "required-after:crafttweaker;after:twilightforest;after:botania;before:mana_craft";
+    public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;after:twilightforest;after:botania;after:contenttweaker;before:mana_craft";
 
     public static Logger logger;
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void onConstruct(FMLConstructionEvent event) {
+        AuthorFood.downloadAvatar();
+    }
+
+    @EventHandler
+    public void onPreInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event) throws Exception {
+    public void onInit(FMLInitializationEvent event) throws Exception {
         if (Loader.isModLoaded("mana_craft")) {
             ManaCraftOrichalcum();
         }

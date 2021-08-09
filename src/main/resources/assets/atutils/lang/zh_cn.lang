@@ -5,3 +5,21 @@ splash_potion.effect.atutils.drowsy=喷溅型瞌睡药水
 lingering_potion.effect.atutils.drowsy=滞留形瞌睡药水
 
 tipped_arrow.effect.atutils.drowsy=瞌睡之箭
+
+item.atutils.mo.name=MoMo渣
+item.atutils.cb.name=C.B
+item.atutils.teddy.name=Teddy
+item.atutils.niyan.name=Niyan
+item.atutils.ikexing.name=科星
+item.atutils.yangyang.name=洋洋
+item.atutils.six_color.name=六色
+item.atutils.faulkner.name=小雪
+item.atutils.cyciling.name=椰浆
+item.atutils.superhelo.name=小哈罗
+item.atutils.hakzn_anox.name=颜Dio大
+item.atutils.seleclipse.name=Seleclipse
+
+item.atutils.cb.tooltip=忍耐或小心鱼钩
+item.atutils.teddy.tooltip=摸到了
+item.atutils.ikexing.tooltip=§o我是好人
+item.atutils.seleclipse.tooltip=§o问君能有几多愁，恰似鸡胸肉里卡狗头。

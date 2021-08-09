@@ -5,3 +5,21 @@ splash_potion.effect.atutils.drowsy=Splash Potion of Drowsy
 lingering_potion.effect.atutils.drowsy=Lingering potion of Drowsy
 
 tipped_arrow.effect.atutils.drowsy=Arrow of Drowsy
+
+item.atutils.mo.name=Mo
+item.atutils.cb.name=C.B
+item.atutils.teddy.name=Teddy
+item.atutils.niyan.name=Niyan
+item.atutils.ikexing.name=ikexing
+item.atutils.yangyang.name=Yang Yang
+item.atutils.six_color.name=Six Color
+item.atutils.faulkner.name=Faulkner
+item.atutils.cyciling.name=Cyciling
+item.atutils.superhelo.name=SuperHelo
+item.atutils.hakzn_anox.name=HakZn_Anox
+item.atutils.seleclipse.name=Seleclipse
+
+item.atutils.cb.tooltip=Be patient or careful with the rod
+item.atutils.teddy.tooltip=got it
+item.atutils.ikexing.tooltip=§oI'm a good man.
+item.atutils.seleclipse.tooltip=§oIf you ask me how much my sorrow has increased, just see the stucked dog in chicken breast.

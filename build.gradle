@@ -35,7 +35,7 @@ minecraft {
 
     mappings = "stable_39"
     def args = [
-            "-Dfml.coreMods.load=ink.ikx.rt.impl.core.RTPlugin",
+            "-Dfml.coreMods.load=ikexing.atutils.core.AutoTechUtilsPlugin",
             "-Dmixin.hotSwap=true",
             "-Dmixin.checks.interfaces=true"
     ]
@@ -63,6 +63,7 @@ dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
 
     compile 'cn.hutool:hutool-core:5.7.7'
+    compile 'cn.hutool:hutool-http:5.7.7'
     compile "vazkii.botania:Botania:r1.10-363.148"
     compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
     compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
