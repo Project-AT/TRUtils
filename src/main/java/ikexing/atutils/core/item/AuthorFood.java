@@ -34,18 +34,18 @@ public class AuthorFood {
 
     private static final List<Item> ITEM_FOODS = new ArrayList<>();
     private static final List<AuthorInformation> AUTHOR_QQ_NUMBER = Lists.newArrayList(
-        AuthorInformation.of(963331014L, "mo", 0, 0F),
-        AuthorInformation.of(651274009L, "cb", 2, 2F),
-        AuthorInformation.of(3398804669L, "teddy", 16, 30F),
+        AuthorInformation.of(963331014L, "mo", 1, 400F),
+        AuthorInformation.of(651274009L, "cb", 2, 0.5F),
+        AuthorInformation.of(3398804669L, "teddy", 16, 1.875F),
         AuthorInformation.of(2093615664L, "niyan", 0, 0F),
-        AuthorInformation.of(825802847L, "ikexing", Integer.MAX_VALUE, Float.MAX_VALUE),
+        AuthorInformation.of(825802847L, "ikexing", 20, 1.0F),
         AuthorInformation.of(1422179824L, "yangyang", 0, 0F),
         AuthorInformation.of(372395476L, "six_color", 0, 0F),
         AuthorInformation.of(3266271262L, "faulkner", 0, 0F),
         AuthorInformation.of(1377899390L, "cyciling", 0, 0F),
-        AuthorInformation.of(3181063382L, "superhelo", 10, 16F),
+        AuthorInformation.of(3181063382L, "superhelo", 5, 1.6F),
         AuthorInformation.of(646886334L, "hakzn_anox", 0, 0F),
-        AuthorInformation.of(3209636087L, "seleclipse", 16, 8F)
+        AuthorInformation.of(3209636087L, "seleclipse", 16, 0.25F)
     );
 
     private static String getAvatarUrl(Long number) {
