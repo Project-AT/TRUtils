@@ -72,6 +72,7 @@ public class AuthorFood {
         AUTHOR_QQ_NUMBER.stream()
             .filter(author -> Objects.nonNull(getTrueName(FILE, author.getName())))
             .peek(author -> ImgUtil.convert(getTrueName(FILE, author.getName()), getTrueName(FILE_PNG, author.getName())))
+            .peek(author -> ImgUtil.scale(getTrueName(FILE_PNG, author.getName()), getTrueName(FILE_PNG, author.getName()), 144, 144, null))
             .forEach(author -> FileUtil.del(getTrueName(FILE, author.getName())));
     }
 
