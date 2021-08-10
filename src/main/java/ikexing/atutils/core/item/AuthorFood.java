@@ -41,11 +41,11 @@ public class AuthorFood {
         AuthorInformation.of(825802847L, "ikexing", 20, 1.0F),
         AuthorInformation.of(3181063382L, "superhelo", 5, 1.6F),
         AuthorInformation.of(3209636087L, "seleclipse", 16, 0.25F),
-        AuthorInformation.of(2093615664L, "niyan", 0, 0F),
-        AuthorInformation.of(372395476L, "six_color", 0, 0F),
-        AuthorInformation.of(3266271262L, "faulkner", 0, 0F),
-        AuthorInformation.of(1377899390L, "cyciling", 0, 0F),
-        AuthorInformation.of(646886334L, "hakzn_anox", 0, 0F)
+        AuthorInformation.of(2093615664L, "niyan", 20, 1.0F),
+        AuthorInformation.of(372395476L, "six_color", 16, 0.1875F),
+        AuthorInformation.of(1377899390L, "cyciling", 40, 0F),
+        AuthorInformation.of(646886334L, "hakzn_anox", 4, 2.5F),
+        AuthorInformation.of(3266271262L, "faulkner", 8, 0F)
     );
 
     private static String getAvatarUrl(Long number) {
