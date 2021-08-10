@@ -64,13 +64,6 @@ dependencies {
 
     compile 'cn.hutool:hutool-core:5.7.7'
     compile 'cn.hutool:hutool-http:5.7.7'
-    compile "vazkii.botania:Botania:r1.10-363.148"
-    compile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
-    compile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
-        exclude module: 'guava'
-        exclude module: 'commons-io'
-        exclude module: 'gson'
-    }
 
     runtime "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     runtime "mezz.jei:jei_1.12.2:4.16.1.302"
@@ -84,6 +77,13 @@ dependencies {
     deobfCompile "curse.maven:SausageCore-312845:2762387"
     deobfCompile "curse.maven:guide-api-228832:2645992"
     deobfCompile "curse.maven:manacraft-312846:2762412"
+    deobfCompile "vazkii.botania:Botania:r1.10-363.148"
+    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
+    deobfCompile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
 }
 repositories {
     mavenCentral()
