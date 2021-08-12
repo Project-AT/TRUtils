@@ -19,21 +19,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.event.RegistryEvent.Register;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
 
-@EventBusSubscriber
 public class AuthorFood {
 
     private static final String FILE = getPath(System.getProperty("user.dir"), "resources", "atutils", "textures", "items", "{0}.jpg");
     private static final String FILE_PNG = getPath(System.getProperty("user.dir"), "resources", "atutils", "textures", "items", "{0}.png");
 
-    private static final List<Item> ITEM_FOODS = new ArrayList<>();
-    private static final List<AuthorInformation> AUTHOR_QQ_NUMBER = Lists.newArrayList(
+    public static final List<Item> ITEM_FOODS = new ArrayList<>();
+    public static final List<AuthorInformation> AUTHOR_QQ_NUMBER = Lists.newArrayList(
         AuthorInformation.of(963331014L, "mo", 1, 400F),
         AuthorInformation.of(651274009L, "cb", 2, 0.5F),
         AuthorInformation.of(3398804669L, "teddy", 8, 1.875F),
@@ -56,7 +50,7 @@ public class AuthorFood {
         return I18n.format(MessageFormat.format("item.{0}.{1}.tooltip", ATUtils.MODID, name.toLowerCase(Locale.ROOT)));
     }
 
-    private static void regModel(Item item) {
+    public static void regModel(Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
     }
 
@@ -76,18 +70,6 @@ public class AuthorFood {
             .forEach(author -> FileUtil.del(getTrueName(FILE, author.getName())));
     }
 
-    @SubscribeEvent
-    public static void onItemRegister(Register<Item> event) {
-        IForgeRegistry<Item> registry = event.getRegistry();
-        registry.registerAll(AUTHOR_QQ_NUMBER.stream().map(AuthorInformation::of).peek(ITEM_FOODS::add).toArray(ItemFood[]::new));
-    }
-
-    @SubscribeEvent
-    public static void onModelRegistry(ModelRegistryEvent event) {
-        convert();
-        ITEM_FOODS.forEach(AuthorFood::regModel);
-    }
-
     private static String getPath(String... path) {
         StringBuilder sb = new StringBuilder();
         for (String s1 : path) {
@@ -96,7 +78,7 @@ public class AuthorFood {
         return sb.toString();
     }
 
-    private static class AuthorInformation {
+    public static class AuthorInformation {
 
         private final long number;
         private final String name;

@@ -6,6 +6,11 @@ lingering_potion.effect.atutils.drowsy=Lingering potion of Drowsy
 
 tipped_arrow.effect.atutils.drowsy=Arrow of Drowsy
 
+item.atutils.stick_thunder.name=Stick Thunder
+item.atutils.advance_stick_thunder.name=Advance Stick Thunder
+
+item.atutils.stick_thunder.message=The reserve of mana is not enough to summon lightning.
+
 item.atutils.mo.name=Mo
 item.atutils.cb.name=C.B
 item.atutils.teddy.name=Teddy
