@@ -39,7 +39,7 @@ public class StickThunder extends Item implements IManaUsingItem, IModelRegister
     public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase entity) {
         if (entity instanceof EntityPlayer && !world.isRemote) {
             EntityPlayer player = (EntityPlayer) entity;
-            if (ManaItemHandler.requestManaExactForTool(stack, player, 1000, true)) {
+            if (ManaItemHandler.requestManaExactForTool(stack, player, 2500, true)) {
                 world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, false));
                 player.getCooldownTracker().setCooldown(stack.getItem(), 100);
             } else {

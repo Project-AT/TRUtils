@@ -26,7 +26,7 @@ public class AdvanceStickThunder extends StickThunder {
         if (entity instanceof EntityPlayer && !world.isRemote) {
             EntityPlayer player = (EntityPlayer) entity;
             BlockPos blockPos = Objects.requireNonNull(player.rayTrace(20, 1)).getBlockPos();
-            if (ManaItemHandler.requestManaExactForTool(stack, player, 1000, true)) {
+            if (ManaItemHandler.requestManaExactForTool(stack, player, 2500, true)) {
                 world.addWeatherEffect(new EntityLightningBolt(world, blockPos.getX(), blockPos.getY(), blockPos.getZ(), false));
                 player.getCooldownTracker().setCooldown(stack.getItem(), 100);
             } else {
