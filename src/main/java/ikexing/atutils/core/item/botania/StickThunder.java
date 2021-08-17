@@ -29,6 +29,7 @@ public class StickThunder extends Item implements IManaUsingItem, IModelRegister
     public static final Item INSTANCE = new StickThunder(NAME);
 
     public StickThunder(String name) {
+        this.setMaxStackSize(1);
         this.setMaxDamage(0);
         this.setRegistryName(name);
         this.setTranslationKey(ATUtils.MODID + "." + name);
