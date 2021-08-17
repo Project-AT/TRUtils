@@ -59,7 +59,10 @@ public class AuthorFood {
     }
 
     public static void downloadAvatar() {
-        AUTHOR_QQ_NUMBER.forEach(author -> HttpUtil.downloadFile(getAvatarUrl(author.getNumber()), getTrueName(FILE, author.getName())));
+        try {
+            AUTHOR_QQ_NUMBER.forEach(author -> HttpUtil.downloadFile(getAvatarUrl(author.getNumber()), getTrueName(FILE, author.getName())));
+        } catch (Exception ignored) {
+        }
     }
 
     public static void convert() {
