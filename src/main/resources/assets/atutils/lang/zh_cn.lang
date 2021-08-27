@@ -11,6 +11,12 @@ item.atutils.advance_stick_thunder.name=进阶唤雷法杖
 
 item.atutils.stick_thunder.message=储备的魔力不足以支撑此次引雷。
 
+item.atutils.crude_steel.axe.name=粗钢斧
+item.atutils.crude_steel.hoe.name=粗钢锄
+item.atutils.crude_steel.sword.name=粗钢剑
+item.atutils.crude_steel.shovel.name=粗钢铲
+item.atutils.crude_steel.pickaxe.name=粗钢斧
+
 item.atutils.mo.name=MoMo渣
 item.atutils.cb.name=C.B
 item.atutils.teddy.name=Teddy

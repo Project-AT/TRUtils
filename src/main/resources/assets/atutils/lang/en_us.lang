@@ -11,6 +11,12 @@ item.atutils.advance_stick_thunder.name=Advance Stick Thunder
 
 item.atutils.stick_thunder.message=The reserve of mana is not enough to summon lightning.
 
+item.atutils.crude_steel.axe.name=Crude Steel Axe
+item.atutils.crude_steel.hoe.name=Crude Steel Hoe
+item.atutils.crude_steel.sword.name=Crude Steel Sword
+item.atutils.crude_steel.shovel.name=Crude Steel Shovel
+item.atutils.crude_steel.pickaxe.name=Crude Steel Pickaxe
+
 item.atutils.mo.name=Mo
 item.atutils.cb.name=C.B
 item.atutils.teddy.name=Teddy
