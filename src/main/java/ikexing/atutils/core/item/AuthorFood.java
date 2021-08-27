@@ -5,21 +5,20 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.http.HttpUtil;
 import com.google.common.collect.Lists;
 import ikexing.atutils.ATUtils;
-import java.io.File;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import javax.annotation.Nullable;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
+
+import javax.annotation.Nullable;
+import java.io.File;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 public class AuthorFood {
 
@@ -48,10 +47,6 @@ public class AuthorFood {
 
     private static String format(String name) {
         return I18n.format(MessageFormat.format("item.{0}.{1}.tooltip", ATUtils.MODID, name.toLowerCase(Locale.ROOT)));
-    }
-
-    public static void regModel(Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
     }
 
     private static File getTrueName(String file, String name) {
