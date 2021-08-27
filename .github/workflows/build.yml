@@ -50,6 +50,7 @@ jobs:
         with:
           repository: Project-AT/AutoTech
           path: modpack
+          token: ${{ secrets.ACTION_TOKEN }}
 
       - name: Move this mod to AutoTech modpack repo
         run: |
