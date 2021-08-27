@@ -1,7 +1,7 @@
 #From https://github.com/ProjectHDS/HerodotusUtils/blob/main/build.sh
 
 BUILD=atutils
-VERSION=1.0
+VERSION=1.1.5
 
 FILE_NAME="$BUILD-$VERSION.jar"
 FILE_NAME_DEV="$BUILD-$VERSION-build${GITHUB_RUN_NUMBER}.jar"
