@@ -62,8 +62,8 @@ processResources {
 dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
 
-    compile 'cn.hutool:hutool-core:5.7.7'
-    compile 'cn.hutool:hutool-http:5.7.7'
+    compile 'cn.hutool:hutool-core:5.7.9'
+    compile 'cn.hutool:hutool-http:5.7.9'
 
     runtime "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     runtime "mezz.jei:jei_1.12.2:4.16.1.302"
