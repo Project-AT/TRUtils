@@ -44,20 +44,20 @@ jobs:
           name: atutils-build
           path: artifacts
 
-      - name: Checkout Herodotus modpack repo
+      - name: Checkout AutoTech modpack repo
         uses: actions/checkout@v2
         with:
           repository: Project-AT/AutoTech
           path: modpack
 
-      - name: Move this mod to Herodotus modpack repo
+      - name: Move this mod to AutoTech modpack repo
         run: |
           rm -f $GITHUB_WORKSPACE/modpack/.minecraft/mods/*
           mv -f $GITHUB_WORKSPACE/artifacts/* $GITHUB_WORKSPACE/modpack/.minecraft/mods/
       - name: Commit this mod to AutoTech modpack repo
         uses: EndBug/add-and-commit@v7
         with:
-          branch: master
+          branch: main
           author_name: superhelo
           author_email: xiaohaluo@qq.com
           message: "Update AutoTech Utils Mod"
