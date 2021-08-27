@@ -1,7 +1,6 @@
 package ikexing.atutils.core.item.botania;
 
 import ikexing.atutils.ATUtils;
-import java.util.Objects;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -23,6 +22,8 @@ import vazkii.botania.api.mana.ManaItemHandler;
 import vazkii.botania.client.render.IModelRegister;
 import vazkii.botania.common.core.BotaniaCreativeTab;
 
+import java.util.Objects;
+
 public class StickThunder extends Item implements IManaUsingItem, IModelRegister {
 
     public static final String NAME = "stick_thunder";
@@ -42,7 +43,7 @@ public class StickThunder extends Item implements IManaUsingItem, IModelRegister
             EntityPlayer player = (EntityPlayer) entity;
             if (ManaItemHandler.requestManaExactForTool(stack, player, 2500, true)) {
                 world.addWeatherEffect(new EntityLightningBolt(world, player.posX, player.posY, player.posZ, false));
-                player.getCooldownTracker().setCooldown(stack.getItem(), 100);
+                player.getCooldownTracker().setCooldown(stack.getItem(), 50);
             } else {
                 player.sendMessage(new TextComponentString(I18n.translateToLocal("item.atutils.stick_thunder.message")));
             }
@@ -65,7 +66,7 @@ public class StickThunder extends Item implements IManaUsingItem, IModelRegister
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-        return 20;
+        return 10;
     }
 
     @Override

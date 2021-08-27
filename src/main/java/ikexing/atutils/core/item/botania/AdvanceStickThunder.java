@@ -1,6 +1,5 @@
 package ikexing.atutils.core.item.botania;
 
-import java.util.Objects;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +10,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import vazkii.botania.api.mana.ManaItemHandler;
+
+import java.util.Objects;
 
 public class AdvanceStickThunder extends StickThunder {
 
@@ -34,5 +35,10 @@ public class AdvanceStickThunder extends StickThunder {
             }
         }
         return stack;
+    }
+
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
+        return 20;
     }
 }
