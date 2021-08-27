@@ -1,5 +1,7 @@
 #From https://github.com/ProjectHDS/HerodotusUtils/blob/main/.github/workflows/build.yml
 
+name : build
+
 on:
 
   push:

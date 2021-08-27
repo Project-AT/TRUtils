@@ -1,3 +1,5 @@
+#From https://github.com/ProjectHDS/HerodotusUtils/blob/main/build.sh
+
 BUILD=atutils
 VERSION=1.0
 
