@@ -73,6 +73,9 @@ dependencies {
     runtime "cofh:RedstoneFlux:1.12-2.0.0.1:universal"
     runtime "youyihj:zenutils:1.9.3"
 
+    deobfCompile "curse.maven:mysticallib-277064:3430271"
+    deobfCompile "curse.maven:mysticalworld-282940:3144904"
+    deobfCompile "curse.maven:Roots-246183:3434237"
     deobfCompile "curse.maven:Baubles-227083:2518667"
     deobfCompile "curse.maven:SausageCore-312845:2762387"
     deobfCompile "curse.maven:guide-api-228832:2645992"
