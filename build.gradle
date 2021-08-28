@@ -82,6 +82,7 @@ dependencies {
     deobfCompile "curse.maven:manacraft-312846:2762412"
     deobfCompile "vazkii.botania:Botania:r1.10-363.148"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
+    deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.11.1-v53"
     deobfCompile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
@@ -122,6 +123,10 @@ repositories {
     maven {
         name = "youyihj"
         url = "https://friendlyhj.github.io/maven"
+    }
+    maven {
+        name = "hellfiredev"
+        url = "https://maven.hellfiredev.net"
     }
 }
 
