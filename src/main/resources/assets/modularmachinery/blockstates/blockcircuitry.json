@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "circuitry=advanced": { "model": "modularmachinery:advanced" },
+    "circuitry=elite": { "model": "modularmachinery:elite" },
+    "circuitry=ultimate": { "model": "modularmachinery:ultimate" }
+  }
+}

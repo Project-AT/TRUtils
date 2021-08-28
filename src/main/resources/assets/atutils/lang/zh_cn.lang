@@ -47,3 +47,7 @@ item.atutils.six_color.tooltip=土豆炒土豆
 item.atutils.cyciling.tooltip=椰子有点硬
 item.atutils.faulkner.tooltip=一起逃命吧！
 item.atutils.seleclipse.tooltip=§o问君能有几多愁，恰似鸡胸肉里卡狗头。
+
+tile.modularmachinery.blockcircuitry.elite.name=精英机械电路板
+tile.modularmachinery.blockcircuitry.advanced.name=高级机械电路板
+tile.modularmachinery.blockcircuitry.ultimate.name=终极机械电路板

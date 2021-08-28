@@ -47,3 +47,7 @@ item.atutils.six_color.tooltip=Fried potatoes with potatoes
 item.atutils.cyciling.tooltip=Let's run for our lives!
 item.atutils.faulkner.tooltip=Coconut is a little hard
 item.atutils.seleclipse.tooltip=§oIf you ask me how much my sorrow has increased, just see the stucked dog in chicken breast.
+
+tile.modularmachinery.blockcircuitry.elite.name=Machine Elite Circuitry
+tile.modularmachinery.blockcircuitry.advanced.name=Machine Advanced Circuitry
+tile.modularmachinery.blockcircuitry.ultimate.name=Machine Ultimate Circuitry
