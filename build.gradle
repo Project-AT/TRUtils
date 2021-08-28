@@ -50,10 +50,10 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
-        
+
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
@@ -72,9 +72,10 @@ dependencies {
     runtime "com.teamacronymcoders.base:base:1.12.2-3.13.0-SNAPSHOT.+"
     runtime "cofh:RedstoneFlux:1.12-2.0.0.1:universal"
     runtime "youyihj:zenutils:1.9.3"
+    runtime "vazkii.patchouli:Patchouli:1.0-20.108"
 
     deobfCompile "curse.maven:mysticallib-277064:3430271"
-    deobfCompile "curse.maven:mysticalworld-282940:3144904"
+    deobfCompile "curse.maven:mysticalworld-282940:3430272"
     deobfCompile "curse.maven:Roots-246183:3434237"
     deobfCompile "curse.maven:Baubles-227083:2518667"
     deobfCompile "curse.maven:SausageCore-312845:2762387"
@@ -102,7 +103,7 @@ repositories {
     }
     maven {
         name = "jei"
-        url =  "https://dvs1.progwml6.com/files/maven"
+        url = "https://dvs1.progwml6.com/files/maven"
     }
     maven {
         name = "Botania"
@@ -137,10 +138,10 @@ mixin {
 jar {
     manifest {
         attributes([
-                'TweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
-                "FMLCorePlugin": "ikexing.atutils.core.AutoTechUtilsPlugin",
+                'TweakClass'                 : 'org.spongepowered.asm.launch.MixinTweaker',
+                "FMLCorePlugin"              : "ikexing.atutils.core.AutoTechUtilsPlugin",
                 "FMLCorePluginContainsFMLMod": true,
-                "ForceLoadAsMod": true
+                "ForceLoadAsMod"             : true
         ])
     }
 }
