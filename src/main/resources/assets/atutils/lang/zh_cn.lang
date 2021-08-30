@@ -9,6 +9,8 @@ tipped_arrow.effect.atutils.drowsy=瞌睡之箭
 item.atutils.stick_thunder.name=唤雷法杖
 item.atutils.advance_stick_thunder.name=进阶唤雷法杖
 
+item.atutils.magnetic_attraction.name=仪式：磁力吸引
+
 item.atutils.stick_thunder.message=储备的魔力不足以支撑此次引雷。
 
 item.atutils.crude_steel_axe.name=粗钢斧
@@ -51,3 +53,5 @@ item.atutils.seleclipse.tooltip=§o问君能有几多愁，恰似鸡胸肉里卡
 tile.modularmachinery.blockcircuitry.elite.name=精英机械电路板
 tile.modularmachinery.blockcircuitry.advanced.name=高级机械电路板
 tile.modularmachinery.blockcircuitry.ultimate.name=终极机械电路板
+
+roots.ritual.magnetic_attraction.name=§6磁力吸引
