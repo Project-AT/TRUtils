@@ -10,6 +10,7 @@ import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
@@ -21,6 +22,9 @@ import java.util.Objects;
 
 public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
+    private static final String INTERVAL = "interval";
+
+    private int interval;
     private final RitualMagneticAttraction ritual;
     private final Map<BlockPos, String> posList = Maps.newHashMap();
 
@@ -33,26 +37,29 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     @Override
     public void onUpdate() {
         super.onUpdate();
+        if (interval == 0)
+            interval = 100 + world.rand.nextInt(101);
         if (ticksExisted % 20 == 0) {
             getBlockOre();
         }
-        if (ticksExisted == ritual.getDuration()) {
+        if (ticksExisted % interval == 0) {
             if (!world.isRemote) {
                 for (Map.Entry<BlockPos, String> entry : posList.entrySet()) {
                     BlockPos pos = entry.getKey();
-                    ItemStack stack = OreDictionary.getOres("dust" + entry.getValue()).get(0);
-                    stack.setCount(world.rand.nextInt(7));
+                    ItemStack stack = OreDictionary.getOres("nugget" + entry.getValue()).get(0);
+                    stack.setCount(3 + world.rand.nextInt(4));
 
                     world.setBlockToAir(pos);
-                    world.spawnEntity(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack));
+                    world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, stack));
+                    posList.remove(entry.getKey(), entry.getValue());
+                    interval = 0;
+                    break;
                 }
             }
         }
-        System.out.println(ticksExisted + "");
     }
 
     private void getBlockOre() {
-        posList.clear();
 
         BlockPos posA = new BlockPos(posX + ritual.radius_x, posY + ritual.radius_y, posZ + ritual.radius_z);
         BlockPos posB = new BlockPos(posX - ritual.radius_x, posY - ritual.radius_y, posZ - ritual.radius_z);
@@ -69,5 +76,17 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
                 }
             }
         }
+    }
+
+    @Override
+    protected void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        this.interval = compound.getInteger(INTERVAL);
+    }
+
+    @Override
+    protected void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        compound.setInteger(INTERVAL, interval);
     }
 }
