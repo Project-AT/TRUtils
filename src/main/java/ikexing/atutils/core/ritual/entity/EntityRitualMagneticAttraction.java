@@ -39,10 +39,8 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         super.onUpdate();
         if (interval == 0)
             interval = 100 + world.rand.nextInt(101);
-        if (ticksExisted % 20 == 0) {
-            getBlockOre();
-        }
         if (ticksExisted % interval == 0) {
+            getBlockOre();
             if (!world.isRemote) {
                 for (Map.Entry<BlockPos, String> entry : posList.entrySet()) {
                     BlockPos pos = entry.getKey();
