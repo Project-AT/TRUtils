@@ -1,9 +1,13 @@
 package ikexing.atutils;
 
 import cn.hutool.core.util.ReflectUtil;
+import epicsquid.roots.ritual.RitualBase;
+import epicsquid.roots.ritual.RitualRegistry;
 import ikexing.atutils.core.item.AuthorFood;
+import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -29,7 +33,10 @@ public class ATUtils {
     public static final String VERSION = "1.1.5";
     public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;after:twilightforest;after:botania;after:contenttweaker;before:mana_craft";
 
+    public static RitualBase ritualMa;
     public static Block circuitry;
+    public static Item magneticAttraction =
+            new Item().setRegistryName("magnetic_attraction").setTranslationKey(MODID + "." + "magnetic_attraction");
 
     public static Logger logger;
 
@@ -41,6 +48,7 @@ public class ATUtils {
     @EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
     }
 
     @EventHandler

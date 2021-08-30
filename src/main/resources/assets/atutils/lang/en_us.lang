@@ -9,6 +9,8 @@ tipped_arrow.effect.atutils.drowsy=Arrow of Drowsy
 item.atutils.stick_thunder.name=Stick Thunder
 item.atutils.advance_stick_thunder.name=Advance Stick Thunder
 
+item.atutils.magnetic_attraction.name=Ritual: Magnetic Attraction
+
 item.atutils.stick_thunder.message=The reserve of mana is not enough to summon lightning.
 
 item.atutils.crude_steel_axe.name=Crude Steel Axe
@@ -51,3 +53,5 @@ item.atutils.seleclipse.tooltip=§oIf you ask me how much my sorrow has increase
 tile.modularmachinery.blockcircuitry.elite.name=Machine Elite Circuitry
 tile.modularmachinery.blockcircuitry.advanced.name=Machine Advanced Circuitry
 tile.modularmachinery.blockcircuitry.ultimate.name=Machine Ultimate Circuitry
+
+roots.ritual.magnetic_attraction.name=§6Magnetic Attraction
