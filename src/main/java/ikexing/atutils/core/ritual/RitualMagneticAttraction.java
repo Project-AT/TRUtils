@@ -12,12 +12,11 @@ import net.minecraft.util.text.TextFormatting;
 
 public class RitualMagneticAttraction extends RitualBase {
 
-    public static Property.PropertyDuration PROP_DURATION = new Property.PropertyDuration(300);
+    public static Property.PropertyDuration PROP_DURATION = new Property.PropertyDuration(200);
     public static Property<Integer> PROP_RADIUS_X = new Property<>("radius_x", 16).setDescription("Radius on the X Axis of the cube in which the ritual takes place");
     public static Property<Integer> PROP_RADIUS_Y = new Property<>("radius_y", 16).setDescription("Radius on the X Axis of the cube in which the ritual takes place");
     public static Property<Integer> PROP_RADIUS_Z = new Property<>("radius_z", 16).setDescription("Radius on the X Axis of the cube in which the ritual takes place");
 
-    public int duration;
     public double radius_x, radius_y, radius_z;
 
     public RitualMagneticAttraction() {
