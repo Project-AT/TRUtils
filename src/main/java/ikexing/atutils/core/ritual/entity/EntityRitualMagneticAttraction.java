@@ -37,30 +37,31 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (interval == 0)
-            interval = 100 + world.rand.nextInt(101);
-        if (ticksExisted % interval == 0) {
-            getBlockOre();
-            if (!world.isRemote) {
-                for (Map.Entry<BlockPos, String> entry : posList.entrySet()) {
-                    BlockPos pos = entry.getKey();
-                    ItemStack stack = OreDictionary.getOres("nugget" + entry.getValue()).get(0);
-                    stack.setCount(3 + world.rand.nextInt(4));
+        if (world.isRemote) return;
+        if (posList.isEmpty()) getBlockOre();
+        if (interval == 0) interval = 100 + world.rand.nextInt(101);
 
-                    world.setBlockToAir(pos);
-                    world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, stack));
-                    posList.remove(entry.getKey(), entry.getValue());
-                    interval = 0;
-                    break;
-                }
+        if (ticksExisted % interval == 0) {
+
+            for (Map.Entry<BlockPos, String> entry : posList.entrySet()) {
+                BlockPos pos = entry.getKey();
+                ItemStack stack = OreDictionary.getOres("nugget" + entry.getValue()).get(0);
+                stack.setCount(3 + world.rand.nextInt(4));
+
+                world.setBlockToAir(pos);
+                world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, stack));
+                posList.remove(entry.getKey(), entry.getValue());
+                interval = 0;
+                break;
+
             }
         }
     }
 
     private void getBlockOre() {
 
-        BlockPos posA = new BlockPos(posX + ritual.radius_x, posY + ritual.radius_y, posZ + ritual.radius_z);
-        BlockPos posB = new BlockPos(posX - ritual.radius_x, posY - ritual.radius_y, posZ - ritual.radius_z);
+        BlockPos posA = new BlockPos(posX + (ritual.radius_x * 2), posY + (ritual.radius_y * 2), posZ + (ritual.radius_z * 2));
+        BlockPos posB = new BlockPos(posX - (ritual.radius_x * 2), posY - (ritual.radius_y * 2), posZ - (ritual.radius_z * 2));
 
         Iterable<BlockPos> allInBox = BlockPos.getAllInBox(posA, posB);
         for (BlockPos inBox : allInBox) {
