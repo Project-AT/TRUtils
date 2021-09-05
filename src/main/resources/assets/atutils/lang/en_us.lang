@@ -31,10 +31,7 @@ item.atutils.niyan.name=Niyan
 item.atutils.ikexing.name=ikexing
 item.atutils.yangyang.name=Yang Yang
 item.atutils.six_color.name=Six Color
-item.atutils.faulkner.name=Faulkner
-item.atutils.cyciling.name=Cyciling
 item.atutils.superhelo.name=SuperHelo
-item.atutils.hakzn_anox.name=HakZn_Anox
 item.atutils.seleclipse.name=Seleclipse
 
 item.atutils.cb.tooltip=Be patient or careful with the rod
@@ -47,6 +44,7 @@ item.atutils.niyan.tooltip=Have a cup of coffee
 item.atutils.six_color.tooltip=Fried potatoes with potatoes
 item.atutils.seleclipse.tooltip=§oIf you ask me how much my sorrow has increased, just see the stucked dog in chicken breast.
 
+tile.atutils.no_energy_table.name=Inactivated Research Table
 tile.modularmachinery.blockcircuitry.elite.name=Machine Elite Circuitry
 tile.modularmachinery.blockcircuitry.advanced.name=Machine Advanced Circuitry
 tile.modularmachinery.blockcircuitry.ultimate.name=Machine Ultimate Circuitry

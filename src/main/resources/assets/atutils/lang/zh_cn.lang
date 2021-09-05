@@ -31,10 +31,7 @@ item.atutils.niyan.name=Niyan
 item.atutils.ikexing.name=科星
 item.atutils.yangyang.name=洋洋
 item.atutils.six_color.name=六色
-item.atutils.faulkner.name=小雪
-item.atutils.cyciling.name=椰浆
 item.atutils.superhelo.name=小哈罗
-item.atutils.hakzn_anox.name=颜Dio大
 item.atutils.seleclipse.name=Seleclipse
 
 item.atutils.cb.tooltip=忍耐或小心鱼钩
@@ -47,6 +44,7 @@ item.atutils.niyan.tooltip=多喝热水
 item.atutils.six_color.tooltip=土豆炒土豆
 item.atutils.seleclipse.tooltip=§o问君能有几多愁，恰似鸡胸肉里卡狗头。
 
+tile.atutils.no_energy_table.name=未激活的研究台
 tile.modularmachinery.blockcircuitry.elite.name=精英机械电路板
 tile.modularmachinery.blockcircuitry.advanced.name=高级机械电路板
 tile.modularmachinery.blockcircuitry.ultimate.name=终极机械电路板
