@@ -8,6 +8,7 @@ import ikexing.atutils.core.block.BlockNoEnergyTable;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.AuthorFood.AuthorInformation;
 import ikexing.atutils.core.item.CrudeSteel;
+import ikexing.atutils.core.item.FlintHoe;
 import ikexing.atutils.core.item.botania.AdvanceStickThunder;
 import ikexing.atutils.core.item.botania.StickThunder;
 import ikexing.atutils.core.ritual.entity.EntityRitualMagneticAttraction;
@@ -30,6 +31,7 @@ public class RegisterHandlerEvent {
     @SubscribeEvent
     public static void onItemRegistry(Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
+        registry.register(FlintHoe.INSTANCE);
         registry.register(StickThunder.INSTANCE);
         registry.register(ATUtils.magneticAttraction);
         registry.register(AdvanceStickThunder.INSTANCE);
@@ -47,6 +49,7 @@ public class RegisterHandlerEvent {
     @SubscribeEvent
     public static void onModelRegistry(ModelRegistryEvent event) {
         AuthorFood.convert();
+        regModel(FlintHoe.INSTANCE);
         regModel(ATUtils.magneticAttraction);
         regModel(BlockNoEnergyTable.ITEM_BLOCK);
         CrudeSteel.ITEMS.forEach(RegisterHandlerEvent::regModel);
