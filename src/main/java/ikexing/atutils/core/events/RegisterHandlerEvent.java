@@ -51,7 +51,6 @@ public class RegisterHandlerEvent {
         regModel(BlockNoEnergyTable.ITEM_BLOCK);
         CrudeSteel.ITEMS.forEach(RegisterHandlerEvent::regModel);
         AuthorFood.ITEM_FOODS.forEach(RegisterHandlerEvent::regModel);
-        //ModelLoader.setCustomModelResourceLocation(BlockNoEnergyTable.ITEM_BLOCK, 0, new ModelResourceLocation(Objects.requireNonNull(BlockNoEnergyTable.ITEM_BLOCK.getRegistryName()), "facing=north"));
     }
 
     @SubscribeEvent
