@@ -4,6 +4,7 @@ import epicsquid.mysticallib.LibRegistry;
 import epicsquid.mysticallib.entity.RenderNull;
 import epicsquid.mysticallib.event.RegisterContentEvent;
 import ikexing.atutils.ATUtils;
+import ikexing.atutils.core.block.BlockEvilStone;
 import ikexing.atutils.core.block.BlockNoEnergyTable;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.AuthorFood.AuthorInformation;
@@ -16,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -33,6 +35,7 @@ public class RegisterHandlerEvent {
         IForgeRegistry<Item> registry = event.getRegistry();
         registry.register(FlintHoe.INSTANCE);
         registry.register(StickThunder.INSTANCE);
+        registry.register(BlockEvilStone.ITEM_BLOCK);
         registry.register(ATUtils.magneticAttraction);
         registry.register(AdvanceStickThunder.INSTANCE);
         registry.register(BlockNoEnergyTable.ITEM_BLOCK);
@@ -43,6 +46,7 @@ public class RegisterHandlerEvent {
     @SubscribeEvent
     public static void onBlockRegistry(Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
+        registry.register(BlockEvilStone.INSTANCE);
         registry.register(BlockNoEnergyTable.INSTANCE);
     }
 
@@ -54,6 +58,11 @@ public class RegisterHandlerEvent {
         regModel(BlockNoEnergyTable.ITEM_BLOCK);
         CrudeSteel.ITEMS.forEach(RegisterHandlerEvent::regModel);
         AuthorFood.ITEM_FOODS.forEach(RegisterHandlerEvent::regModel);
+
+        for (Integer value : BlockEvilStone.STATUS.getAllowedValues()) {
+            ModelLoader.setCustomModelResourceLocation(BlockEvilStone.ITEM_BLOCK, value,
+                    new ModelResourceLocation(new ResourceLocation(ATUtils.MODID, "evil_stone" + value), String.valueOf(value)));
+        }
     }
 
     @SubscribeEvent

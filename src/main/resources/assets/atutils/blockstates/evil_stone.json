@@ -1,0 +1,11 @@
+{
+    "variants": {
+        "status=0": {"model": "atutils:evil_stone0"},
+        "status=1": {"model": "atutils:evil_stone1"},
+        "status=2": {"model": "atutils:evil_stone2"},
+        "status=3": {"model": "atutils:evil_stone3"},
+        "status=4": {"model": "atutils:evil_stone4"},
+        "status=5": {"model": "atutils:evil_stone5"},
+        "status=6": {"model": "atutils:evil_stone6"}
+    }
+}
