@@ -58,7 +58,6 @@ public class RegisterEvent {
         regModel(BlockEvilStone.ITEM_BLOCK);
         CrudeSteel.ITEMS.forEach(RegisterEvent::regModel);
         AuthorFood.ITEM_FOODS.forEach(RegisterEvent::regModel);
-
     }
 
     @SubscribeEvent

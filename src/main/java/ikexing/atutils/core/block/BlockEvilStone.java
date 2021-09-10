@@ -64,13 +64,24 @@ public class BlockEvilStone extends Block {
     private IBlockState findAround(IBlockState state, IBlockAccess world, BlockPos pos) {
         Integer status = state.getValue(STATUS);
         if (status < 5) return state;
-        for (EnumFacing value : EnumFacing.VALUES) {
-            IBlockState blockState = world.getBlockState(pos.offset(value));
-            if (blockState.getBlock() instanceof BlockEvilStone && blockState.getValue(STATUS) >= 5) {
-                return state.withProperty(STATUS, 6);
+        for (EnumFacing facing : EnumFacing.VALUES) {
+            IBlockState blockState = world.getBlockState(pos.offset(facing));
+            if (isFive(blockState)) {
+                if (isSealOff(world, pos, facing)) return state.withProperty(STATUS, 6);
             }
         }
         return state.withProperty(STATUS, 5);
     }
 
+    private boolean isSealOff(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+        for (EnumFacing value : EnumFacing.VALUES) {
+            if (facing == value) continue;
+            if (isFive(world.getBlockState(pos.offset(value)))) return true;
+        }
+        return false;
+    }
+
+    private boolean isFive(IBlockState state) {
+        return state.getBlock() instanceof BlockEvilStone && state.getValue(STATUS) >= 5;
+    }
 }
