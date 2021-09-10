@@ -7,14 +7,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 @SuppressWarnings("deprecation")
 public class BlockEvilStone extends Block {
@@ -22,12 +21,7 @@ public class BlockEvilStone extends Block {
     public static final String NAME = "evil_stone";
 
     public static final Block INSTANCE = new BlockEvilStone();
-    public static final Item ITEM_BLOCK = new ItemBlock(INSTANCE) {
-        @Override
-        public int getMetadata(int damage) {
-            return damage;
-        }
-    }.setRegistryName(NAME).setHasSubtypes(true);
+    public static final Item ITEM_BLOCK = new ItemBlock(INSTANCE).setRegistryName(NAME);
 
     public BlockEvilStone() {
         super(Material.ROCK);
@@ -40,15 +34,8 @@ public class BlockEvilStone extends Block {
     }
 
     @Override
-    public void getSubBlocks(@Nullable CreativeTabs itemIn, @Nonnull NonNullList<ItemStack> items) {
-        for (Integer value : STATUS.getAllowedValues()) {
-            items.add(new ItemStack(this, 1, value));
-        }
-    }
-
-    @Override
     public int damageDropped(@Nonnull IBlockState state) {
-        return getMetaFromState(state);
+        return 0;
     }
 
     @Override
@@ -67,4 +54,23 @@ public class BlockEvilStone extends Block {
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, STATUS);
     }
+
+    @Nonnull
+    @Override
+    public IBlockState getActualState(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+        return findAround(state, world, pos);
+    }
+
+    private IBlockState findAround(IBlockState state, IBlockAccess world, BlockPos pos) {
+        Integer status = state.getValue(STATUS);
+        if (status < 5) return state;
+        for (EnumFacing value : EnumFacing.VALUES) {
+            IBlockState blockState = world.getBlockState(pos.offset(value));
+            if (blockState.getBlock() instanceof BlockEvilStone && blockState.getValue(STATUS) >= 5) {
+                return state.withProperty(STATUS, 6);
+            }
+        }
+        return state.withProperty(STATUS, 5);
+    }
+
 }

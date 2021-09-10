@@ -17,7 +17,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -28,7 +27,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import java.util.Objects;
 
 @EventBusSubscriber
-public class RegisterHandlerEvent {
+public class RegisterEvent {
 
     @SubscribeEvent
     public static void onItemRegistry(Register<Item> event) {
@@ -56,13 +55,10 @@ public class RegisterHandlerEvent {
         regModel(FlintHoe.INSTANCE);
         regModel(ATUtils.magneticAttraction);
         regModel(BlockNoEnergyTable.ITEM_BLOCK);
-        CrudeSteel.ITEMS.forEach(RegisterHandlerEvent::regModel);
-        AuthorFood.ITEM_FOODS.forEach(RegisterHandlerEvent::regModel);
+        regModel(BlockEvilStone.ITEM_BLOCK);
+        CrudeSteel.ITEMS.forEach(RegisterEvent::regModel);
+        AuthorFood.ITEM_FOODS.forEach(RegisterEvent::regModel);
 
-        for (Integer value : BlockEvilStone.STATUS.getAllowedValues()) {
-            ModelLoader.setCustomModelResourceLocation(BlockEvilStone.ITEM_BLOCK, value,
-                    new ModelResourceLocation(new ResourceLocation(ATUtils.MODID, "evil_stone" + value), String.valueOf(value)));
-        }
     }
 
     @SubscribeEvent
