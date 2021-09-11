@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.botania.common.Botania;
 
 @EventBusSubscriber
 public class EventHandler {
@@ -29,7 +30,11 @@ public class EventHandler {
                     if (blockState.getValue(BlockEvilStone.STATUS) < 5) {
                         if (!world.isRemote) {
                             world.setBlockState(blockPos, blockState.withProperty(BlockEvilStone.STATUS, status + 1));
-                        }  // todo 特效
+                        } else {
+                            for(int i = 0; i < 5; i++) {
+                                Botania.proxy.wispFX(blockPos.getX() + Math.random() * 1.25D, blockPos.getY() * Math.random() * 1.5D, blockPos.getZ() + Math.random() * 1.25D,  (float) (Math.random() *  Math.random()),  (float) (Math.random() * Math.random()),  (float) (Math.random() * Math.random()), (float) Math.random() * 2.0F);
+                            }
+                        }
 
                         break;
                     }

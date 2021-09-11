@@ -92,7 +92,9 @@ dependencies {
 }
 repositories {
     mavenCentral()
-    maven { url = "https://repo.spongepowered.org/maven" }
+    maven {
+        url = "https://repo.spongepowered.org/maven"
+    }
     maven {
         name = "forge"
         url = "https://files.minecraftforge.net/maven"
