@@ -32,7 +32,7 @@ public class EventHandler {
                             world.setBlockState(blockPos, blockState.withProperty(BlockEvilStone.STATUS, status + 1));
                         } else {
                             for(int i = 0; i < 5; i++) {
-                                Botania.proxy.wispFX(blockPos.getX() + Math.random() * 1.25D, blockPos.getY() * Math.random() * 1.5D, blockPos.getZ() + Math.random() * 1.25D,  0.5F,  0.0F,  0.0F, (float) Math.random() * 2.0F);
+                                Botania.proxy.wispFX(blockPos.getX() + Math.random() * 1.55D, blockPos.getY() * Math.random() * 2.0D, blockPos.getZ() + Math.random() * 1.55D, 0.5F, 0.0F, 0.0F, (float) Math.random() * 2.35F);
                             }
                         }
 
@@ -42,6 +42,5 @@ public class EventHandler {
             }
         }
     }
-
 
 }
