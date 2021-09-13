@@ -27,14 +27,12 @@ public class AuthorFood {
 
     public static final List<Item> ITEM_FOODS = new ArrayList<>();
     public static final List<AuthorInformation> AUTHOR_QQ_NUMBER = Lists.newArrayList(
-        AuthorInformation.of(963331014L, "mo", 1, 400F),
         AuthorInformation.of(651274009L, "cb", 2, 0.5F),
         AuthorInformation.of(3398804669L, "teddy", 8, 1.875F),
         AuthorInformation.of(1422179824L, "yangyang", 2, 0.5F),
         AuthorInformation.of(825802847L, "ikexing", 20, 1.0F),
         AuthorInformation.of(3181063382L, "superhelo", 5, 1.6F),
         AuthorInformation.of(3209636087L, "seleclipse", 16, 0.25F),
-        AuthorInformation.of(2093615664L, "niyan", 20, 1.0F),
         AuthorInformation.of(372395476L, "six_color", 16, 0.1875F)
     );
 
