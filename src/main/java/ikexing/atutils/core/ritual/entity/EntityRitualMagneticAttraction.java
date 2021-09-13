@@ -45,13 +45,20 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
             for (Map.Entry<BlockPos, String> entry : posList.entrySet()) {
                 BlockPos pos = entry.getKey();
-                ItemStack stack = OreDictionary.getOres("nugget" + entry.getValue()).get(0);
-                stack.setCount(3 + world.rand.nextInt(4));
+                ItemStack stack;
 
+                if (!entry.getValue().equals("RustyIron")) {
+                    stack = OreDictionary.getOres("nugget" + entry.getValue()).get(0);
+                } else {
+                    stack = OreDictionary.getOres("ingotIron").get(0);
+                }
+
+                stack.setCount(3 + world.rand.nextInt(5));
                 world.setBlockToAir(pos);
                 world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, stack));
                 posList.remove(entry.getKey(), entry.getValue());
                 interval = 0;
+
                 break;
 
             }
@@ -59,7 +66,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     }
 
     private void getBlockOre() {
-
         BlockPos posA = new BlockPos(posX + (ritual.radius_x * 2), posY + (ritual.radius_y * 2), posZ + (ritual.radius_z * 2));
         BlockPos posB = new BlockPos(posX - (ritual.radius_x * 2), posY - (ritual.radius_y * 2), posZ - (ritual.radius_z * 2));
 
@@ -72,6 +78,8 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
                 String name = ore.getName();
                 if (name.equals("oreIron") || name.equals("oreCrudeSteel") || name.equals("oreNickel")) {
                     posList.put(inBox, name.replace("ore", ""));
+                } else if (name.equals("blockRustyIron")) {
+                    posList.put(inBox, name.replace("block", ""));
                 }
             }
         }
