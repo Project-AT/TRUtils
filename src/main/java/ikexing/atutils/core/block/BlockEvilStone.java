@@ -76,7 +76,14 @@ public class BlockEvilStone extends Block {
     private boolean isSealOff(IBlockAccess world, BlockPos pos, EnumFacing facing) {
         for (EnumFacing value : EnumFacing.VALUES) {
             if (facing == value) continue;
-            if (isFive(world.getBlockState(pos.offset(value)))) return true;
+            if (isFive(world.getBlockState(pos.offset(value)))) {
+                return true;
+            } else {
+                for (EnumFacing value_ : EnumFacing.VALUES) {
+                    if (pos.offset(value).offset(value_) == pos.offset(facing)) continue;
+                    return true;
+                }
+            }
         }
         return false;
     }
