@@ -6,6 +6,7 @@ import epicsquid.mysticallib.event.RegisterContentEvent;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.block.BlockEvilStone;
 import ikexing.atutils.core.block.BlockNoEnergyTable;
+import ikexing.atutils.core.block.BlockRustyIron;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.AuthorFood.AuthorInformation;
 import ikexing.atutils.core.item.CrudeSteel;
@@ -22,6 +23,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Objects;
@@ -34,6 +36,7 @@ public class RegisterEvent {
         IForgeRegistry<Item> registry = event.getRegistry();
         registry.register(FlintHoe.INSTANCE);
         registry.register(StickThunder.INSTANCE);
+        registry.register(BlockRustyIron.ITEM_BLOCK);
         registry.register(BlockEvilStone.ITEM_BLOCK);
         registry.register(ATUtils.magneticAttraction);
         registry.register(AdvanceStickThunder.INSTANCE);
@@ -46,6 +49,7 @@ public class RegisterEvent {
     public static void onBlockRegistry(Register<Block> event) {
         IForgeRegistry<Block> registry = event.getRegistry();
         registry.register(BlockEvilStone.INSTANCE);
+        registry.register(BlockRustyIron.INSTANCE);
         registry.register(BlockNoEnergyTable.INSTANCE);
     }
 
@@ -53,9 +57,10 @@ public class RegisterEvent {
     public static void onModelRegistry(ModelRegistryEvent event) {
         AuthorFood.convert();
         regModel(FlintHoe.INSTANCE);
+        regModel(BlockEvilStone.ITEM_BLOCK);
+        regModel(BlockRustyIron.ITEM_BLOCK);
         regModel(ATUtils.magneticAttraction);
         regModel(BlockNoEnergyTable.ITEM_BLOCK);
-        regModel(BlockEvilStone.ITEM_BLOCK);
         CrudeSteel.ITEMS.forEach(RegisterEvent::regModel);
         AuthorFood.ITEM_FOODS.forEach(RegisterEvent::regModel);
     }
@@ -64,6 +69,11 @@ public class RegisterEvent {
     public static void onRegisterContent(RegisterContentEvent event) {
         LibRegistry.registerEntity(EntityRitualMagneticAttraction.class);
         LibRegistry.registerEntityRenderer(EntityRitualMagneticAttraction.class, new RenderNull.Factory());
+    }
+
+    @SubscribeEvent
+    public static void onOreRegister(OreDictionary.OreRegisterEvent event) {
+        OreDictionary.registerOre("blockRustyIron", BlockRustyIron.ITEM_BLOCK);
     }
 
     public static void regModel(Item item) {

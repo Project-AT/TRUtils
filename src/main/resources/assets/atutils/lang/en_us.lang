@@ -44,6 +44,7 @@ item.atutils.niyan.tooltip=Have a cup of coffee
 item.atutils.six_color.tooltip=Fried potatoes with potatoes
 item.atutils.seleclipse.tooltip=§oIf you ask me how much my sorrow has increased, just see the stucked dog in chicken breast.
 
+tile.atutils.rusty_iron.name=Rusty Iron Block
 tile.atutils.evil_stone.name=Evil Stone
 tile.atutils.no_energy_table.name=Inactivated Research Table
 tile.modularmachinery.blockcircuitry.elite.name=Machine Elite Circuitry

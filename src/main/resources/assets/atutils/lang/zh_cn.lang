@@ -44,6 +44,7 @@ item.atutils.niyan.tooltip=多喝热水
 item.atutils.six_color.tooltip=土豆炒土豆
 item.atutils.seleclipse.tooltip=§o问君能有几多愁，恰似鸡胸肉里卡狗头。
 
+tile.atutils.rusty_iron.name=锈铁块
 tile.atutils.evil_stone.name=邪恶之石
 tile.atutils.no_energy_table.name=未激活的研究台
 tile.modularmachinery.blockcircuitry.elite.name=精英机械电路板
