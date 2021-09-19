@@ -66,8 +66,8 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     }
 
     private void getBlockOre() {
-        BlockPos posA = new BlockPos(posX + (ritual.radius_x * 2), posY + (ritual.radius_y * 2), posZ + (ritual.radius_z * 2));
-        BlockPos posB = new BlockPos(posX - (ritual.radius_x * 2), posY - (ritual.radius_y * 2), posZ - (ritual.radius_z * 2));
+        BlockPos posA = new BlockPos(posX + (ritual.radius_x), posY + (ritual.radius_y), posZ + (ritual.radius_z));
+        BlockPos posB = new BlockPos(posX - (ritual.radius_x), posY - (ritual.radius_y), posZ - (ritual.radius_z));
 
         Iterable<BlockPos> allInBox = BlockPos.getAllInBox(posA, posB);
         for (BlockPos inBox : allInBox) {
