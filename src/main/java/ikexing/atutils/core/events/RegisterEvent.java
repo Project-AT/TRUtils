@@ -23,7 +23,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Objects;
@@ -69,11 +68,6 @@ public class RegisterEvent {
     public static void onRegisterContent(RegisterContentEvent event) {
         LibRegistry.registerEntity(EntityRitualMagneticAttraction.class);
         LibRegistry.registerEntityRenderer(EntityRitualMagneticAttraction.class, new RenderNull.Factory());
-    }
-
-    @SubscribeEvent
-    public static void onOreRegister(OreDictionary.OreRegisterEvent event) {
-        OreDictionary.registerOre("blockRustyIron", BlockRustyIron.ITEM_BLOCK);
     }
 
     public static void regModel(Item item) {

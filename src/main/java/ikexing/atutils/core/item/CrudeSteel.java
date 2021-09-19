@@ -33,7 +33,7 @@ public class CrudeSteel {
         pickaxe.setTranslationKey(ATUtils.MODID + "." + NAME + "_pickaxe");
         pickaxe.setRegistryName(NAME + "_pickaxe");
 
-        ItemAxe axe = new ItemAxe(TOOL_MATERIAL, 3.5F, 7.5F) {
+        ItemAxe axe = new ItemAxe(TOOL_MATERIAL, 8.0F, -2.9F) {
         };
         axe.setTranslationKey(ATUtils.MODID + "." + NAME + "_axe");
         axe.setRegistryName(NAME + "_axe");
