@@ -143,8 +143,7 @@ jar {
                 'TweakClass'                 : 'org.spongepowered.asm.launch.MixinTweaker',
                 "FMLCorePlugin"              : "ikexing.atutils.core.AutoTechUtilsPlugin",
                 "FMLCorePluginContainsFMLMod": true,
-                "ForceLoadAsMod"             : true,
-                'FMLAT'                      : 'atutils_at.cfg'
+                "ForceLoadAsMod"             : true
         ])
     }
 }
