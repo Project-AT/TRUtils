@@ -73,7 +73,10 @@ dependencies {
     runtime "cofh:RedstoneFlux:1.12-2.0.0.1:universal"
     runtime "youyihj:zenutils:1.9.3"
     runtime "vazkii.patchouli:Patchouli:1.0-20.108"
+    runtime "curse.maven:librarianlib-252910:3041340"
+    runtime "curse.maven:forgelin-248453:2727070"
 
+    deobfCompile "curse.maven:wizardry-278155:3045584"
     deobfCompile "curse.maven:mysticallib-277064:3430271"
     deobfCompile "curse.maven:mysticalworld-282940:3430272"
     deobfCompile "curse.maven:Roots-246183:3434237"
@@ -92,6 +95,9 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    maven {
+        url "http://maven.shadowfacts.net/"
+    }
     maven {
         url = "https://repo.spongepowered.org/maven"
     }
