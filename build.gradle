@@ -68,8 +68,8 @@ configurations {
 dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
 
-    compile 'cn.hutool:hutool-core:5.7.9'
-    embed 'cn.hutool:hutool-http:5.7.9'
+    compile 'cn.hutool:hutool-core:5.7.13'
+    embed 'cn.hutool:hutool-http:5.7.13'
 
     runtime "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     runtime "mezz.jei:jei_1.12.2:4.16.1.302"
@@ -83,6 +83,7 @@ dependencies {
     runtime "curse.maven:forgelin-248453:2727070"
 
     deobfCompile "curse.maven:wizardry-278155:3045584"
+    deobfCompile "curse.maven:primal-tech-290612:2801696"
     deobfCompile "curse.maven:mysticallib-277064:3430271"
     deobfCompile "curse.maven:mysticalworld-282940:3430272"
     deobfCompile "curse.maven:Roots-246183:3434237"
