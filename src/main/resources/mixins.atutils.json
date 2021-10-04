@@ -9,7 +9,9 @@
   "mixins": [
     "MixinBiomeMana",
     "MixinItemMPGenerator",
+    "MixinJEIPlugInStoneGrill",
     "MixinRegistryBlocks",
+    "MixinTileEntityStoneGrill",
     "MixinWizardryCommonProxy",
     "MixinWizardryEventHandler"
   ],
