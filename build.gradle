@@ -81,6 +81,8 @@ dependencies {
     runtime "curse.maven:librarianlib-252910:3041340"
     runtime "curse.maven:forgelin-248453:2727070"
 
+    deobfCompile 'vazkii.psi:Psi:r1.1-76.73'
+    deobfCompile 'vazkii.autoreglib:AutoRegLib:1.3-27.16'
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
     deobfCompile "curse.maven:wizardry-278155:3045584"
     deobfCompile "curse.maven:primal-tech-290612:2801696"
