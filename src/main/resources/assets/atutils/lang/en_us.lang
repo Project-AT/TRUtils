@@ -52,3 +52,5 @@ tile.modularmachinery.blockcircuitry.advanced.name=Machine Advanced Circuitry
 tile.modularmachinery.blockcircuitry.ultimate.name=Machine Ultimate Circuitry
 
 roots.ritual.magnetic_attraction.name=§6Magnetic Attraction
+
+atutils.data.content=§4Nearby auras are no longer sufficient to support Psi energy restoration, place a mana storage item in your inventory or restore a nearby aura.

@@ -52,3 +52,5 @@ tile.modularmachinery.blockcircuitry.advanced.name=高级机械电路板
 tile.modularmachinery.blockcircuitry.ultimate.name=终极机械电路板
 
 roots.ritual.magnetic_attraction.name=§6磁力吸引
+
+atutils.data.content=§4附近的灵气已不足以支撑Psi能的恢复，请在背包放置魔力存储设备或回复附近的灵气
