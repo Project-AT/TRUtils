@@ -13,7 +13,8 @@
     "MixinRegistryBlocks",
     "MixinTileEntityStoneGrill",
     "MixinWizardryCommonProxy",
-    "MixinWizardryEventHandler"
+    "MixinWizardryEventHandler",
+    "MixinWorldGenManaLake"
   ],
   "client": [
   ]

@@ -94,6 +94,7 @@ dependencies {
     deobfCompile "curse.maven:guide-api-228832:2645992"
     deobfCompile "curse.maven:manacraft-312846:2762412"
     deobfCompile "vazkii.botania:Botania:r1.10-363.148"
+    deobfCompile "de.ellpeck.naturesaura:NaturesAura:r14-209"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
     deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.11.1-v53"
     deobfCompile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
@@ -105,7 +106,7 @@ dependencies {
 repositories {
     mavenCentral()
     maven {
-        url "http://maven.shadowfacts.net/"
+        url "https://maven.shadowfacts.net/"
     }
     maven {
         url = "https://repo.spongepowered.org/maven"
@@ -145,6 +146,10 @@ repositories {
     maven {
         name = "hellfiredev"
         url = "https://maven.hellfiredev.net"
+    }
+    maven {
+        name = "naturesaura"
+        url = "https://maven.chaosfield.at"
     }
 }
 
