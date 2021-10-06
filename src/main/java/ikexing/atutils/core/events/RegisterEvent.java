@@ -5,7 +5,6 @@ import epicsquid.mysticallib.entity.RenderNull;
 import epicsquid.mysticallib.event.RegisterContentEvent;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.block.BlockEvilStone;
-import ikexing.atutils.core.block.BlockNoEnergyTable;
 import ikexing.atutils.core.block.BlockRustyIron;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.AuthorFood.AuthorInformation;
@@ -39,7 +38,6 @@ public class RegisterEvent {
         registry.register(BlockEvilStone.ITEM_BLOCK);
         registry.register(ATUtils.magneticAttraction);
         registry.register(AdvanceStickThunder.INSTANCE);
-        registry.register(BlockNoEnergyTable.ITEM_BLOCK);
         registry.registerAll(CrudeSteel.ITEMS.toArray(new Item[0]));
         registry.registerAll(AuthorFood.AUTHOR_QQ_NUMBER.stream().map(AuthorInformation::of).peek(AuthorFood.ITEM_FOODS::add).toArray(ItemFood[]::new));
     }
@@ -49,7 +47,6 @@ public class RegisterEvent {
         IForgeRegistry<Block> registry = event.getRegistry();
         registry.register(BlockEvilStone.INSTANCE);
         registry.register(BlockRustyIron.INSTANCE);
-        registry.register(BlockNoEnergyTable.INSTANCE);
     }
 
     @SubscribeEvent
@@ -59,7 +56,6 @@ public class RegisterEvent {
         regModel(BlockEvilStone.ITEM_BLOCK);
         regModel(BlockRustyIron.ITEM_BLOCK);
         regModel(ATUtils.magneticAttraction);
-        regModel(BlockNoEnergyTable.ITEM_BLOCK);
         CrudeSteel.ITEMS.forEach(RegisterEvent::regModel);
         AuthorFood.ITEM_FOODS.forEach(RegisterEvent::regModel);
     }
