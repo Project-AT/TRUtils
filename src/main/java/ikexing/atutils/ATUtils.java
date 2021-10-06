@@ -4,6 +4,7 @@ import cn.hutool.core.util.ReflectUtil;
 import epicsquid.roots.ritual.RitualBase;
 import epicsquid.roots.ritual.RitualRegistry;
 import ikexing.atutils.core.item.AuthorFood;
+import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.block.Block;
@@ -48,6 +49,7 @@ public class ATUtils {
     @EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
+        NetworkManager.register();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
     }
 

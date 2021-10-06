@@ -1,32 +1,45 @@
 package ikexing.atutils.core.ritual.entity;
 
-import com.google.common.collect.Maps;
+import cn.hutool.core.lang.Pair;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import crafttweaker.api.oredict.IOreDictEntry;
 import epicsquid.roots.entity.ritual.EntityRitualBase;
 import ikexing.atutils.ATUtils;
+import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.thread.SidedThreadGroups;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
-    private static final String INTERVAL = "interval";
+    private boolean finish = false;
+    private final int interval = 100 + rand.nextInt(101);
+    private final Set<BlockPos> searchedPos = Sets.newCopyOnWriteArraySet();
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
-    private int interval;
+    private final List<Pair<String, String>> oresTransform = Lists.newArrayList(
+            Pair.of("oreIron", "nuggetIron"),
+            Pair.of("oreNickel", "nuggetNickel"),
+            Pair.of("oreCrudeSteel", "nuggetCrudeSteel"),
+            Pair.of("blockRustyIron", "ingotIron")
+    );
+
     private final RitualMagneticAttraction ritual;
-    private final Map<BlockPos, String> posList = Maps.newHashMap();
 
     public EntityRitualMagneticAttraction(World worldIn) {
         super(worldIn);
@@ -37,63 +50,66 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (world.isRemote) return;
-        if (posList.isEmpty()) getBlockOre();
-        if (interval == 0) interval = 100 + world.rand.nextInt(101);
+        if (!world.isRemote) return;
 
-        if (ticksExisted % interval == 0) {
-
-            for (Map.Entry<BlockPos, String> entry : posList.entrySet()) {
-                BlockPos pos = entry.getKey();
-                ItemStack stack;
-
-                if (!entry.getValue().equals("RustyIron")) {
-                    stack = OreDictionary.getOres("nugget" + entry.getValue()).get(0);
-                } else {
-                    stack = OreDictionary.getOres("ingotIron").get(0);
-                }
-
-                stack.setCount(3 + world.rand.nextInt(5));
-                world.setBlockToAir(pos);
-                world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, stack));
-                posList.remove(entry.getKey(), entry.getValue());
-                interval = 0;
-
-                break;
-
-            }
+        if (ticksExisted % interval == 0 && !finish) {
+            doExec();
         }
     }
 
-    private void getBlockOre() {
+    private void doExec() {
         BlockPos posA = new BlockPos(posX + (ritual.radius_x), posY + (ritual.radius_y), posZ + (ritual.radius_z));
         BlockPos posB = new BlockPos(posX - (ritual.radius_x), posY - (ritual.radius_y), posZ - (ritual.radius_z));
 
         Iterable<BlockPos> allInBox = BlockPos.getAllInBox(posA, posB);
-        for (BlockPos inBox : allInBox) {
-            IBlockState state = world.getBlockState(inBox);
-            IItemStack crtStack = CraftTweakerMC.getIItemStack(state.getBlock().getItem(world, inBox, state));
+        for (BlockPos pos : allInBox) {
+
+            if (searchedPos.contains(pos)) continue;
+
+            searchedPos.add(pos);
+
+            IBlockState state = world.getBlockState(pos);
+            IItemStack crtStack = CraftTweakerMC.getIItemStack(new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state)));
             List<IOreDictEntry> ores = Objects.nonNull(crtStack) ? crtStack.getOres() : Collections.emptyList();
             for (IOreDictEntry ore : ores) {
-                String name = ore.getName();
-                if (name.equals("oreIron") || name.equals("oreCrudeSteel") || name.equals("oreNickel")) {
-                    posList.put(inBox, name.replace("ore", ""));
-                } else if (name.equals("blockRustyIron")) {
-                    posList.put(inBox, name.replace("block", ""));
+                for (Pair<String, String> transform : oresTransform) {
+                    if (ore.getName().equals(transform.getKey())) {
+                        threadPool.submit(doLast(transform.getValue(), pos));
+                        return;
+                    }
                 }
             }
         }
+
+        finish = true;
+    }
+
+    private Thread doLast(String oreName, BlockPos pos) {
+        return SidedThreadGroups.SERVER.newThread(() -> {
+            int time = (10 + rand.nextInt(10)) * 1000;
+            NetworkManager.MagneticAttraction.sendClientCustomPacket(pos, oreName, world.provider.getDimension());
+            try {
+                if (isDead) {
+                    spawnItem(oreName, pos);
+                    return;
+                }
+                Thread.sleep(time);
+                spawnItem(oreName, pos);
+            } catch (InterruptedException ignored) {}
+
+        });
+    }
+
+    private void spawnItem(String oreName, BlockPos pos) {
+        ItemStack stack = OreDictionary.getOres(oreName).get(0);
+        stack.setCount(3 + rand.nextInt(5));
+        world.setBlockToAir(pos);
+        world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, stack));
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.interval = compound.getInteger(INTERVAL);
-    }
-
-    @Override
-    protected void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        compound.setInteger(INTERVAL, interval);
+    public void setDead() {
+        this.isDead = true;
+        threadPool.shutdownNow();
     }
 }
