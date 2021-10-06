@@ -12,7 +12,9 @@ import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.thread.SidedThreadGroups;
@@ -50,7 +52,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (!world.isRemote) return;
+        if (world.isRemote) return;
 
         if (ticksExisted % interval == 0 && !finish) {
             doExec();
@@ -89,14 +91,10 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
             int time = (10 + rand.nextInt(10)) * 1000;
             NetworkManager.MagneticAttraction.sendClientCustomPacket(pos, oreName, world.provider.getDimension());
             try {
-                if (isDead) {
-                    spawnItem(oreName, pos);
-                    return;
-                }
+                if (isDead) return;
                 Thread.sleep(time);
                 spawnItem(oreName, pos);
             } catch (InterruptedException ignored) {}
-
         });
     }
 
@@ -104,6 +102,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         ItemStack stack = OreDictionary.getOres(oreName).get(0);
         stack.setCount(3 + rand.nextInt(5));
         world.setBlockToAir(pos);
+        world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
         world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, stack));
     }
 
