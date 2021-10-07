@@ -44,9 +44,10 @@ public class NetworkManager {
             String oreName = buffer.readString(32);
 
             Minecraft mc = Minecraft.getMinecraft();
-            WorldClient world = mc.world;
 
             mc.addScheduledTask(() -> {
+                WorldClient world = mc.world;
+
                 Botania.proxy.setWispFXDepthTest(false);
                 Random rand = new Random(oreName.hashCode() ^ world.rand.nextLong());
                 Botania.proxy.wispFX(pos.getX() + world.rand.nextFloat(), pos.getY() + world.rand.nextFloat(), pos.getZ() + world.rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), rand.nextFloat(), 0.45F, 0F, 10);
