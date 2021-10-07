@@ -10,6 +10,7 @@ import epicsquid.roots.entity.ritual.EntityRitualBase;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.SoundEvents;
@@ -99,11 +100,21 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     }
 
     private void spawnItem(String oreName, BlockPos pos) {
-        ItemStack stack = OreDictionary.getOres(oreName).get(0);
-        stack.setCount(3 + rand.nextInt(5));
-        world.setBlockToAir(pos);
-        world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-        world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, stack));
+        IBlockState state = world.getBlockState(pos);
+
+        if (state.getMaterial() == Material.AIR) return;
+
+        ItemStack stack = state.getBlock().getItem(world, pos, state);
+        boolean ifExist = CraftTweakerMC.getIItemStack(stack).getOres().stream()
+                .map(IOreDictEntry::getName)
+                .anyMatch(oreName::equals);
+        if (ifExist) {
+            ItemStack res = OreDictionary.getOres(oreName).get(0);
+            res.setCount(3 + rand.nextInt(5));
+            world.setBlockToAir(pos);
+            world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, res));
+        }
     }
 
     @Override
