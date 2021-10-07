@@ -88,11 +88,11 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
     private Thread doLast(String oreName, BlockPos pos) {
         return SidedThreadGroups.SERVER.newThread(() -> {
-            int time = (10 + rand.nextInt(10)) * 1000;
+            if (isDead) return;
             NetworkManager.MagneticAttraction.sendClientCustomPacket(pos, oreName, world.provider.getDimension());
             try {
                 if (isDead) return;
-                Thread.sleep(time);
+                Thread.sleep((10 + rand.nextInt(10)) * 1000);
                 spawnItem(oreName, pos);
             } catch (InterruptedException ignored) {}
         });
