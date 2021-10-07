@@ -31,7 +31,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
     private boolean finish = false;
     private final int interval = 100 + rand.nextInt(101);
-    private final Set<BlockPos> searchedPos = Sets.newCopyOnWriteArraySet();
+    private final Set<BlockPos> searchedPos = Sets.newHashSet();
     private final ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
     private final List<Pair<String, String>> oresTransform = Lists.newArrayList(
