@@ -3,17 +3,20 @@ package ikexing.atutils;
 import cn.hutool.core.util.ReflectUtil;
 import epicsquid.roots.ritual.RitualBase;
 import epicsquid.roots.ritual.RitualRegistry;
+import ikexing.atutils.core.events.EventLootTableLoad;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import vazkii.botania.common.block.ModBlocks;
@@ -32,7 +35,7 @@ public class ATUtils {
     public static final String MODID = "atutils";
     public static final String NAME = "AutoTech Utils";
     public static final String VERSION = "1.1.5";
-    public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;after:twilightforest;after:botania;after:contenttweaker;before:mana_craft";
+    public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;after:twilightforest;after:botania;before:mana_craft";
 
     public static RitualBase ritualMa;
     public static Block circuitry;
@@ -58,6 +61,11 @@ public class ATUtils {
         if (Loader.isModLoaded("mana_craft")) {
             ManaCraftOrichalcum();
         }
+    }
+
+    @EventHandler
+    public void onPostInit(FMLPostInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(EventLootTableLoad.class);
     }
 
     private void ManaCraftOrichalcum() throws Exception {
