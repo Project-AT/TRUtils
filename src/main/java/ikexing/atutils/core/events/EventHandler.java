@@ -1,12 +1,16 @@
 package ikexing.atutils.core.events;
 
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
+import ikexing.atutils.core.advancement.VisitVillageTrigger;
 import ikexing.atutils.core.block.BlockEvilStone;
+import net.darkhax.gamestages.GameStageHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
@@ -14,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import vazkii.botania.api.mana.ManaItemHandler;
 import vazkii.botania.common.Botania;
 import vazkii.psi.api.cad.RegenPsiEvent;
@@ -79,6 +84,13 @@ public class EventHandler {
                     IS_FIRST.remove(player, true);
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && event.side.isServer()) {
+            VisitVillageTrigger.INSTANCE.trigger(((EntityPlayerMP) event.player));
         }
     }
 

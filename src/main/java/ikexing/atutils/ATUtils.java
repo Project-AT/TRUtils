@@ -3,11 +3,13 @@ package ikexing.atutils;
 import cn.hutool.core.util.ReflectUtil;
 import epicsquid.roots.ritual.RitualBase;
 import epicsquid.roots.ritual.RitualRegistry;
+import ikexing.atutils.core.advancement.VisitVillageTrigger;
 import ikexing.atutils.core.events.EventLootTableLoad;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import mana_craft.init.ManaCraftBlocks;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -54,6 +56,7 @@ public class ATUtils {
         logger = event.getModLog();
         NetworkManager.register();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
+        CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
     }
 
     @EventHandler
