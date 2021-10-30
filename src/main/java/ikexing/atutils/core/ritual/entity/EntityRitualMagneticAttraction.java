@@ -105,11 +105,9 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         if (state.getMaterial() == Material.AIR) return;
 
         ItemStack stack = state.getBlock().getItem(world, pos, state);
-        boolean ifExist = CraftTweakerMC.getIItemStack(stack).getOres().stream()
-                .map(IOreDictEntry::getName)
-                .anyMatch(oreName::equals);
+        boolean ifExist = OreDictionary.getOres(oreName).stream().anyMatch(stack::isItemEqual);
         if (ifExist) {
-            ItemStack res = OreDictionary.getOres(oreName).get(0);
+            ItemStack res = OreDictionary.getOres(oreName).get(0).copy();
             res.setCount(3 + rand.nextInt(5));
             world.setBlockToAir(pos);
             world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
