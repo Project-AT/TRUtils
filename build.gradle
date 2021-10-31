@@ -78,9 +78,9 @@ dependencies {
     runtime "cofh:RedstoneFlux:1.12-2.0.0.1:universal"
     runtime "youyihj:zenutils:1.9.3"
     runtime "vazkii.patchouli:Patchouli:1.0-20.108"
-    runtime "curse.maven:librarianlib-252910:3041340"
     runtime "curse.maven:forgelin-248453:2727070"
 
+    deobfCompile "curse.maven:librarianlib-252910:3041340"
     deobfCompile 'vazkii.psi:Psi:r1.1-76.73'
     deobfCompile 'vazkii.autoreglib:AutoRegLib:1.3-27.16'
     deobfCompile "mezz.jei:jei_1.12.2:4.16.1.302"
