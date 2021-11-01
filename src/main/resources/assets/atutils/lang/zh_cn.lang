@@ -25,6 +25,7 @@ item.atutils.crude_steel.legs.name=粗钢护腿
 item.atutils.crude_steel.chest.name=粗钢靴子
 
 item.atutils.flint_hoe.name=燧石锄
+item.atutils.equivalent_fuel.name=燃料等价物
 
 item.atutils.cb.name=C.B
 item.atutils.teddy.name=Teddy
@@ -50,6 +51,7 @@ tile.atutils.no_energy_table.name=未激活的研究台
 tile.modularmachinery.blockcircuitry.elite.name=精英机械电路板
 tile.modularmachinery.blockcircuitry.advanced.name=高级机械电路板
 tile.modularmachinery.blockcircuitry.ultimate.name=终极机械电路板
+tile.modularmachinery.blockbunker.default.name=燃料仓
 
 roots.ritual.magnetic_attraction.name=§6磁力吸引
 
