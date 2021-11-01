@@ -27,10 +27,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 @Mod(
-    modid = ATUtils.MODID,
-    name = ATUtils.NAME,
-    version = ATUtils.VERSION,
-    dependencies = ATUtils.dependencies
+        modid = ATUtils.MODID,
+        name = ATUtils.NAME,
+        version = ATUtils.VERSION,
+        dependencies = ATUtils.dependencies
 )
 public class ATUtils {
 
@@ -41,8 +41,9 @@ public class ATUtils {
 
     public static RitualBase ritualMa;
     public static Block circuitry;
-    public static Item magneticAttraction =
-            new Item().setRegistryName("magnetic_attraction").setTranslationKey(MODID + "." + "magnetic_attraction");
+    public static Block bunker;
+    public static Item equivalentFuel = new Item().setRegistryName("equivalent_fuel").setTranslationKey(MODID + ".equivalent_fuel");
+    public static Item magneticAttraction = new Item().setRegistryName("magnetic_attraction").setTranslationKey(MODID + ".magnetic_attraction");
 
     public static Logger logger;
 
