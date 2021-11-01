@@ -44,7 +44,7 @@ public class BlockCircuitry extends BlockMachineComponent implements BlockCustom
 
     @Override
     public int damageDropped(@Nonnull IBlockState state) {
-        return getMetaFromState(state);
+        return 0;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class BlockCircuitry extends BlockMachineComponent implements BlockCustom
         return layer == BlockRenderLayer.CUTOUT;
     }
 
-    public static enum CircuitryType implements IStringSerializable {
+    public enum CircuitryType implements IStringSerializable {
         ADVANCED,
         ELITE,
         ULTIMATE;
@@ -105,4 +105,5 @@ public class BlockCircuitry extends BlockMachineComponent implements BlockCustom
             return name().toLowerCase();
         }
     }
+
 }

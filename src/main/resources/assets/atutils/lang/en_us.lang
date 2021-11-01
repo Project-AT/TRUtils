@@ -25,6 +25,7 @@ item.atutils.crude_steel.legs.name=Crude Steel Chestplate
 item.atutils.crude_steel.chest.name=Crude Steel Leggings
 
 item.atutils.flint_hoe.name=Flint Hoe
+item.atutils.equivalent_fuel.name=Equivalent Fuel
 
 item.atutils.cb.name=C.B
 item.atutils.teddy.name=Teddy
@@ -50,6 +51,7 @@ tile.atutils.no_energy_table.name=Inactivated Research Table
 tile.modularmachinery.blockcircuitry.elite.name=Machine Elite Circuitry
 tile.modularmachinery.blockcircuitry.advanced.name=Machine Advanced Circuitry
 tile.modularmachinery.blockcircuitry.ultimate.name=Machine Ultimate Circuitry
+tile.modularmachinery.blockbunker.default.name=Machine Bunker
 
 roots.ritual.magnetic_attraction.name=§6Magnetic Attraction
 

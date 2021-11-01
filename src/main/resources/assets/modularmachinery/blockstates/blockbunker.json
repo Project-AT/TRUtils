@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "bunker=default": {
+      "model": "modularmachinery:bunker_default"
+    }
+  }
+}
