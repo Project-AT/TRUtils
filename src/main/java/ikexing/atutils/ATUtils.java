@@ -4,6 +4,7 @@ import cn.hutool.core.util.ReflectUtil;
 import epicsquid.roots.ritual.RitualBase;
 import epicsquid.roots.ritual.RitualRegistry;
 import ikexing.atutils.core.advancement.VisitVillageTrigger;
+import ikexing.atutils.core.container.gui.GuiProxy;
 import ikexing.atutils.core.events.EventLootTableLoad;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.network.NetworkManager;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.Logger;
 import vazkii.botania.common.block.ModBlocks;
 
@@ -47,6 +49,9 @@ public class ATUtils {
 
     public static Logger logger;
 
+    @Mod.Instance
+    public static ATUtils instance;
+
     @EventHandler
     public void onConstruct(FMLConstructionEvent event) {
         AuthorFood.downloadAvatar();
@@ -65,6 +70,7 @@ public class ATUtils {
         if (Loader.isModLoaded("mana_craft")) {
             ManaCraftOrichalcum();
         }
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiProxy());
     }
 
     @EventHandler

@@ -4,17 +4,17 @@ import hellfirepvp.modularmachinery.common.CommonProxy;
 import hellfirepvp.modularmachinery.common.block.BlockCustomName;
 import hellfirepvp.modularmachinery.common.block.BlockMachineComponent;
 import hellfirepvp.modularmachinery.common.block.BlockVariants;
+import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.tile.modularmachinery.TileBunker;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -58,6 +58,7 @@ public class BlockBunker extends BlockMachineComponent implements BlockCustomNam
 
     @Nonnull
     @Override
+    @SuppressWarnings("deprecation")
     public IBlockState getStateFromMeta(int meta) {
         return getDefaultState().withProperty(BUNKER, BunkerType.values()[MathHelper.clamp(meta, 0, BunkerType.values().length - 1)]);
     }
@@ -95,6 +96,7 @@ public class BlockBunker extends BlockMachineComponent implements BlockCustomNam
 
     @Nonnull
     @Override
+    @SuppressWarnings("deprecation")
     public EnumBlockRenderType getRenderType(@Nonnull IBlockState state) {
         return EnumBlockRenderType.MODEL;
     }
@@ -102,6 +104,15 @@ public class BlockBunker extends BlockMachineComponent implements BlockCustomNam
     @Override
     public boolean canRenderInLayer(@Nonnull IBlockState state, @Nonnull BlockRenderLayer layer) {
         return layer == BlockRenderLayer.CUTOUT;
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (world.isRemote) return true;
+        TileEntity te = world.getTileEntity(pos);
+        if (!(te instanceof TileBunker)) return false;
+        playerIn.openGui(ATUtils.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+        return true;
     }
 
     @Override
