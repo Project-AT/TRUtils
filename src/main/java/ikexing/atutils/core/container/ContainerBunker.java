@@ -3,9 +3,11 @@ package ikexing.atutils.core.container;
 import ikexing.atutils.core.tile.modularmachinery.TileBunker;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -16,6 +18,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class ContainerBunker extends Container {
 
+    private int isWork;
     private final TileBunker bunker;
 
     public ContainerBunker(IInventory playerInventory, TileBunker bunker) {
@@ -23,6 +26,10 @@ public class ContainerBunker extends Container {
 
         addOwnSlots();
         addPlayerSlots(playerInventory);
+    }
+
+    public int isWork() {
+        return isWork;
     }
 
     private void addOwnSlots() {
@@ -94,5 +101,21 @@ public class ContainerBunker extends Container {
     @Override
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
+        TileEntity te = bunker.getWorld().getTileEntity(bunker.getPos());
+        if (te instanceof TileBunker) {
+            int isWork = ((TileBunker) te).isWork();
+            if (isWork != this.isWork) {
+                this.isWork = isWork;
+                for (IContainerListener listener : this.listeners) {
+                    listener.sendWindowProperty(this, 0, isWork);
+                }
+            }
+        }
     }
+
+    @Override
+    public void updateProgressBar(int id, int data) {
+        if (id == 0) this.isWork = data;
+    }
+
 }
