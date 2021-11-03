@@ -16,6 +16,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -29,14 +30,16 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
     private int burnTimeCache;
 
     private final ItemStackHandler inputInventory = new ItemStackHandler(INPUT_SLOTS) {
-        @Override
-        protected void onContentsChanged(int slot) {
+        @Override protected void onContentsChanged(int slot) {
             TileBunker.this.markDirty();
+        }
+
+        @Override public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            return getFuel(stack) != 0;
         }
     };
     private final ItemStackHandler outputInventory = new ItemStackHandler(OUTPUT_SLOTS) {
-        @Override
-        protected void onContentsChanged(int slot) {
+        @Override protected void onContentsChanged(int slot) {
             TileBunker.this.markDirty();
         }
     };
@@ -76,14 +79,15 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
         boolean flag = false;
         for (int i = 0; i < INPUT_SLOTS; i++) {
             ItemStack stackInSlot = inputInventory.getStackInSlot(i);
-            if (!stackInSlot.isEmpty()) {
+            if (!stackInSlot.isEmpty() && outputInventory.getStackInSlot(OUTPUT_SLOTS - 1).getCount() != 64) {
                 int fuel = getFuel(stackInSlot);
                 this.burnTimeCache += fuel;
                 if (burnTimeCache >= 200) {
                     if (insertOutput(new ItemStack(ATUtils.equivalentFuel, getOutputAmount()))) {
                         inputInventory.extractItem(i, 1, false);
                         markDirty();
-                        flag = !flag;
+                        flag = true;
+                        break;
                     }
                 }
             }
@@ -120,8 +124,11 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
         return combinedInventory;
     }
 
-    public int getBurnTimeCache() {
-        return burnTimeCache;
+    public int isWork() {
+        for (int i = 0; i < INPUT_SLOTS; i++)
+            if (!inputInventory.getStackInSlot(i).isEmpty() && outputInventory.getStackInSlot(OUTPUT_SLOTS - 1).getCount() != 64)
+                return 1;
+        return 0;
     }
 
     public boolean canInteractWith(EntityPlayer playerIn) {
