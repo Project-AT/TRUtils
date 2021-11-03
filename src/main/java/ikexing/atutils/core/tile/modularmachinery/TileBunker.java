@@ -62,7 +62,7 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
                         if (!outputInventory.getStackInSlot(n).isEmpty()) {
                             ItemStack stack = inputBus.getInventory().insertItem(i, new ItemStack(ATUtils.equivalentFuel, 1), false);
                             if (stack.isEmpty()) {
-                                outputInventory.extractItem(i, 1, false);
+                                outputInventory.extractItem(n, 1, false);
                                 break outer;
                             }
                         }
@@ -88,7 +88,7 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
                 }
             }
         }
-        if (burnTimeCache >= 200 && !flag) {
+        if (burnTimeCache >= 200 && !flag && outputInventory.getStackInSlot(OUTPUT_SLOTS - 1).getCount() != 64) {
             insertOutput(new ItemStack(ATUtils.equivalentFuel, getOutputAmount()));
             markDirty();
         }
