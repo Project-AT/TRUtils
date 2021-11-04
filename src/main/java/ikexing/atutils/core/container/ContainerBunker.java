@@ -19,7 +19,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class ContainerBunker extends Container {
 
     private int isWork;
-    private final TileBunker bunker;
+    public final TileBunker bunker;
 
     public ContainerBunker(IInventory playerInventory, TileBunker bunker) {
         this.bunker = bunker;
