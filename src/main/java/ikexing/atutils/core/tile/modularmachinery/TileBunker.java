@@ -117,7 +117,7 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
     }
 
     private int getFuel(ItemStack stack) {
-        return stack.getItem() != Items.LAVA_BUCKET ? TileEntityFurnace.getItemBurnTime(stack) : 0;
+        return stack.getItem() != Items.LAVA_BUCKET && stack.getItem() != ATUtils.equivalentFuel ? TileEntityFurnace.getItemBurnTime(stack) : 0;
     }
 
     public CombinedInvWrapper getInventory() {
