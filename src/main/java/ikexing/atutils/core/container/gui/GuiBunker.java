@@ -26,7 +26,7 @@ public class GuiBunker extends GuiContainer {
         int left = (this.width - this.xSize) / 2;
         int top = (this.height - this.ySize) / 2;
         if (container.isWork() != 0) {
-            this.drawTexturedModalRect(left + 67, top + 34, 176, 0, 23, 16);
+            this.drawTexturedModalRect(left + 67, top + 34, 176, 0, container.bunker.getWorld().rand.nextBoolean() ? 23 : 0, 16);
         }
     }
 
