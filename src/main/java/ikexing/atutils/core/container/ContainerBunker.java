@@ -79,7 +79,7 @@ public class ContainerBunker extends Container {
                 if (!this.mergeItemStack(stack, TileBunker.SIZE, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(stack, 0, TileBunker.SIZE, false)) {
+            } else if (!this.mergeItemStack(stack, 0, TileBunker.INPUT_SLOTS, false)) {
                 return ItemStack.EMPTY;
             }
 
