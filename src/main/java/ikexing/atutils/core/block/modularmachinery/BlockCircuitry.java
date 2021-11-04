@@ -44,7 +44,7 @@ public class BlockCircuitry extends BlockMachineComponent implements BlockCustom
 
     @Override
     public int damageDropped(@Nonnull IBlockState state) {
-        return 0;
+        return getMetaFromState(state);
     }
 
     @Override

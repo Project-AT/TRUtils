@@ -48,7 +48,7 @@ public class BlockBunker extends BlockMachineComponent implements BlockCustomNam
 
     @Override
     public int damageDropped(@Nonnull IBlockState state) {
-        return getMetaFromState(state);
+        return 0;
     }
 
     @Override
