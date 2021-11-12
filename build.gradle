@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            url = "https://maven.minecraftforge.net/"
+            url = "https://files.minecraftforge.net/maven"
         }
         maven {
             name = "sponge"
@@ -17,14 +17,13 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'org.spongepowered.mixin'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
 version = "1.1.5"
-group = "ikexing" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "ikexing"
 archivesBaseName = "atutils"
 
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
@@ -35,7 +34,6 @@ minecraft {
 
     mappings = "stable_39"
     def args = [
-            "-Dfml.coreMods.load=ikexing.atutils.core.AutoTechUtilsPlugin",
             "-Dmixin.hotSwap=true",
             "-Dmixin.checks.interfaces=true"
     ]
@@ -67,8 +65,15 @@ configurations {
 
 dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
+    compile('org.spongepowered:mixin:0.8-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    }
 
+    //noinspection GradlePackageUpdate
     compile 'cn.hutool:hutool-core:5.7.13'
+    //noinspection GradlePackageUpdate
     embed 'cn.hutool:hutool-http:5.7.13'
 
     runtime "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
@@ -93,29 +98,21 @@ dependencies {
     deobfCompile "curse.maven:SausageCore-312845:2762387"
     deobfCompile "curse.maven:guide-api-228832:2645992"
     deobfCompile "curse.maven:manacraft-312846:2762412"
+    deobfCompile "curse.maven:mixinbooter-419286:3321174"
     deobfCompile "vazkii.botania:Botania:r1.10-363.148"
     deobfCompile "de.ellpeck.naturesaura:NaturesAura:r14-209"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
     deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.11.1-v53"
     deobfCompile "net.darkhax.gamestages:GameStages-1.12.2:2.0.90"
     deobfCompile "net.darkhax.bookshelf:Bookshelf-1.12.2:2.3.590"
-    deobfCompile('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
-        exclude module: 'guava'
-        exclude module: 'commons-io'
-        exclude module: 'gson'
-    }
 }
 repositories {
     mavenCentral()
     maven {
-        url "https://maven.shadowfacts.net/"
+        url = "https://maven.shadowfacts.net/"
     }
     maven {
         url = "https://repo.spongepowered.org/maven"
-    }
-    maven {
-        name = "forge"
-        url = "https://files.minecraftforge.net/maven"
     }
     maven {
         name = "The One Probe"
@@ -162,19 +159,5 @@ mixin {
 jar {
     from (configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
         exclude 'LICENSE.txt', 'META-INF/MANIFSET.MF', 'META-INF/maven/**', 'META-INF/*.RSA', 'META-INF/*.SF'
-    }
-    manifest {
-        attributes([
-                'TweakClass'                 : 'org.spongepowered.asm.launch.MixinTweaker',
-                "FMLCorePlugin"              : "ikexing.atutils.core.AutoTechUtilsPlugin",
-                "FMLCorePluginContainsFMLMod": true,
-                "ForceLoadAsMod"             : true
-        ])
-    }
-}
-
-repositories.each {
-    if (it instanceof MavenArtifactRepository && it.url.toString() == "https://files.minecraftforge.net/maven") {
-        it.url = "https://maven.minecraftforge.net/"
     }
 }
