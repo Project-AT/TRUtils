@@ -1,6 +1,9 @@
 package ikexing.atutils;
 
 import cn.hutool.core.util.ReflectUtil;
+import com.google.common.collect.Lists;
+import crafttweaker.api.minecraft.CraftTweakerMC;
+import crafttweaker.api.oredict.IOreDictEntry;
 import epicsquid.roots.ritual.RitualBase;
 import epicsquid.roots.ritual.RitualRegistry;
 import ikexing.atutils.core.advancement.VisitVillageTrigger;
@@ -13,6 +16,7 @@ import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -27,6 +31,7 @@ import vazkii.botania.common.block.ModBlocks;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.List;
 
 @Mod(
         modid = ATUtils.MODID,
@@ -39,7 +44,9 @@ public class ATUtils {
     public static final String MODID = "atutils";
     public static final String NAME = "AutoTech Utils";
     public static final String VERSION = "1.1.5";
-    public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;after:twilightforest;after:botania;before:mana_craft";
+    public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;required-after:mixinbooter;after:twilightforest;after:botania;before:mana_craft";
+
+    public static final List<String> CANCEL_ORES = Lists.newArrayList("ingot", "Glass", "nugget", "dust", "charcoal", "gem", "stone");
 
     public static RitualBase ritualMa;
     public static Block circuitry;
@@ -85,4 +92,15 @@ public class ATUtils {
         ReflectUtil.setAccessible(modifiersField).setInt(field, field.getModifiers() & ~Modifier.FINAL);
         field.set(null, ModBlocks.storage);
     }
+
+    public static boolean isCancel(ItemStack stack) {
+        for (IOreDictEntry ore : CraftTweakerMC.getIItemStack(stack).getOres()) {
+            if (CANCEL_ORES.stream().anyMatch(name -> ore.getName().contains(name))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
