@@ -26,11 +26,13 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 import vazkii.botania.common.block.ModBlocks;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.List;
 
 @Mod(
@@ -46,7 +48,7 @@ public class ATUtils {
     public static final String VERSION = "1.1.5";
     public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;required-after:mixinbooter;after:twilightforest;after:botania;before:mana_craft";
 
-    public static final List<String> CANCEL_ORES = Lists.newArrayList("ingot", "Glass", "nugget", "dust", "charcoal", "gem", "stone");
+    public static final List<String> CANCEL_ORES = Lists.newArrayList("ingot", "Glass", "nugget", "dust", "charcoal", "gem", "stone", "ore");
 
     public static RitualBase ritualMa;
     public static Block circuitry;
@@ -94,13 +96,10 @@ public class ATUtils {
     }
 
     public static boolean isCancel(ItemStack stack) {
-        for (IOreDictEntry ore : CraftTweakerMC.getIItemStack(stack).getOres()) {
-            if (CANCEL_ORES.stream().anyMatch(name -> ore.getName().contains(name))) {
-                return true;
-            }
-        }
-
-        return false;
+        return Arrays.stream(OreDictionary.getOreNames())
+                .filter(it -> CANCEL_ORES.stream().anyMatch(it::contains))
+                .flatMap(it -> OreDictionary.getOres(it).stream())
+                .anyMatch(stack::isItemEqual);
     }
 
 }
