@@ -6,6 +6,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,11 +22,14 @@ public class EventLootTableLoad {
         // The following code does these things:
         // 1) replace iron_ingot with rusty_iron_ingot
         // 2) remove any non-vanilla item
+        // 3) inject a custom pool (see assets/atutils/loot_tables/chests/inject.json) to "mysticalworld:chests/hut"
 
         for (LootPool lootPool : ATHacks.getPools(event.getTable())) {
 
             // for all chests only, excluding entities or other things
             if (!event.getName().getPath().startsWith("chests")) { return; }
+            // do not change the modification of atutils
+            if (event.getName().getNamespace().startsWith("atutils")) { return; }
 
             Iterator<LootEntry> entriesIterator = ATHacks.getEntries(lootPool).iterator();
             while (entriesIterator.hasNext()) {
@@ -70,6 +74,13 @@ public class EventLootTableLoad {
                 }
 
             }
+        }
+
+        // just add a custom pool
+        if (event.getName().equals(new ResourceLocation("mysticalworld","chests/hut"))) {
+            RandomValueRange range = new RandomValueRange(1, 1);
+            LootPool pool = new LootPool(new LootEntry[]{new LootEntryTable(new ResourceLocation("atutils", "chests/inject"), 1, 0, new LootCondition[0], "atutils")}, new LootCondition[0], range, range, "atutils");
+            event.getTable().addPool(pool);
         }
 
     }

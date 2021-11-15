@@ -1,0 +1,42 @@
+{
+  "pools": [
+    {
+      "name": "books",
+      "entries": [
+        {
+          "entryName": "wizardry:book",
+          "weight": 10,
+          "quality": 0,
+          "type": "item",
+          "name": "wizardry:book"
+        },
+        {
+          "entryName": "roots:roots_guide",
+          "weight": 10,
+          "quality": 0,
+          "type": "item",
+          "name": "roots:roots_guide"
+        },
+        {
+          "entryName": "naturesaura:book",
+          "weight": 10,
+          "quality": 0,
+          "type": "item",
+          "functions": [
+            {
+              "tag": "{\"patchouli:book\":\"naturesaura:book\"}",
+              "function": "minecraft:set_nbt"
+            }
+          ],
+          "name": "patchouli:guide_book"
+        }
+      ],
+      "rolls": {
+        "min": 1.0,
+        "max": 4.0
+      }
+    }
+  ]
+}
+
+
