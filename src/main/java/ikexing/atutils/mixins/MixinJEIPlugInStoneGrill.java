@@ -36,7 +36,7 @@ public class MixinJEIPlugInStoneGrill {
             ItemStack outStack = entry.getValue();
             ItemStack outStack2 = new ItemStack(ModBlocks.STONE_GRILL);
 
-            if (ATUtils.isCancel(outStack)) continue;
+            if (ATUtils.isCancel(outStack.copy())) continue;
 
             List<ItemStack> inputs = stackHelper.getSubtypes(inStack);
             output.add(outStack);

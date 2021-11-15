@@ -14,7 +14,6 @@ import primal_tech.tiles.TileEntityInventoryHelper;
 import primal_tech.tiles.TileEntityStoneGrill;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Map;
 
 @Pseudo
 @Mixin(value = TileEntityStoneGrill.class, remap = false)
@@ -35,9 +34,8 @@ public abstract class MixinTileEntityStoneGrill extends TileEntityInventoryHelpe
             cancellable = true)
     public void smeltItem(CallbackInfo ci) {
         ItemStack stack = getItems().get(0);
-        Map<ItemStack, ItemStack> smeltingMap = FurnaceRecipes.instance().getSmeltingList();
-        ItemStack output = smeltingMap.get(stack);
-        if (ATUtils.isCancel(output)) ci.cancel();
+        ItemStack output = FurnaceRecipes.instance().getSmeltingResult(stack);
+        if (ATUtils.isCancel(output.copy())) ci.cancel();
     }
 
 }
