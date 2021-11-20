@@ -12,9 +12,29 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EventLootTableLoad {
+
+    static List<ResourceLocation> vanillaTables = Stream.of(
+            "abandoned_mineshaft",
+            "desert_pyramid",
+            "end_city_treasure",
+            "igloo_chest",
+            "jungle_temple",
+            "jungle_temple_dispenser",
+            "nether_bridge",
+            "simple_dungeon",
+            "spawn_bonus_chest",
+            "stronghold_corridor",
+            "stronghold_crossing",
+            "stronghold_library",
+            "village_blacksmith",
+            "woodland_mansion"
+    ).map(s -> new ResourceLocation("minecraft", "chests/" + s)).collect(Collectors.toList());
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLootTableLoad(LootTableLoadEvent event) {
@@ -22,7 +42,7 @@ public class EventLootTableLoad {
         // The following code does these things:
         // 1) replace iron_ingot with rusty_iron_ingot
         // 2) remove any non-vanilla item
-        // 3) inject a custom pool (see assets/atutils/loot_tables/chests/inject.json) to "mysticalworld:chests/hut"
+        // 3) inject some custom pool
 
         for (LootPool lootPool : ATHacks.getPools(event.getTable())) {
 
@@ -76,10 +96,17 @@ public class EventLootTableLoad {
             }
         }
 
-        // just add a custom pool
+        // inject "atutils:chests/inject/books" to "mysticalworld:chests/hut"
         if (event.getName().equals(new ResourceLocation("mysticalworld","chests/hut"))) {
             RandomValueRange range = new RandomValueRange(1, 1);
-            LootPool pool = new LootPool(new LootEntry[]{new LootEntryTable(new ResourceLocation("atutils", "chests/inject"), 1, 0, new LootCondition[0], "atutils")}, new LootCondition[0], range, range, "atutils");
+            LootPool pool = new LootPool(new LootEntry[]{new LootEntryTable(new ResourceLocation("atutils", "chests/inject/books"), 1, 0, new LootCondition[0], "books")}, new LootCondition[0], range, range, "atutils_inject");
+            event.getTable().addPool(pool);
+        }
+
+        // inject "atutils:chests/inject/potions" to the table of the list
+        if (vanillaTables.contains(event.getName())) {
+            RandomValueRange range = new RandomValueRange(1, 1);
+            LootPool pool = new LootPool(new LootEntry[]{new LootEntryTable(new ResourceLocation("atutils", "chests/inject/potions"), 1, 0, new LootCondition[0], "potions")}, new LootCondition[0], range, range, "atutils_inject");
             event.getTable().addPool(pool);
         }
 

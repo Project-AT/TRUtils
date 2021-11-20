@@ -1,0 +1,27 @@
+{
+  "pools": [
+    {
+      "name": "potions",
+      "entries": [
+        {
+          "entryName": "bountifulbaubles:potionwormhole",
+          "weight": 15,
+          "quality": 0,
+          "type": "item",
+          "name": "bountifulbaubles:potionwormhole"
+        },
+        {
+          "entryName": "bountifulbaubles:potionrecall",
+          "weight": 12,
+          "quality": 0,
+          "type": "item",
+          "name": "bountifulbaubles:potionrecall"
+        }
+      ],
+      "rolls": {
+        "min": 1.0,
+        "max": 4.0
+      }
+    }
+  ]
+}
