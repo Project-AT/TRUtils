@@ -77,7 +77,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
             for (IOreDictEntry ore : ores) {
                 for (Pair<String, String> transform : oresTransform) {
                     if (ore.getName().equals(transform.getKey())) {
-                        threadPool.submit(doLast(transform.getValue(), pos));
+                        threadPool.submit(doLast(transform.getKey(), transform.getValue(), pos));
                         return;
                     }
                 }
@@ -87,27 +87,27 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         finish = true;
     }
 
-    private Thread doLast(String oreName, BlockPos pos) {
+    private Thread doLast(String input, String output, BlockPos pos) {
         return SidedThreadGroups.SERVER.newThread(() -> {
             if (isDead) return;
-            NetworkManager.MagneticAttraction.sendClientCustomPacket(pos, oreName, world.provider.getDimension());
+            NetworkManager.MagneticAttraction.sendClientCustomPacket(pos, output, world.provider.getDimension());
             try {
                 if (isDead) return;
                 Thread.sleep((10 + rand.nextInt(10)) * 1000);
-                spawnItem(oreName, pos);
+                spawnItem(input, output, pos);
             } catch (InterruptedException ignored) {}
         });
     }
 
-    private void spawnItem(String oreName, BlockPos pos) {
+    private void spawnItem(String input, String output, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
 
         if (state.getMaterial() == Material.AIR) return;
 
         ItemStack stack = state.getBlock().getItem(world, pos, state);
-        boolean ifExist = OreDictionary.getOres(oreName).stream().anyMatch(stack::isItemEqual);
+        boolean ifExist = OreDictionary.getOres(input).stream().anyMatch(stack::isItemEqual);
         if (ifExist) {
-            ItemStack res = OreDictionary.getOres(oreName).get(0).copy();
+            ItemStack res = OreDictionary.getOres(output).get(0).copy();
             res.setCount(3 + rand.nextInt(5));
             world.setBlockToAir(pos);
             world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
