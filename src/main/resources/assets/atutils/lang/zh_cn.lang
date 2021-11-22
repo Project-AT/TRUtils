@@ -20,9 +20,9 @@ item.atutils.crude_steel_shovel.name=粗钢铲
 item.atutils.crude_steel_pickaxe.name=粗钢镐
 
 item.atutils.crude_steel.head.name=粗钢头盔
-item.atutils.crude_steel.feet.name=粗钢胸甲
+item.atutils.crude_steel.chest.name=粗钢胸甲
 item.atutils.crude_steel.legs.name=粗钢护腿
-item.atutils.crude_steel.chest.name=粗钢靴子
+item.atutils.crude_steel.feet.name=粗钢靴子
 
 item.atutils.flint_hoe.name=燧石锄
 item.atutils.equivalent_fuel.name=燃料等价物

@@ -20,9 +20,9 @@ item.atutils.crude_steel_shovel.name=Crude Steel Shovel
 item.atutils.crude_steel_pickaxe.name=Crude Steel Pickaxe
 
 item.atutils.crude_steel.head.name=Crude Steel Helmet
+item.atutils.crude_steel.chest.name=Crude Steel Chestplate
+item.atutils.crude_steel.legs.name=Crude Steel Leggings
 item.atutils.crude_steel.feet.name=Crude Steel Boots
-item.atutils.crude_steel.legs.name=Crude Steel Chestplate
-item.atutils.crude_steel.chest.name=Crude Steel Leggings
 
 item.atutils.flint_hoe.name=Flint Hoe
 item.atutils.equivalent_fuel.name=Equivalent Fuel
