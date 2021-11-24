@@ -94,7 +94,9 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
             try {
                 if (isDead) return;
                 Thread.sleep((10 + rand.nextInt(10)) * 1000);
-                spawnItem(input, output, pos);
+                synchronized (this) {
+                    spawnItem(input, output, pos);
+                }
             } catch (InterruptedException ignored) {}
         });
     }
