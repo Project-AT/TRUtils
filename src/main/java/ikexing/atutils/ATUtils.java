@@ -2,15 +2,19 @@ package ikexing.atutils;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.google.common.collect.Lists;
+import epicsquid.roots.integration.crafttweaker.Herbs;
+import epicsquid.roots.properties.Property;
+import epicsquid.roots.properties.PropertyTable;
 import epicsquid.roots.ritual.RitualBase;
 import epicsquid.roots.ritual.RitualRegistry;
+import epicsquid.roots.spell.SpellBase;
+import epicsquid.roots.spell.SpellRegistry;
 import ikexing.atutils.core.advancement.VisitVillageTrigger;
 import ikexing.atutils.core.container.gui.GuiProxy;
 import ikexing.atutils.core.events.EventLootTableLoad;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
-import ikexing.atutils.core.spell.RootsSpells;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
@@ -79,7 +83,7 @@ public class ATUtils {
             ManaCraftOrichalcum();
         }
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiProxy());
-        RootsSpells.init();
+        modifyRootSpells();
     }
 
     @EventHandler
@@ -100,6 +104,16 @@ public class ATUtils {
                 .filter(it -> CANCEL_ORES.stream().anyMatch(it::contains))
                 .flatMap(it -> OreDictionary.getOres(it).stream())
                 .anyMatch(stack::isItemEqual);
+    }
+
+    private void modifyRootSpells() {
+        SpellBase chrysopoeiaSpell = SpellRegistry.getSpell("spell_chrysopoeia");
+        PropertyTable chrysopoeiaSpellPropertiesrops = chrysopoeiaSpell.getProperties();
+        Property<SpellBase.SpellCost> infernalBulbProp = chrysopoeiaSpellPropertiesrops.get("cost_" + Herbs.infernal_bulb.getHerbName());
+        chrysopoeiaSpellPropertiesrops.getProperties().remove(infernalBulbProp);
+        Property<SpellBase.SpellCost> spiritHerbProp = chrysopoeiaSpellPropertiesrops.get("cost_" + Herbs.spirit_herb.getHerbName());
+        SpellBase.SpellCost spiritHerbNewCost = new SpellBase.SpellCost(Herbs.spirit_herb.getHerbName(), 0.5);
+        chrysopoeiaSpellPropertiesrops.set(spiritHerbProp, spiritHerbNewCost);
     }
 
 }
