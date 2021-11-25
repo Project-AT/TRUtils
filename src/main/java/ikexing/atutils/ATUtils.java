@@ -10,6 +10,7 @@ import ikexing.atutils.core.events.EventLootTableLoad;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
+import ikexing.atutils.core.spell.RootsSpells;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
@@ -78,6 +79,7 @@ public class ATUtils {
             ManaCraftOrichalcum();
         }
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiProxy());
+        RootsSpells.init();
     }
 
     @EventHandler
