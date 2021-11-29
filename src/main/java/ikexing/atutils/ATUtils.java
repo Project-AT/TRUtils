@@ -1,5 +1,6 @@
 package ikexing.atutils;
 
+import cn.hutool.core.lang.Pair;
 import cn.hutool.core.util.ReflectUtil;
 import com.google.common.collect.Lists;
 import epicsquid.roots.integration.crafttweaker.Herbs;
@@ -37,6 +38,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Mod(
         modid = ATUtils.MODID,
@@ -51,7 +53,21 @@ public class ATUtils {
     public static final String VERSION = "1.1.5";
     public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;required-after:mixinbooter;after:twilightforest;after:botania;before:mana_craft";
 
-    public static final List<String> CANCEL_ORES = Lists.newArrayList("ingot", "Glass", "nugget", "dust", "coal", "gem", "stone", "ore");
+    public static final List<String> CANCEL_ORES = Lists.newArrayList(
+            "ingot", "Glass", "nugget", "dust", "coal", "gem", "stone", "ore"
+    );
+    public static final List<Pair<String, Integer>> CANCEL_ITEMS = Lists.newArrayList(
+            Pair.of("minecraft:ender_pearl", 0),
+            Pair.of("enderio:item_material", 4),
+            Pair.of("embers:plate_caminite", 0),
+            Pair.of("mysticalworld:mud_block", 0),
+            Pair.of("thermalfoundation:rockwool", 7),
+            Pair.of("pneumaticcraft:empty_pcb", 100),
+            Pair.of("extrautils2:decorativeglass", 0),
+            Pair.of("appliedenergistics2:material", 5),
+            Pair.of("contenttweaker:refractory_brick", 0),
+            Pair.of("appliedenergistics2:smooth_sky_stone_block", 0)
+    );
 
     public static RitualBase ritualMa;
     public static Block circuitry;
@@ -100,10 +116,11 @@ public class ATUtils {
     }
 
     public static boolean isCancel(ItemStack stack) {
-        return Arrays.stream(OreDictionary.getOreNames())
-                .filter(it -> CANCEL_ORES.stream().anyMatch(it::contains))
-                .flatMap(it -> OreDictionary.getOres(it).stream())
-                .anyMatch(stack::isItemEqual);
+        return CANCEL_ITEMS.stream().anyMatch(pair -> equalStackWithPair(pair, stack)) ||
+                Arrays.stream(OreDictionary.getOreNames())
+                        .filter(it -> CANCEL_ORES.stream().anyMatch(it::contains))
+                        .flatMap(it -> OreDictionary.getOres(it).stream())
+                        .anyMatch(stack::isItemEqual);
     }
 
     private void modifyRootSpells() {
@@ -114,6 +131,10 @@ public class ATUtils {
         Property<SpellBase.SpellCost> spiritHerbProp = chrysopoeiaSpellPropertiesrops.get("cost_" + Herbs.spirit_herb.getHerbName());
         SpellBase.SpellCost spiritHerbNewCost = new SpellBase.SpellCost(Herbs.spirit_herb.getHerbName(), 0.5);
         chrysopoeiaSpellPropertiesrops.set(spiritHerbProp, spiritHerbNewCost);
+    }
+
+    private static boolean equalStackWithPair(Pair<String, Integer> pair, ItemStack stack) {
+        return pair.getKey().equals(Objects.requireNonNull(stack.getItem().getRegistryName()).toString()) && pair.getValue() == stack.getMetadata();
     }
 
 }
