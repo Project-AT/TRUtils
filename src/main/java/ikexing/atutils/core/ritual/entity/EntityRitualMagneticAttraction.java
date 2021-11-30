@@ -2,6 +2,7 @@ package ikexing.atutils.core.ritual.entity;
 
 import cn.hutool.core.lang.Pair;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
@@ -21,10 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.thread.SidedThreadGroups;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,6 +31,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     private boolean finish = false;
     private final int interval = 100 + rand.nextInt(101);
     private final Set<BlockPos> searchedPos = Sets.newHashSet();
+    private final Map<BlockPos, ItemStack> tempRemove = Maps.newHashMap();
     private final ExecutorService threadPool = Executors.newFixedThreadPool(1);
 
     private final List<Pair<String, String>> oresTransform = Lists.newArrayList(
@@ -57,6 +56,13 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
         if (ticksExisted % interval == 0 && !finish) {
             doExec();
+        }
+        for (Iterator<Map.Entry<BlockPos, ItemStack>> iterable = tempRemove.entrySet().iterator(); iterable.hasNext(); ) {
+            Map.Entry<BlockPos, ItemStack> entry = iterable.next();
+            world.setBlockToAir(entry.getKey());
+            world.playSound(null, entry.getKey(), SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, entry.getValue()));
+            iterable.remove();
         }
     }
 
@@ -94,9 +100,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
             try {
                 if (isDead) return;
                 Thread.sleep((10 + rand.nextInt(10)) * 1000);
-                synchronized (this) {
-                    spawnItem(input, output, pos);
-                }
+                spawnItem(input, output, pos);
             } catch (InterruptedException ignored) {}
         });
     }
@@ -111,9 +115,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         if (ifExist) {
             ItemStack res = OreDictionary.getOres(output).get(0).copy();
             res.setCount(3 + rand.nextInt(5));
-            world.setBlockToAir(pos);
-            world.playSound(null, pos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.spawnEntity(new EntityItem(world, posX, posY + 1, posZ, res));
+            tempRemove.put(pos, res);
         }
     }
 
