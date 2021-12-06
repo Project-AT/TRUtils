@@ -37,13 +37,15 @@ public class EventHandler {
         World world = entity.getEntityWorld();
 
         if (entity instanceof EntityCreature || entity instanceof EntitySlime) {
+            if (!(event.getSource().getTrueSource() instanceof EntityPlayer)) return;
+
             BlockPos pos = new BlockPos(entity.posX, entity.posY, entity.posZ);
             Iterable<BlockPos> allInBox = BlockPos.getAllInBox(pos.add(4, 5, 4), pos.add(-4, -5, -4));
             for (BlockPos blockPos : allInBox) {
                 IBlockState blockState = world.getBlockState(blockPos);
                 if (world.getBlockState(blockPos).getBlock() instanceof BlockEvilStone) {
                     Integer status = blockState.getValue(BlockEvilStone.STATUS);
-                    if (blockState.getValue(BlockEvilStone.STATUS) < 5) {
+                    if (blockState.getValue(BlockEvilStone.STATUS) < 5 && world.rand.nextBoolean()) {
                         if (!world.isRemote) {
                             world.setBlockState(blockPos, blockState.withProperty(BlockEvilStone.STATUS, status + 1));
                         } else {
@@ -51,8 +53,6 @@ public class EventHandler {
                                 Botania.proxy.wispFX(blockPos.getX() + Math.random() * 1.55D, blockPos.getY() * Math.random() * 2.0D, blockPos.getZ() + Math.random() * 1.55D, 0.5F, 0.0F, 0.0F, (float) Math.random() * 2.35F);
                             }
                         }
-
-                        break;
                     }
                 }
             }
