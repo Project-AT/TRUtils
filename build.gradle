@@ -99,6 +99,7 @@ dependencies {
     deobfCompile "curse.maven:guide-api-228832:2645992"
     deobfCompile "curse.maven:manacraft-312846:2762412"
     deobfCompile "curse.maven:mixinbooter-419286:3321174"
+    deobfCompile "curse.maven:lightningcraft-237422:2872478"
     deobfCompile "vazkii.botania:Botania:r1.10-363.148"
     deobfCompile "curse.maven:naturesaura-306626:2882138"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
