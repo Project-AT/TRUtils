@@ -19,6 +19,7 @@ import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,12 +33,16 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
+import sblectric.lightningcraft.api.util.JointList;
+import sblectric.lightningcraft.init.LCItems;
+import sblectric.lightningcraft.recipes.LightningTransformRecipes;
 import vazkii.botania.common.block.ModBlocks;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Mod(
@@ -86,14 +91,6 @@ public class ATUtils {
     }
 
     @EventHandler
-    public void onPreInit(FMLPreInitializationEvent event) {
-        logger = event.getModLog();
-        NetworkManager.register();
-        RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
-        CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
-    }
-
-    @EventHandler
     public void onInit(FMLInitializationEvent event) throws Exception {
         if (Loader.isModLoaded("mana_craft")) {
             ManaCraftOrichalcum();
@@ -103,7 +100,16 @@ public class ATUtils {
     }
 
     @EventHandler
+    public void onPreInit(FMLPreInitializationEvent event) {
+        logger = event.getModLog();
+        NetworkManager.register();
+        RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
+        CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
+    }
+
+    @EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
+        modifyLightningCraftRecipes();
         MinecraftForge.EVENT_BUS.register(EventLootTableLoad.class);
     }
 
@@ -115,14 +121,6 @@ public class ATUtils {
         field.set(null, ModBlocks.storage);
     }
 
-    public static boolean isCancel(ItemStack stack) {
-        return CANCEL_ITEMS.stream().anyMatch(pair -> equalStackWithPair(pair, stack)) ||
-                Arrays.stream(OreDictionary.getOreNames())
-                        .filter(it -> CANCEL_ORES.stream().anyMatch(it::contains))
-                        .flatMap(it -> OreDictionary.getOres(it).stream())
-                        .anyMatch(stack::isItemEqual);
-    }
-
     private void modifyRootSpells() {
         SpellBase chrysopoeiaSpell = SpellRegistry.getSpell("spell_chrysopoeia");
         PropertyTable chrysopoeiaSpellPropertiesrops = chrysopoeiaSpell.getProperties();
@@ -131,6 +129,19 @@ public class ATUtils {
         Property<SpellBase.SpellCost> spiritHerbProp = chrysopoeiaSpellPropertiesrops.get("cost_" + Herbs.spirit_herb.getHerbName());
         SpellBase.SpellCost spiritHerbNewCost = new SpellBase.SpellCost(Herbs.spirit_herb.getHerbName(), 0.5);
         chrysopoeiaSpellPropertiesrops.set(spiritHerbProp, spiritHerbNewCost);
+    }
+
+    private void modifyLightningCraftRecipes() {
+        LightningTransformRecipes.instance().getRecipeList().clear();;
+        LightningTransformRecipes.instance().addRecipe(new ItemStack(LCItems.guide), new JointList<ItemStack>().join(new ItemStack(Items.BOOK)));
+    }
+
+    public static boolean isCancel(ItemStack stack) {
+        return CANCEL_ITEMS.stream().anyMatch(pair -> equalStackWithPair(pair, stack)) ||
+                Arrays.stream(OreDictionary.getOreNames())
+                        .filter(it -> CANCEL_ORES.stream().anyMatch(it::contains))
+                        .flatMap(it -> OreDictionary.getOres(it).stream())
+                        .anyMatch(stack::isItemEqual);
     }
 
     private static boolean equalStackWithPair(Pair<String, Integer> pair, ItemStack stack) {
