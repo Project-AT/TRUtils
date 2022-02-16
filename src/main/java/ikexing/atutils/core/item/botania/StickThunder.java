@@ -66,7 +66,7 @@ public class StickThunder extends Item implements IManaUsingItem, IModelRegister
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-        return 10;
+        return 15;
     }
 
     @Override

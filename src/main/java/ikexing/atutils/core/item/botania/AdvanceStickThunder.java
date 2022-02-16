@@ -39,6 +39,6 @@ public class AdvanceStickThunder extends StickThunder {
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack) {
-        return 20;
+        return super.getMaxItemUseDuration(stack) / 2;
     }
 }
