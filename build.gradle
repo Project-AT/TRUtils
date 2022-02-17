@@ -110,6 +110,9 @@ dependencies {
 repositories {
     mavenCentral()
     maven {
+        url "https://cfa2.cursemaven.com"
+    }
+    maven {
         url = "https://maven.shadowfacts.net/"
     }
     maven {
