@@ -42,7 +42,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Mod(
@@ -103,13 +102,13 @@ public class ATUtils {
     public void onPreInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         NetworkManager.register();
+        modifyLightningCraftDefaultRecipes();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
         CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
     }
 
     @EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
-        modifyLightningCraftRecipes();
         MinecraftForge.EVENT_BUS.register(EventLootTableLoad.class);
     }
 
@@ -131,7 +130,7 @@ public class ATUtils {
         chrysopoeiaSpellPropertiesrops.set(spiritHerbProp, spiritHerbNewCost);
     }
 
-    private void modifyLightningCraftRecipes() {
+    private void modifyLightningCraftDefaultRecipes() {
         LightningTransformRecipes.instance().getRecipeList().clear();;
         LightningTransformRecipes.instance().addRecipe(new ItemStack(LCItems.guide), new JointList<ItemStack>().join(new ItemStack(Items.BOOK)));
     }
