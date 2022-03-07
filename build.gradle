@@ -104,6 +104,7 @@ dependencies {
     deobfCompile "curse.maven:lightningcraft-237422:2872478"
     deobfCompile "vazkii.botania:Botania:r1.10-363.148"
     deobfCompile "curse.maven:naturesaura-306626:2882138"
+    deobfCompile "curse.maven:extrautilities-225561:2678374"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.656"
     deobfCompile "hellfirepvp.modularmachinery:modularmachinery:1.12.2-1.11.1-v53"
     deobfCompile "net.darkhax.gamestages:GameStages-1.12.2:2.0.90"

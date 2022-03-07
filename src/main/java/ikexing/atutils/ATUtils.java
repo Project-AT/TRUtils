@@ -30,6 +30,8 @@ import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventBus;
+import net.minecraftforge.fml.common.eventhandler.IEventListener;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
@@ -40,9 +42,8 @@ import vazkii.botania.common.block.ModBlocks;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mod(
         modid = ATUtils.MODID,
@@ -84,6 +85,18 @@ public class ATUtils {
     @Mod.Instance
     public static ATUtils instance;
 
+    public static boolean isCancel(ItemStack stack) {
+        return CANCEL_ITEMS.stream().anyMatch(pair -> equalStackWithPair(pair, stack)) ||
+                Arrays.stream(OreDictionary.getOreNames())
+                        .filter(it -> CANCEL_ORES.stream().anyMatch(it::contains))
+                        .flatMap(it -> OreDictionary.getOres(it).stream())
+                        .anyMatch(stack::isItemEqual);
+    }
+
+    private static boolean equalStackWithPair(Pair<String, Integer> pair, ItemStack stack) {
+        return pair.getKey().equals(Objects.requireNonNull(stack.getItem().getRegistryName()).toString()) && pair.getValue() == stack.getMetadata();
+    }
+
     @EventHandler
     public void onConstruct(FMLConstructionEvent event) {
         AuthorFood.downloadAvatar();
@@ -92,7 +105,7 @@ public class ATUtils {
     @EventHandler
     public void onInit(FMLInitializationEvent event) throws Exception {
         if (Loader.isModLoaded("mana_craft")) {
-            ManaCraftOrichalcum();
+            manaCraftOrichalcum();
         }
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiProxy());
         modifyRootSpells();
@@ -109,10 +122,35 @@ public class ATUtils {
 
     @EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
+        unregisterDemonicIngotHandlerEvent();
         MinecraftForge.EVENT_BUS.register(EventLootTableLoad.class);
     }
 
-    private void ManaCraftOrichalcum() throws Exception {
+    private void unregisterDemonicIngotHandlerEvent() {
+        ConcurrentHashMap<Object, ArrayList<IEventListener>> listeners = getListeners();
+        for (Map.Entry<Object, ArrayList<IEventListener>> entry : listeners.entrySet()) {
+            if (entry.getKey().getClass().getSimpleName().contains("DemonicIngotHandler")) {
+                MinecraftForge.EVENT_BUS.unregister(entry.getKey());
+                break;
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private ConcurrentHashMap<Object, ArrayList<IEventListener>> getListeners() {
+        ConcurrentHashMap<Object, ArrayList<IEventListener>> toReturn = null;
+        try {
+            EventBus eventBus = MinecraftForge.EVENT_BUS;
+            Field field = eventBus.getClass().getDeclaredField("listeners");
+            field.setAccessible(true);
+            toReturn = (ConcurrentHashMap<Object, ArrayList<IEventListener>>) field.get(eventBus);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return toReturn;
+    }
+
+    private void manaCraftOrichalcum() throws Exception {
         Field field = ReflectUtil.getField(ManaCraftBlocks.class, "orichalcum_block");
         ReflectUtil.setAccessible(field);
         Field modifiersField = ReflectUtil.getField(Field.class, "modifiers");
@@ -131,20 +169,8 @@ public class ATUtils {
     }
 
     private void modifyLightningCraftDefaultRecipes() {
-        LightningTransformRecipes.instance().getRecipeList().clear();;
+        LightningTransformRecipes.instance().getRecipeList().clear();
         LightningTransformRecipes.instance().addRecipe(new ItemStack(LCItems.guide), new JointList<ItemStack>().join(new ItemStack(Items.BOOK)));
-    }
-
-    public static boolean isCancel(ItemStack stack) {
-        return CANCEL_ITEMS.stream().anyMatch(pair -> equalStackWithPair(pair, stack)) ||
-                Arrays.stream(OreDictionary.getOreNames())
-                        .filter(it -> CANCEL_ORES.stream().anyMatch(it::contains))
-                        .flatMap(it -> OreDictionary.getOres(it).stream())
-                        .anyMatch(stack::isItemEqual);
-    }
-
-    private static boolean equalStackWithPair(Pair<String, Integer> pair, ItemStack stack) {
-        return pair.getKey().equals(Objects.requireNonNull(stack.getItem().getRegistryName()).toString()) && pair.getValue() == stack.getMetadata();
     }
 
 }
