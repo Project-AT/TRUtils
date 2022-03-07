@@ -32,10 +32,12 @@ minecraft {
     version = "1.12.2-14.23.5.2847"
     runDir = "run"
 
+    coreMod = "ikexing.atutils.asm.ATUtilsCore"
     mappings = "stable_39"
     def args = [
             "-Dmixin.hotSwap=true",
-            "-Dmixin.checks.interfaces=true"
+            "-Dmixin.checks.interfaces=true",
+            "-Dfml.coreMods.load=ikexing.atutils.asm.ATUtilsCore"
     ]
 
     clientJvmArgs.addAll(args)
@@ -159,5 +161,10 @@ mixin {
 jar {
     from (configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }) {
         exclude 'LICENSE.txt', 'META-INF/MANIFSET.MF', 'META-INF/maven/**', 'META-INF/*.RSA', 'META-INF/*.SF'
+    }
+    manifest {
+        attributes "FMLCorePluginContainsFMLMod": "true"
+        attributes "ForceLoadAsMod": "true"
+        attributes "FMLCorePlugin": "ikexing.atutils.asm.ATUtilsCore"
     }
 }
