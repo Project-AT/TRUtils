@@ -3,6 +3,7 @@ package ikexing.atutils;
 import cn.hutool.core.lang.Pair;
 import cn.hutool.core.util.ReflectUtil;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import epicsquid.roots.integration.crafttweaker.Herbs;
 import epicsquid.roots.properties.Property;
 import epicsquid.roots.properties.PropertyTable;
@@ -38,6 +39,9 @@ import org.apache.logging.log4j.Logger;
 import sblectric.lightningcraft.api.util.JointList;
 import sblectric.lightningcraft.init.LCItems;
 import sblectric.lightningcraft.recipes.LightningTransformRecipes;
+import teamroots.embers.recipe.BoreOutput;
+import teamroots.embers.recipe.RecipeRegistry;
+import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.common.block.ModBlocks;
 
 import java.lang.reflect.Field;
@@ -116,6 +120,8 @@ public class ATUtils {
         logger = event.getModLog();
         NetworkManager.register();
         modifyLightningCraftDefaultRecipes();
+        BotaniaAPI.oreWeights.clear();
+        BotaniaAPI.oreWeightsNether.clear();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
         CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
     }
@@ -123,6 +129,7 @@ public class ATUtils {
     @EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
         unregisterDemonicIngotHandlerEvent();
+        setDefaultBoreOutput();
         MinecraftForge.EVENT_BUS.register(EventLootTableLoad.class);
     }
 
@@ -166,6 +173,16 @@ public class ATUtils {
         Property<SpellBase.SpellCost> spiritHerbProp = chrysopoeiaSpellPropertiesrops.get("cost_" + Herbs.spirit_herb.getHerbName());
         SpellBase.SpellCost spiritHerbNewCost = new SpellBase.SpellCost(Herbs.spirit_herb.getHerbName(), 0.5);
         chrysopoeiaSpellPropertiesrops.set(spiritHerbProp, spiritHerbNewCost);
+    }
+
+    private void setDefaultBoreOutput() {
+        BoreOutput defaultOutput = new BoreOutput(Sets.newHashSet(), Sets.newHashSet(), Lists.newArrayList(
+                new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.crystal_ember),20),
+                new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.shard_ember),60),
+                new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.dust_ember),20),
+                new teamroots.embers.util.WeightedItemStack(crazypants.enderio.base.material.material.Material.POWDER_INFINITY.getStack(1), 50)
+        ));
+        RecipeRegistry.setDefaultBoreOutput(defaultOutput);
     }
 
     private void modifyLightningCraftDefaultRecipes() {
