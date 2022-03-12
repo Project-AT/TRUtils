@@ -12,8 +12,10 @@ import epicsquid.roots.ritual.RitualRegistry;
 import epicsquid.roots.spell.SpellBase;
 import epicsquid.roots.spell.SpellRegistry;
 import ikexing.atutils.core.advancement.VisitVillageTrigger;
+import ikexing.atutils.core.aura.ExtraAuras;
 import ikexing.atutils.core.container.gui.GuiProxy;
 import ikexing.atutils.core.events.EventLootTableLoad;
+import ikexing.atutils.core.fluids.FluidAura;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
@@ -124,6 +126,7 @@ public class ATUtils {
         BotaniaAPI.oreWeightsNether.clear();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
         CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
+        FluidAura.registerFluids();
     }
 
     @EventHandler
@@ -131,6 +134,7 @@ public class ATUtils {
         unregisterDemonicIngotHandlerEvent();
         setDefaultBoreOutput();
         MinecraftForge.EVENT_BUS.register(EventLootTableLoad.class);
+        ExtraAuras.postInit();
     }
 
     private void unregisterDemonicIngotHandlerEvent() {
