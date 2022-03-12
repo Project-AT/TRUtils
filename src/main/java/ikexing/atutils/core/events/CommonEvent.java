@@ -18,7 +18,6 @@ public class CommonEvent {
         if(event.getObject().getItem() == de.ellpeck.naturesaura.items.ModItems.AURA_BOTTLE ||
             event.getObject().getItem() == de.ellpeck.naturesaura.items.ModItems.BOTTLE_TWO
         ) {
-
             event.addCapability(new ResourceLocation(ATUtils.MODID, "aura_bottle"), new FluidHandlerAuraBottle(event.getObject()));
 
         }

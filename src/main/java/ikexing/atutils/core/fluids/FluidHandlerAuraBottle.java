@@ -49,6 +49,9 @@ public class FluidHandlerAuraBottle implements IFluidHandlerItem, ICapabilityPro
         IAuraType type = ItemAuraBottle.getType(container);
 
         Fluid fluid = FluidAura.fluidsMapping.get(type);
+        if(fluid == null) {
+            return null;
+        }
 
         return new FluidStack(fluid, BOTTLE_AMOUNT);
 
