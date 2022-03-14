@@ -43,6 +43,8 @@ public class FluidAura extends Fluid {
             new ResourceLocation(ATUtils.MODID, "blocks/aura_still"),
             new ResourceLocation(ATUtils.MODID, "blocks/aura_flow"),
             auraType.getColor());
+
+        setGaseous(true);
         this.auraType = auraType;
         fluidsMapping.put(auraType, this);
     }
