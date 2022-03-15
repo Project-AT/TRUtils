@@ -1,18 +1,18 @@
 {
     "targets": [
-        "swap",
-        "final"
+        "atutils:swap",
+        "atutils:final"
     ],
     "passes": [
         {
             "name": "minecraft:entity_outline",
-            "intarget": "final",
-            "outtarget": "swap"
+            "intarget": "atutils:final",
+            "outtarget": "atutils:swap"
         },
         {
             "name": "minecraft:blur",
-            "intarget": "swap",
-            "outtarget": "final",
+            "intarget": "atutils:swap",
+            "outtarget": "atutils:final",
             "uniforms": [
                 {
                     "name": "BlurDir",
@@ -26,8 +26,8 @@
         },
         {
             "name": "minecraft:blur",
-            "intarget": "final",
-            "outtarget": "swap",
+            "intarget": "atutils:final",
+            "outtarget": "atutils:swap",
             "uniforms": [
                 {
                     "name": "BlurDir",
@@ -40,9 +40,9 @@
             ]
         },
         {
-            "name": "blit",
-            "intarget": "swap",
-            "outtarget": "final"
+            "name": "minecraft:blit",
+            "intarget": "atutils:swap",
+            "outtarget": "atutils:final"
         }
     ]
 }

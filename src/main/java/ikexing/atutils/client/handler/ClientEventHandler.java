@@ -1,9 +1,13 @@
 package ikexing.atutils.client.handler;
 
 import ikexing.atutils.client.render.BlockOutlineRender;
+import ikexing.atutils.client.utils.OpenGLdebugging;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.init.Blocks;
@@ -39,6 +43,7 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onWorldRenderLast(RenderWorldLastEvent event) {
 
+
         // step 1: collect furnaces
         Minecraft mc = Minecraft.getMinecraft();
         World world = Objects.requireNonNull(mc.world);
@@ -49,9 +54,16 @@ public class ClientEventHandler {
             }
         }
         if (furnaceCollection.isEmpty()) return;
+
+
+
         renderer.setRenderList(furnaceCollection);
         renderer.updateFrameBufferSize();
+
         renderer.renderToBuffer(event.getPartialTicks());
         renderer.renderToScreen();
+
+
+
     }
 }
