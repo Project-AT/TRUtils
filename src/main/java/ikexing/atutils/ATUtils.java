@@ -25,6 +25,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -36,13 +37,16 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.eventhandler.IEventListener;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 import sblectric.lightningcraft.api.util.JointList;
 import sblectric.lightningcraft.init.LCItems;
 import sblectric.lightningcraft.recipes.LightningTransformRecipes;
+import teamroots.embers.RegistryManager;
 import teamroots.embers.recipe.BoreOutput;
 import teamroots.embers.recipe.RecipeRegistry;
+import teamroots.embers.util.WeightedItemStack;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.common.block.ModBlocks;
 
@@ -83,6 +87,7 @@ public class ATUtils {
     public static RitualBase ritualMa;
     public static Block circuitry;
     public static Block bunker;
+    public static Item goodFeeling = new Item().setRegistryName("good_feeling").setTranslationKey(MODID + ".good_feeling");
     public static Item equivalentFuel = new Item().setRegistryName("equivalent_fuel").setTranslationKey(MODID + ".equivalent_fuel");
     public static Item magneticAttraction = new Item().setRegistryName("magnetic_attraction").setTranslationKey(MODID + ".magnetic_attraction");
 
@@ -124,6 +129,7 @@ public class ATUtils {
         modifyLightningCraftDefaultRecipes();
         BotaniaAPI.oreWeights.clear();
         BotaniaAPI.oreWeightsNether.clear();
+//        BotaniaAPI.elvenTradeRecipes.clear();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
         CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
         FluidAura.registerFluids();
@@ -180,12 +186,15 @@ public class ATUtils {
     }
 
     private void setDefaultBoreOutput() {
-        BoreOutput defaultOutput = new BoreOutput(Sets.newHashSet(), Sets.newHashSet(), Lists.newArrayList(
-                new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.crystal_ember),20),
-                new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.shard_ember),60),
-                new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.dust_ember),20),
-                new teamroots.embers.util.WeightedItemStack(crazypants.enderio.base.material.material.Material.POWDER_INFINITY.getStack(1), 50)
-        ));
+        ArrayList<WeightedItemStack> weightedItemStacks = Lists.newArrayList(
+                new WeightedItemStack(new ItemStack(RegistryManager.crystal_ember), 20),
+                new WeightedItemStack(new ItemStack(RegistryManager.shard_ember), 60),
+                new WeightedItemStack(new ItemStack(RegistryManager.dust_ember), 20)
+        );
+
+        Optional.ofNullable(ForgeRegistries.ITEMS.getValue(new ResourceLocation("enderio:item_material")))
+                .ifPresent(item -> weightedItemStacks.add(new WeightedItemStack(new ItemStack(item, 1, 20), 50)));
+        BoreOutput defaultOutput = new BoreOutput(Sets.newHashSet(), Sets.newHashSet(), weightedItemStacks);
         RecipeRegistry.setDefaultBoreOutput(defaultOutput);
     }
 

@@ -38,6 +38,7 @@ public class RegisterEvent {
         registry.register(BlockEvilStone.ITEM_BLOCK);
         registry.register(ATUtils.magneticAttraction);
         registry.register(ATUtils.equivalentFuel);
+        registry.register(ATUtils.goodFeeling);
         registry.register(AdvanceStickThunder.INSTANCE);
         registry.registerAll(CrudeSteel.ITEMS.toArray(new Item[0]));
         registry.registerAll(AuthorFood.AUTHOR_QQ_NUMBER.stream().map(AuthorInformation::of).peek(AuthorFood.ITEM_FOODS::add).toArray(ItemFood[]::new));
@@ -58,6 +59,7 @@ public class RegisterEvent {
         regModel(BlockRustyIron.ITEM_BLOCK);
         regModel(ATUtils.magneticAttraction);
         regModel(ATUtils.equivalentFuel);
+        regModel(ATUtils.goodFeeling);
         CrudeSteel.ITEMS.forEach(RegisterEvent::regModel);
         AuthorFood.ITEM_FOODS.forEach(RegisterEvent::regModel);
     }

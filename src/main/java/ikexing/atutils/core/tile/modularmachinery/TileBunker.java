@@ -63,7 +63,7 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
                 for (int i = 0; i < inputBus.getInventory().getSlots(); i++) {
                     for (int n = 0; n < OUTPUT_SLOTS; n++) {
                         if (!outputInventory.getStackInSlot(n).isEmpty()) {
-                            ItemStack stack = inputBus.getInventory().insertItem(i, new ItemStack(ATUtils.equivalentFuel, 1), false);
+                            ItemStack stack = inputBus.getInventory().insertItem(i, new ItemStack(ATUtils.goodFeeling, 1), false);
                             if (stack.isEmpty()) {
                                 outputInventory.extractItem(n, 1, false);
                                 break outer;
@@ -83,7 +83,7 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
                 int fuel = getFuel(stackInSlot);
                 this.burnTimeCache += fuel;
                 if (burnTimeCache >= 200) {
-                    if (insertOutput(new ItemStack(ATUtils.equivalentFuel, getOutputAmount()))) {
+                    if (insertOutput(new ItemStack(ATUtils.goodFeeling, getOutputAmount()))) {
                         inputInventory.extractItem(i, 1, false);
                         markDirty();
                         flag = true;
@@ -93,7 +93,7 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
             }
         }
         if (burnTimeCache >= 200 && !flag && outputInventory.getStackInSlot(OUTPUT_SLOTS - 1).getCount() != 64) {
-            insertOutput(new ItemStack(ATUtils.equivalentFuel, getOutputAmount()));
+            insertOutput(new ItemStack(ATUtils.goodFeeling, getOutputAmount()));
             markDirty();
         }
     }
@@ -117,7 +117,7 @@ public class TileBunker extends TileColorableMachineComponent implements ITickab
     }
 
     private int getFuel(ItemStack stack) {
-        return stack.getItem() != Items.LAVA_BUCKET && stack.getItem() != ATUtils.equivalentFuel ? TileEntityFurnace.getItemBurnTime(stack) : 0;
+        return stack.getItem() != Items.LAVA_BUCKET && stack.getItem() != ATUtils.goodFeeling ? TileEntityFurnace.getItemBurnTime(stack) : 0;
     }
 
     public CombinedInvWrapper getInventory() {
