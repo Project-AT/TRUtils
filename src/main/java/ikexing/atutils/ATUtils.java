@@ -180,11 +180,16 @@ public class ATUtils {
     }
 
     private void setDefaultBoreOutput() {
+        Item eioMaterial = Item.getByNameOrId("enderio:item_material");
+        if(eioMaterial == null) {
+            logger.error("Could not find enderio, skipping bore output change");
+            return;
+        }
         BoreOutput defaultOutput = new BoreOutput(Sets.newHashSet(), Sets.newHashSet(), Lists.newArrayList(
                 new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.crystal_ember),20),
                 new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.shard_ember),60),
                 new teamroots.embers.util.WeightedItemStack(new ItemStack(teamroots.embers.RegistryManager.dust_ember),20),
-                new teamroots.embers.util.WeightedItemStack(crazypants.enderio.base.material.material.Material.POWDER_INFINITY.getStack(1), 50)
+                new teamroots.embers.util.WeightedItemStack(new ItemStack(eioMaterial, 1, 20), 50)
         ));
         RecipeRegistry.setDefaultBoreOutput(defaultOutput);
     }
