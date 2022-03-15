@@ -22,10 +22,19 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.function.Supplier;
 
 public class BlockOutlineRender {
+    public static final BlockOutlineRender INSTANCE = new BlockOutlineRender();
+
+    private BlockOutlineRender() {
+
+    }
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -36,8 +45,11 @@ public class BlockOutlineRender {
     private int displayWidth = -1;
     private int displayHeight = -1;
 
-    private Map<BlockPos, IBlockState> list;
+    public WeakHashMap<Object, Supplier<Collection<BlockPos>>> getPositionProviders() {
+        return positionProviders;
+    }
 
+    private WeakHashMap<Object, Supplier<Collection<BlockPos>>> positionProviders = new WeakHashMap<>();
 
     public void init() {
         if (!OpenGlHelper.shadersSupported) {
@@ -90,58 +102,61 @@ public class BlockOutlineRender {
         }
         this.outlineBuffer.framebufferClear();
 
-        if (list != null && !list.isEmpty()) {
-            this.outlineBuffer.bindFramebuffer(false);
+        this.outlineBuffer.bindFramebuffer(false);
 
-            //按理来说混合是关的，这里在调用一遍保证一下
-            GlStateManager.disableBlend();
+        //按理来说混合是关的，这里在调用一遍保证一下
+        GlStateManager.disableBlend();
 
-            //深度测试关掉，透明度测试关掉，深度数据写入关掉，材质关掉
-            GlStateManager.disableDepth();
-            GlStateManager.disableAlpha();
-            GlStateManager.depthMask(false);
-            GlStateManager.disableTexture2D();
-
-
-            GlStateManager.pushMatrix();
-
-            //坐标根据玩家镜头一次变换
-            RenderManager renderManager = mc.getRenderManager();
-            double viewerPosX = renderManager.viewerPosX;
-            double viewerPosY = renderManager.viewerPosY;
-            double viewerPosZ = renderManager.viewerPosZ;
-            GlStateManager.translate(-viewerPosX, -viewerPosY, -viewerPosZ);
+        //深度测试关掉，透明度测试关掉，深度数据写入关掉，材质关掉
+        GlStateManager.disableDepth();
+        GlStateManager.disableAlpha();
+        GlStateManager.depthMask(false);
+        GlStateManager.disableTexture2D();
 
 
-            BlockRendererDispatcher renderer = mc.getBlockRendererDispatcher();
-            GlStateManager.color(1F, 1F, 1F ,1F);
-            for (Map.Entry<BlockPos, IBlockState> entry : list.entrySet()) {
+        GlStateManager.pushMatrix();
+
+        //坐标根据玩家镜头一次变换
+        RenderManager renderManager = mc.getRenderManager();
+        double viewerPosX = renderManager.viewerPosX;
+        double viewerPosY = renderManager.viewerPosY;
+        double viewerPosZ = renderManager.viewerPosZ;
+        GlStateManager.translate(-viewerPosX, -viewerPosY, -viewerPosZ);
+
+
+        BlockRendererDispatcher renderer = mc.getBlockRendererDispatcher();
+        GlStateManager.color(1F, 1F, 1F, 1F);
+
+        for (Supplier<Collection<BlockPos>> supplier : positionProviders.values()) {
+            for (BlockPos pos : supplier.get()) {
+                if (!mc.world.isBlockLoaded(pos)) {
+                    continue;
+                }
+                IBlockState state = mc.world.getBlockState(pos);
                 GlStateManager.pushMatrix();
-                BlockPos offset = entry.getKey();
-
                 //渲染具体坐标二次变换
-                GlStateManager.translate(offset.getX(), offset.getY(), offset.getZ());
-                IBakedModel ibakedmodel = renderer.getModelForState(entry.getValue());
+                GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());
+                IBakedModel ibakedmodel = renderer.getModelForState(state);
                 renderer.getBlockModelRenderer().renderModelBrightnessColor(
-                    entry.getValue(), ibakedmodel, 1.0f, 1.0f, 1.0f, 1.0f
+                    state, ibakedmodel, 1.0f, 1.0f, 1.0f, 1.0f
 
                 );
                 GlStateManager.popMatrix();
             }
-
-            GlStateManager.popMatrix();
-
-            //着色器后处理轮廓
-            this.shader.render(partialTicks);
-
-            //上面的4个改回去
-            GlStateManager.enableTexture2D();
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepth();
-            GlStateManager.enableAlpha();
-
-
         }
+
+        GlStateManager.popMatrix();
+
+        //着色器后处理轮廓
+        this.shader.render(partialTicks);
+
+        //上面的4个改回去
+        GlStateManager.enableTexture2D();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableAlpha();
+
+
         //改回主缓冲区
         this.mc.getFramebuffer().bindFramebuffer(false);
     }
@@ -165,8 +180,12 @@ public class BlockOutlineRender {
         return this.outlineBuffer != null && this.shader != null && this.mc != null && this.mc.player != null;
     }
 
-    public void setRenderList(Map<BlockPos, IBlockState> list) {
-        this.list = list;
+    public boolean hasSomethingToRender() {
+        int size = 0;
+        for (Supplier<Collection<BlockPos>> value : this.positionProviders.values()) {
+            size += value.get().size();
+        }
+        return size > 0;
     }
 }
 

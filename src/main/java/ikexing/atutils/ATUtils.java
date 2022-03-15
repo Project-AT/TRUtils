@@ -17,7 +17,6 @@ import ikexing.atutils.core.container.gui.GuiProxy;
 import ikexing.atutils.core.events.EventLootTableLoad;
 import ikexing.atutils.core.fluids.FluidAura;
 import ikexing.atutils.core.item.AuthorFood;
-import ikexing.atutils.core.network.NetworkManager;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -120,7 +119,6 @@ public class ATUtils {
     @EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
-        NetworkManager.register();
         modifyLightningCraftDefaultRecipes();
         BotaniaAPI.oreWeights.clear();
         BotaniaAPI.oreWeightsNether.clear();

@@ -2,6 +2,7 @@ package ikexing.atutils.client.handler;
 
 import ikexing.atutils.client.render.BlockOutlineRender;
 import ikexing.atutils.client.utils.OpenGLdebugging;
+import ikexing.atutils.core.ritual.entity.EntityRitualMagneticAttraction;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -10,6 +11,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -30,39 +32,18 @@ import java.util.Objects;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientEventHandler {
 
-    private static BlockOutlineRender renderer = new BlockOutlineRender();
 
-    @SubscribeEvent
-    public static void onModelRegistry(ModelRegistryEvent event) {
-
-        renderer.init();
-
-
-    }
 
     @SubscribeEvent
     public static void onWorldRenderLast(RenderWorldLastEvent event) {
 
-
-        // step 1: collect furnaces
-        Minecraft mc = Minecraft.getMinecraft();
-        World world = Objects.requireNonNull(mc.world);
-        Map<BlockPos, IBlockState> furnaceCollection = new HashMap<>();
-        for (TileEntity tileEntity : world.loadedTileEntityList) {
-            if (tileEntity instanceof TileEntityFurnace) {
-                furnaceCollection.put(tileEntity.getPos(), world.getBlockState(tileEntity.getPos()));
-            }
+        if (!BlockOutlineRender.INSTANCE.hasSomethingToRender()) {
+            return;
         }
-        if (furnaceCollection.isEmpty()) return;
 
-
-
-        renderer.setRenderList(furnaceCollection);
-        renderer.updateFrameBufferSize();
-
-        renderer.renderToBuffer(event.getPartialTicks());
-        renderer.renderToScreen();
-
+        BlockOutlineRender.INSTANCE.updateFrameBufferSize();
+        BlockOutlineRender.INSTANCE.renderToBuffer(event.getPartialTicks());
+        BlockOutlineRender.INSTANCE.renderToScreen();
 
 
     }

@@ -1,5 +1,6 @@
 package ikexing.atutils.client.handler;
 
+import ikexing.atutils.client.render.BlockOutlineRender;
 import ikexing.atutils.core.fluids.FluidAura;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -11,10 +12,10 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientRegistries {
 
-    private void onModelRegistry(ModelRegistryEvent event) {
-        // TODO
+    @SubscribeEvent
+    public static void onModelRegistry(ModelRegistryEvent event) {
+        BlockOutlineRender.INSTANCE.init();
     }
-
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
