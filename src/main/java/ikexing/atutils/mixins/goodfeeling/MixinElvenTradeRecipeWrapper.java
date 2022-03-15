@@ -4,8 +4,10 @@ import com.google.common.collect.ImmutableList;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.goodfeeling.IGoodFeeling;
 import mezz.jei.api.recipe.IRecipeWrapper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -52,4 +54,10 @@ public abstract class MixinElvenTradeRecipeWrapper implements IGoodFeeling, IRec
         this.goodFeeling = goodFeeling;
     }
 
+    @Override
+    public void drawInfo(@NotNull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+        IRecipeWrapper.super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
+        int posX = 42 + (18 * input.size()) - 4;
+        minecraft.getRenderManager().getFontRenderer().drawString(String.valueOf(getGoodFeeling()), posX, 10, 0xFFFFFF);
+    }
 }

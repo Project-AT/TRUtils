@@ -16,7 +16,6 @@
     "MixinWizardryCommonProxy",
     "MixinWizardryEventHandler",
     "MixinWorldGenManaLake",
-    "goodfeeling.MixinElvenTradeRecipeCategory",
     "goodfeeling.MixinElvenTradeRecipeWrapper",
     "goodfeeling.MixinRecipeElvenTrade"
   ],

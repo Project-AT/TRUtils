@@ -88,6 +88,8 @@ dependencies {
     runtime "vazkii.patchouli:Patchouli:1.0-20.108"
     runtime "curse.maven:forgelin-248453:2727070"
 
+    deobfCompile "zone.rong:mixinbooter:4.2"
+    deobfCompile "com.blamejared:MTLib:3.0.5.15"
     deobfCompile "curse.maven:librarianlib-252910:3041340"
     deobfCompile 'vazkii.psi:Psi:r1.1-76.73'
     deobfCompile 'vazkii.autoreglib:AutoRegLib:1.3-27.16'
@@ -101,7 +103,6 @@ dependencies {
     deobfCompile "curse.maven:SausageCore-312845:2762387"
     deobfCompile "curse.maven:guide-api-228832:2645992"
     deobfCompile "curse.maven:manacraft-312846:2762412"
-    deobfCompile "curse.maven:mixinbooter-419286:3321174"
     deobfCompile "curse.maven:lightningcraft-237422:2872478"
     deobfCompile "vazkii.botania:Botania:r1.10-363.148"
     deobfCompile "curse.maven:naturesaura-306626:2882138"
@@ -114,6 +115,10 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    maven {
+        name = "CleanRoomMc"
+        url = "https://maven.cleanroommc.com"
+    }
     maven {
         url "https://cfa2.cursemaven.com"
     }
