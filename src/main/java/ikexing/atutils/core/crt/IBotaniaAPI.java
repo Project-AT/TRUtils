@@ -12,7 +12,6 @@ import ikexing.atutils.core.goodfeeling.IGoodFeeling;
 import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
-import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.recipe.RecipeElvenTrade;
 
 import java.util.Arrays;
@@ -41,12 +40,14 @@ public class IBotaniaAPI {
     @ZenMethod
     public static int getElvenTradeRecipeLevel(IItemStack[] input) {
         List<ItemStack> collect = Arrays.stream(CraftTweakerMC.getItemStacks(input)).collect(Collectors.toList());
+        int toReturn = -1;
         for (RecipeElvenTrade value : ATUtils.RECIPE_ELVEN_TRADES.values()) {
-            if (value.matches(collect, false)) {
-                return ((IGoodFeeling) value).getGoodFeeling();
+            int goodFeeling = ((IGoodFeeling) value).getGoodFeeling();
+            if (value.matches(collect, false) && goodFeeling >= toReturn) {
+                toReturn = goodFeeling;
             }
         }
-        return -1;
+        return toReturn;
     }
 
 }
