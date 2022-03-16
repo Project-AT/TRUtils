@@ -13,11 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
@@ -26,6 +28,7 @@ import vazkii.botania.common.Botania;
 import java.io.IOException;
 import java.util.*;
 
+import static ikexing.atutils.core.utils.CustomDataSerializers.SERIALIZER_BLOCK_POS_SET;
 import static vazkii.botania.common.block.tile.mana.TilePool.PARTICLE_COLOR;
 
 public class EntityRitualMagneticAttraction extends EntityRitualBase {
@@ -84,11 +87,13 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
     @Override
     public void setDead() {
-        BlockOutlineRender.INSTANCE.getPositionProviders().remove(this);
+        if(world.isRemote) {
+            BlockOutlineRender.INSTANCE.getPositionProviders().remove(this);
+        }
         super.setDead();
     }
 
-    private DataParameter<Set<BlockPos>> processingPlaces = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, SERIALIZER_BLOCK_POS_SET);
+    private static DataParameter<Set<BlockPos>> processingPlaces = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, SERIALIZER_BLOCK_POS_SET);
 
     private Map<BlockPos, Pair<IBlockState, MutableInt>> processingMap = new HashMap<>();
 
@@ -181,30 +186,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     }
 
 
-    public static final DataSerializer<Set<BlockPos>> SERIALIZER_BLOCK_POS_SET = new DataSerializer<Set<BlockPos>>() {
-        public void write(PacketBuffer buf, Set<BlockPos> value) {
-            buf.writeVarInt(value.size());
-            for (BlockPos pos : value) {
-                buf.writeBlockPos(pos);
-            }
-        }
 
-        public Set<BlockPos> read(PacketBuffer buf) throws IOException {
-            int length = buf.readVarInt();
-            Set<BlockPos> result = new HashSet<>(length);
-            for (int i = 0; i < length; i++) {
-                result.add(buf.readBlockPos());
-            }
-            return result;
-        }
-
-        public DataParameter<Set<BlockPos>> createKey(int id) {
-            return new DataParameter<>(id, this);
-        }
-
-        public Set<BlockPos> copyValue(Set<BlockPos> value) {
-            return new HashSet<>(value);
-        }
-    };
 
 }
