@@ -13,15 +13,18 @@ import ikexing.atutils.core.item.FlintHoe;
 import ikexing.atutils.core.item.botania.AdvanceStickThunder;
 import ikexing.atutils.core.item.botania.StickThunder;
 import ikexing.atutils.core.ritual.entity.EntityRitualMagneticAttraction;
+import ikexing.atutils.core.utils.CustomDataSerializers;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
+import net.minecraft.network.datasync.DataSerializer;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.registries.DataSerializerEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import java.util.Objects;
@@ -52,17 +55,10 @@ public class RegisterEvent {
     }
 
     @SubscribeEvent
-    public static void onModelRegistry(ModelRegistryEvent event) {
-        AuthorFood.convert();
-        regModel(FlintHoe.INSTANCE);
-        regModel(BlockEvilStone.ITEM_BLOCK);
-        regModel(BlockRustyIron.ITEM_BLOCK);
-        regModel(ATUtils.magneticAttraction);
-        regModel(ATUtils.equivalentFuel);
-        regModel(ATUtils.goodFeeling);
-        CrudeSteel.ITEMS.forEach(RegisterEvent::regModel);
-        AuthorFood.ITEM_FOODS.forEach(RegisterEvent::regModel);
+    public static void onDataSerializerRegistry(Register<DataSerializerEntry> event) {
+        event.getRegistry().register(new DataSerializerEntry(CustomDataSerializers.SERIALIZER_BLOCK_POS_SET).setRegistryName(ATUtils.MODID, "blockpos_set"));
     }
+
 
     @SubscribeEvent
     public static void onRegisterContent(RegisterContentEvent event) {
@@ -70,7 +66,4 @@ public class RegisterEvent {
         LibRegistry.registerEntityRenderer(EntityRitualMagneticAttraction.class, new RenderNull.Factory());
     }
 
-    public static void regModel(Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
-    }
 }

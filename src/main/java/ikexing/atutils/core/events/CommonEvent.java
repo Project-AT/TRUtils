@@ -26,17 +26,4 @@ public class CommonEvent {
         }
     }
 
-    @SubscribeEvent
-    public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        TextureMap textureMap = event.getMap();
-        textureMap.registerSprite(FluidAura.auraEnd.getFlowing());
-        textureMap.registerSprite(FluidAura.auraNether.getFlowing());
-        textureMap.registerSprite(FluidAura.auraOverworld.getFlowing());
-        textureMap.registerSprite(FluidAura.auraUnderworld.getFlowing());
-        textureMap.registerSprite(FluidAura.auraEnd.getStill());
-        textureMap.registerSprite(FluidAura.auraNether.getStill());
-        textureMap.registerSprite(FluidAura.auraOverworld.getStill());
-        textureMap.registerSprite(FluidAura.auraUnderworld.getStill());
-
-    }
 }
