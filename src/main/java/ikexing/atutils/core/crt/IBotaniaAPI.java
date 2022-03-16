@@ -6,6 +6,7 @@ import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
+import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.goodfeeling.IGoodFeeling;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -17,12 +18,13 @@ import vazkii.botania.api.recipe.RecipeElvenTrade;
 public class IBotaniaAPI {
 
     @ZenMethod
-    public static void registerElvenTradeRecipe(String recipeName, IItemStack[] outputs, IIngredient[] input, int level) {
+    public static void registerElvenTradeRecipe(String recipeName, int level, IIngredient[] input, IItemStack... outputs) {
         RecipeElvenTrade recipe = new RecipeElvenTrade(InputHelper.toStacks(outputs), InputHelper.toObjects(input));
         ((IGoodFeeling) recipe).setGoodFeeling(level);
         CraftTweakerAPI.apply(new IAction() {
             @Override public void apply() {
                 BotaniaAPI.elvenTradeRecipes.add(recipe);
+                ATUtils.RECIPE_ELVEN_TRADES.put(recipeName, recipe);
             }
 
             @Override public String describe() {
@@ -30,5 +32,10 @@ public class IBotaniaAPI {
             }
         });
     }
-    
+
+    @ZenMethod
+    public static int getElvenTradeRecipeLevel(String recipeName) {
+        return ((IGoodFeeling) ATUtils.RECIPE_ELVEN_TRADES.get(recipeName)).getGoodFeeling();
+    }
+
 }

@@ -3,6 +3,7 @@ package ikexing.atutils;
 import cn.hutool.core.lang.Pair;
 import cn.hutool.core.util.ReflectUtil;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import epicsquid.roots.integration.crafttweaker.Herbs;
 import epicsquid.roots.properties.Property;
@@ -48,6 +49,7 @@ import teamroots.embers.recipe.BoreOutput;
 import teamroots.embers.recipe.RecipeRegistry;
 import teamroots.embers.util.WeightedItemStack;
 import vazkii.botania.api.BotaniaAPI;
+import vazkii.botania.api.recipe.RecipeElvenTrade;
 import vazkii.botania.common.block.ModBlocks;
 
 import java.lang.reflect.Field;
@@ -68,6 +70,7 @@ public class ATUtils {
     public static final String VERSION = "1.1.5";
     public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;required-after:mixinbooter;after:twilightforest;after:botania;before:mana_craft";
 
+    public static final Map<String, RecipeElvenTrade> RECIPE_ELVEN_TRADES = Maps.newHashMap();
     public static final List<String> CANCEL_ORES = Lists.newArrayList(
             "ingot", "Glass", "nugget", "dust", "coal", "gem", "stone", "ore"
     );
@@ -120,7 +123,6 @@ public class ATUtils {
         }
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiProxy());
         modifyRootSpells();
-        BotaniaAPI.elvenTradeRecipes.clear();
     }
 
     @EventHandler
@@ -130,6 +132,7 @@ public class ATUtils {
         modifyLightningCraftDefaultRecipes();
         BotaniaAPI.oreWeights.clear();
         BotaniaAPI.oreWeightsNether.clear();
+        BotaniaAPI.elvenTradeRecipes.clear();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
         CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
         FluidAura.registerFluids();
