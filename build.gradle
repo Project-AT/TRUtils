@@ -68,11 +68,6 @@ configurations {
 
 dependencies {
     compile fileTree(dir: 'libs', includes: ['*.jar'])
-    compile('org.spongepowered:mixin:0.8-SNAPSHOT') {
-        exclude module: 'guava'
-        exclude module: 'commons-io'
-        exclude module: 'gson'
-    }
 
     //noinspection GradlePackageUpdate
     compile 'cn.hutool:hutool-core:5.7.13'
