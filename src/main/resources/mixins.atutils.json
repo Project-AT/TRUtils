@@ -15,10 +15,10 @@
     "MixinTileEntityStoneGrill",
     "MixinWizardryCommonProxy",
     "MixinWizardryEventHandler",
-    "MixinWorldGenManaLake",
-    "goodfeeling.MixinElvenTradeRecipeWrapper",
-    "goodfeeling.MixinRecipeElvenTrade"
+    "MixinWorldGenManaLake"
   ],
   "client": [
+    "goodfeeling.MixinElvenTradeRecipeWrapper",
+    "goodfeeling.MixinRecipeElvenTrade"
   ]
 }

@@ -122,6 +122,8 @@ public class ATUtils {
         }
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiProxy());
         modifyRootSpells();
+        BotaniaAPI.elvenTradeRecipes.clear();
+        BotaniaAPI.elvenTradeRecipes.addAll(RECIPE_ELVEN_TRADES.values());
     }
 
     @EventHandler
@@ -130,7 +132,6 @@ public class ATUtils {
         modifyLightningCraftDefaultRecipes();
         BotaniaAPI.oreWeights.clear();
         BotaniaAPI.oreWeightsNether.clear();
-        BotaniaAPI.elvenTradeRecipes.clear();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
         CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
         FluidAura.registerFluids();
