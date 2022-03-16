@@ -45,11 +45,11 @@ public class BlockOutlineRender {
     private int displayWidth = -1;
     private int displayHeight = -1;
 
-    public WeakHashMap<Object, Supplier<Collection<BlockPos>>> getPositionProviders() {
+    public WeakHashMap<Object, BlockPos> getPositionProviders() {
         return positionProviders;
     }
 
-    private WeakHashMap<Object, Supplier<Collection<BlockPos>>> positionProviders = new WeakHashMap<>();
+    private WeakHashMap<Object, BlockPos> positionProviders = new WeakHashMap<>();
 
     public void init() {
         if (!OpenGlHelper.shadersSupported) {
@@ -104,14 +104,12 @@ public class BlockOutlineRender {
 
         this.outlineBuffer.bindFramebuffer(false);
 
-        //按理来说混合是关的，这里在调用一遍保证一下
-        GlStateManager.disableBlend();
-
-        //深度测试关掉，透明度测试关掉，深度数据写入关掉，材质关掉
-        GlStateManager.disableDepth();
-        GlStateManager.disableAlpha();
-        GlStateManager.depthMask(false);
-        GlStateManager.disableTexture2D();
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDepthMask(false);
 
 
         GlStateManager.pushMatrix();
@@ -127,34 +125,29 @@ public class BlockOutlineRender {
         BlockRendererDispatcher renderer = mc.getBlockRendererDispatcher();
         GlStateManager.color(1F, 1F, 1F, 1F);
 
-        for (Supplier<Collection<BlockPos>> supplier : positionProviders.values()) {
-            for (BlockPos pos : supplier.get()) {
-                if (!mc.world.isBlockLoaded(pos)) {
-                    continue;
-                }
-                IBlockState state = mc.world.getBlockState(pos);
-                GlStateManager.pushMatrix();
-                //渲染具体坐标二次变换
-                GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());
-                IBakedModel ibakedmodel = renderer.getModelForState(state);
-                renderer.getBlockModelRenderer().renderModelBrightnessColor(
-                    state, ibakedmodel, 1.0f, 1.0f, 1.0f, 1.0f
-
-                );
-                GlStateManager.popMatrix();
+        for (BlockPos pos : positionProviders.values()) {
+            if (!mc.world.isBlockLoaded(pos)) {
+                continue;
             }
+            IBlockState state = mc.world.getBlockState(pos);
+            GlStateManager.pushMatrix();
+            //渲染具体坐标二次变换
+            GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());
+            IBakedModel ibakedmodel = renderer.getModelForState(state);
+            renderer.getBlockModelRenderer().renderModelBrightnessColor(
+                state, ibakedmodel, 1.0f, 1.0f, 1.0f, 1.0f
+
+            );
+            GlStateManager.popMatrix();
         }
+
 
         GlStateManager.popMatrix();
 
         //着色器后处理轮廓
         this.shader.render(partialTicks);
 
-        //上面的4个改回去
-        GlStateManager.enableTexture2D();
-        GlStateManager.depthMask(true);
-        GlStateManager.enableDepth();
-        GlStateManager.enableAlpha();
+        GlStateManager.popAttrib();
 
 
         //改回主缓冲区
@@ -168,7 +161,6 @@ public class BlockOutlineRender {
         if (this.isEnabled()) {
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
             GlStateManager.enableBlend();
-
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
             this.outlineBuffer.framebufferRenderExt(this.mc.displayWidth, this.mc.displayHeight, false);
             GlStateManager.disableBlend();
@@ -182,8 +174,8 @@ public class BlockOutlineRender {
 
     public boolean hasSomethingToRender() {
         int size = 0;
-        for (Supplier<Collection<BlockPos>> value : this.positionProviders.values()) {
-            size += value.get().size();
+        for (BlockPos pos : this.positionProviders.values()) {
+            size++;
         }
         return size > 0;
     }

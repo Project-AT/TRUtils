@@ -1,5 +1,6 @@
 package ikexing.atutils.core.ritual.entity;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import epicsquid.roots.entity.ritual.EntityRitualBase;
 import ikexing.atutils.ATUtils;
@@ -10,25 +11,19 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.oredict.OreDictionary;
-import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import vazkii.botania.common.Botania;
 
-import java.io.IOException;
 import java.util.*;
 
-import static ikexing.atutils.core.utils.CustomDataSerializers.SERIALIZER_BLOCK_POS_SET;
 import static vazkii.botania.common.block.tile.mana.TilePool.PARTICLE_COLOR;
 
 public class EntityRitualMagneticAttraction extends EntityRitualBase {
@@ -41,7 +36,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     );
 
     //仪式最多同时转换的矿石个数
-    private static final int maxParallel = 5;
     private static final int searchInterval = 20;
 
 
@@ -50,9 +44,11 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     public EntityRitualMagneticAttraction(World worldIn) {
         super(worldIn);
         getDataManager().register(lifetime, ATUtils.ritualMa.getDuration() + 20);
-        getDataManager().register(processingPlaces, processingMap.keySet());
+        getDataManager().register(transformingPos, Optional.absent());
         ritual = (RitualMagneticAttraction) ATUtils.ritualMa;
     }
+
+    private int nextSearch = 0;
 
     @Override
     public void onUpdate() {
@@ -65,21 +61,27 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
             return;
         }
 
-        if (ticksExisted % searchInterval == 0) {
-            searchPossibleOres();
+        if (!getDataManager().get(transformingPos).isPresent()) {
+            if (nextSearch <= 0) {
+                searchPossibleOre();
+                nextSearch = searchInterval;
+            } else {
+                nextSearch--;
+            }
         }
 
         processTransform();
     }
 
     private void playEffects() {
-        Set<BlockPos> blockPos = getDataManager().get(processingPlaces);
-        for (BlockPos pos : blockPos) {
+        Optional<BlockPos> blockPos = getDataManager().get(transformingPos);
+        if (blockPos.isPresent()) {
+            BlockPos pos = blockPos.get();
+            Botania.proxy.setWispFXDepthTest(false);
             Botania.proxy.wispFX(pos.getX() + 0.3 + Math.random() * 0.5, pos.getY() + 0.6 + Math.random() * 0.25, pos.getZ() + Math.random(), PARTICLE_COLOR.getRed() / 255F, PARTICLE_COLOR.getGreen() / 255F, PARTICLE_COLOR.getBlue() / 255F, (float) Math.random() / 3F, (float) -Math.random() / 25F, 2F);
-        }
+            Botania.proxy.setWispFXDepthTest(true);
 
-        if (!blockPos.isEmpty()) {
-            BlockOutlineRender.INSTANCE.getPositionProviders().putIfAbsent(this, () -> getDataManager().get(processingPlaces));
+            BlockOutlineRender.INSTANCE.getPositionProviders().putIfAbsent(this, pos);
         } else {
             BlockOutlineRender.INSTANCE.getPositionProviders().remove(this);
         }
@@ -87,15 +89,16 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
     @Override
     public void setDead() {
-        if(world.isRemote) {
+        if (world.isRemote) {
             BlockOutlineRender.INSTANCE.getPositionProviders().remove(this);
         }
         super.setDead();
     }
 
-    private static DataParameter<Set<BlockPos>> processingPlaces = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, SERIALIZER_BLOCK_POS_SET);
+    private static final DataParameter<Optional<BlockPos>> transformingPos = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, DataSerializers.OPTIONAL_BLOCK_POS);
 
-    private Map<BlockPos, Pair<IBlockState, MutableInt>> processingMap = new HashMap<>();
+    private IBlockState transformingOre = null;
+    private int remainingTicks = 0;
 
     private void doTransform(BlockPos pos, IBlockState state) {
         world.setBlockToAir(pos);
@@ -106,36 +109,32 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
     }
 
     private void processTransform() {
-        Iterator<Map.Entry<BlockPos, Pair<IBlockState, MutableInt>>> iterator = processingMap.entrySet().iterator();
 
-        while (iterator.hasNext()) {
-            Map.Entry<BlockPos, Pair<IBlockState, MutableInt>> next = iterator.next();
-            BlockPos pos = next.getKey();
-            IBlockState transforming = next.getValue().getLeft();
-            IBlockState state = world.getBlockState(pos);
-            if (transforming != state) {
-                iterator.remove();
-                getDataManager().setDirty(processingPlaces);
-                continue;
-            }
-            MutableInt ticksLeft = next.getValue().getRight();
-            if (ticksLeft.decrementAndGet() < 0) {
-                iterator.remove();
-                getDataManager().setDirty(processingPlaces);
-                doTransform(pos, state);
-            }
+        BlockPos pos = getDataManager().get(transformingPos).orNull();
+        if (pos == null) {
+            return;
+        }
 
+        IBlockState state = world.getBlockState(pos);
+        if (state != transformingOre) {
+            getDataManager().set(transformingPos, Optional.absent());
+            transformingOre = null;
+            nextSearch = 0;
+            return;
+        }
+
+        if (--remainingTicks < 0) {
+            getDataManager().set(transformingPos, Optional.absent());
+            transformingOre = null;
+            nextSearch = 0;
+            doTransform(pos, state);
         }
     }
 
 
-    private void searchPossibleOres() {
+    private void searchPossibleOre() {
         initRecipe();
 
-        int processing = processingMap.size();
-        if (processing > maxParallel) {
-            return;
-        }
 
         BlockPos posA = new BlockPos(posX + (ritual.radius_x), posY + (ritual.radius_y), posZ + (ritual.radius_z));
         BlockPos posB = new BlockPos(posX - (ritual.radius_x), posY - (ritual.radius_y), posZ - (ritual.radius_z));
@@ -143,17 +142,15 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         Iterable<BlockPos> allInBox = BlockPos.getAllInBox(posA, posB);
 
         for (BlockPos pos : allInBox) {
-            if (processingMap.containsKey(pos)) {
+            IBlockState blockState = world.getBlockState(pos);
+            if (blockState.getBlockHardness(world, pos) < 0) {
                 continue;
             }
-            IBlockState blockState = world.getBlockState(pos);
             if (recipe.containsKey(blockState)) {
-                processingMap.put(pos, Pair.of(blockState, new MutableInt(randomInterval())));
-                getDataManager().setDirty(processingPlaces);
-                processing++;
-                if (processing > maxParallel) {
-                    break;
-                }
+                getDataManager().set(transformingPos, Optional.of(pos));
+                transformingOre = blockState;
+                remainingTicks = randomInterval();
+                return;
             }
         }
 
@@ -184,8 +181,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
         }
     }
-
-
 
 
 }
