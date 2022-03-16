@@ -8,6 +8,8 @@ import ikexing.atutils.client.render.BlockOutlineRender;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
 import ikexing.atutils.core.utils.Utils;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -18,10 +20,13 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.Pair;
+import vazkii.botania.client.fx.FXWisp;
 import vazkii.botania.common.Botania;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 import static vazkii.botania.common.block.tile.mana.TilePool.PARTICLE_COLOR;
@@ -37,6 +42,8 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
     //仪式最多同时转换的矿石个数
     private static final int searchInterval = 20;
+    public static final DataParameter<Optional<BlockPos>> transformingPos = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, DataSerializers.OPTIONAL_BLOCK_POS);
+    public static final DataParameter<Boolean> renderParticles = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, DataSerializers.BOOLEAN);
 
 
     private final RitualMagneticAttraction ritual;
@@ -45,6 +52,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         super(worldIn);
         getDataManager().register(lifetime, ATUtils.ritualMa.getDuration() + 20);
         getDataManager().register(transformingPos, Optional.absent());
+        getDataManager().register(renderParticles, false);
         ritual = (RitualMagneticAttraction) ATUtils.ritualMa;
     }
 
@@ -61,6 +69,7 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
             return;
         }
 
+        getDataManager().set(renderParticles, remainingTicks > 30);
         if (!getDataManager().get(transformingPos).isPresent()) {
             if (nextSearch <= 0) {
                 searchPossibleOre();
@@ -77,9 +86,26 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         Optional<BlockPos> blockPos = getDataManager().get(transformingPos);
         if (blockPos.isPresent()) {
             BlockPos pos = blockPos.get();
-            Botania.proxy.setWispFXDepthTest(false);
-            Botania.proxy.wispFX(pos.getX() + 0.3 + Math.random() * 0.5, pos.getY() + 0.6 + Math.random() * 0.25, pos.getZ() + Math.random(), PARTICLE_COLOR.getRed() / 255F, PARTICLE_COLOR.getGreen() / 255F, PARTICLE_COLOR.getBlue() / 255F, (float) Math.random() / 3F, (float) -Math.random() / 25F, 2F);
-            Botania.proxy.setWispFXDepthTest(true);
+            //粒子效果
+
+            if (getDataManager().get(renderParticles)) {
+                double fxX = pos.getX() + 0.3 + Math.random() * 0.5;
+                double fxY = pos.getY() + 0.6 + Math.random() * 0.25;
+                double fxZ = pos.getZ() + Math.random();
+
+                float fxR = PARTICLE_COLOR.getRed() / 255F;
+                float fxG = PARTICLE_COLOR.getGreen() / 255F;
+                float fxB = PARTICLE_COLOR.getBlue() / 255F;
+
+                float fxSize = (float) (Math.random() / 3F);
+                float fxMotionY = (float) (Math.random() / 25F);
+
+                FXWisp wisp = new FXWisp(world, fxX, fxY, fxZ, fxSize, fxR, fxG, fxB, true, false, 2F);
+                wisp.setSpeed(0, fxMotionY, 0);
+                ObfuscationReflectionHelper.setPrivateValue(Particle.class, wisp, false, "field_190017_n");
+                Minecraft.getMinecraft().effectRenderer.addEffect(wisp);
+            }
+
 
             BlockOutlineRender.INSTANCE.getPositionProviders().putIfAbsent(this, pos);
         } else {
@@ -94,8 +120,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         }
         super.setDead();
     }
-
-    private static final DataParameter<Optional<BlockPos>> transformingPos = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, DataSerializers.OPTIONAL_BLOCK_POS);
 
     private IBlockState transformingOre = null;
     private int remainingTicks = 0;

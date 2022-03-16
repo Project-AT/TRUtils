@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -46,6 +47,21 @@ public class ClientEventHandler {
         BlockOutlineRender.INSTANCE.updateFrameBufferSize();
         BlockOutlineRender.INSTANCE.renderToBuffer(event.getPartialTicks());
         BlockOutlineRender.INSTANCE.renderToScreen();
+//
+
+
+    }
+
+    @SubscribeEvent
+    public static void onRenderGameOverlay(RenderGameOverlayEvent event) {
+//        if(event.getType() != RenderGameOverlayEvent.ElementType.ALL) {
+//            return;
+//        }
+//        if (!BlockOutlineRender.INSTANCE.hasSomethingToRender()) {
+//            return;
+//        }
+//        BlockOutlineRender.INSTANCE.renderToScreen();
+
 
 
     }
