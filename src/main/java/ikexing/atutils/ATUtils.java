@@ -71,7 +71,7 @@ public class ATUtils {
 
     public static final Map<String, RecipeElvenTrade> RECIPE_ELVEN_TRADES = Maps.newHashMap();
     public static final List<String> CANCEL_ORES = Lists.newArrayList(
-            "ingot", "Glass", "nugget", "dust", "coal", "gem", "stone", "ore"
+            "ingot", "Glass", "nugget", "dust", "coal", "gem", "stone", "ore", "shard", "clamp"
     );
     public static final List<Pair<String, Integer>> CANCEL_ITEMS = Lists.newArrayList(
             Pair.of("minecraft:ender_pearl", 0),
