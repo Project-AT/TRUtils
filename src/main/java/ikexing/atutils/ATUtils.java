@@ -89,7 +89,6 @@ public class ATUtils {
     public static RitualBase ritualMa;
     public static Block circuitry;
     public static Block bunker;
-    public static Item goodFeeling = new Item().setRegistryName("good_feeling").setTranslationKey(MODID + ".good_feeling");
     public static Item equivalentFuel = new Item().setRegistryName("equivalent_fuel").setTranslationKey(MODID + ".equivalent_fuel");
     public static Item magneticAttraction = new Item().setRegistryName("magnetic_attraction").setTranslationKey(MODID + ".magnetic_attraction");
 

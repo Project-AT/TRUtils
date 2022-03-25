@@ -25,7 +25,7 @@ item.atutils.crude_steel.legs.name=Crude Steel Leggings
 item.atutils.crude_steel.feet.name=Crude Steel Boots
 
 item.atutils.flint_hoe.name=Flint Hoe
-item.atutils.good_feeling.name=Good Feeling
+item.atutils.good_feeling_level.name=Good Feeling Level
 item.atutils.equivalent_fuel.name=Equivalent Fuel
 
 item.atutils.cb.name=C.B
@@ -35,6 +35,8 @@ item.atutils.yangyang.name=Yang Yang
 item.atutils.six_color.name=Six Color
 item.atutils.superhelo.name=SuperHelo
 item.atutils.seleclipse.name=Seleclipse
+
+item.atutils.good_feeling_level.tooltip=§4You need to have a corresponding GoodFeeling level with the elven to trade.
 
 item.atutils.cb.tooltip=Be patient or careful with the rod
 item.atutils.mo.tooltip=It is called immortal dirt which Only-In-No-Out in ancient time

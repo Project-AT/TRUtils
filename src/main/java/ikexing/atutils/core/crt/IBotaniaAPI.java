@@ -38,16 +38,13 @@ public class IBotaniaAPI {
     }
 
     @ZenMethod
-    public static int getElvenTradeRecipeLevel(IItemStack[] input) {
+    public static int searchElvenTradeRecipe(IItemStack[] input, int level) {
         List<ItemStack> collect = Arrays.stream(CraftTweakerMC.getItemStacks(input)).collect(Collectors.toList());
-        int toReturn = -1;
-        for (RecipeElvenTrade value : ATUtils.RECIPE_ELVEN_TRADES.values()) {
-            int goodFeeling = ((IGoodFeeling) value).getGoodFeeling();
-            if (value.matches(collect, false) && goodFeeling >= toReturn) {
-                toReturn = goodFeeling;
-            }
-        }
-        return toReturn;
+        return ATUtils.RECIPE_ELVEN_TRADES.values().stream()
+                .filter(r -> r.matches(collect, false))
+                .mapToInt(v -> ((IGoodFeeling) v).getGoodFeeling())
+                .filter(i -> level >= i)
+                .max().orElse(-1);
     }
 
 }

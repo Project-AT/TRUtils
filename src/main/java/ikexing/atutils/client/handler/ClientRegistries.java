@@ -9,6 +9,7 @@ import ikexing.atutils.core.fluids.FluidAura;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.CrudeSteel;
 import ikexing.atutils.core.item.FlintHoe;
+import ikexing.atutils.core.item.GoodFeelingLevel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
@@ -29,11 +30,11 @@ public class ClientRegistries {
         BlockOutlineRender.INSTANCE.init();
         AuthorFood.convert();
         regModel(FlintHoe.INSTANCE);
+        regModel(GoodFeelingLevel.INSTANCE);
         regModel(BlockEvilStone.ITEM_BLOCK);
         regModel(BlockRustyIron.ITEM_BLOCK);
         regModel(ATUtils.magneticAttraction);
         regModel(ATUtils.equivalentFuel);
-        regModel(ATUtils.goodFeeling);
         CrudeSteel.ITEMS.forEach(ClientRegistries::regModel);
         AuthorFood.ITEM_FOODS.forEach(ClientRegistries::regModel);
     }

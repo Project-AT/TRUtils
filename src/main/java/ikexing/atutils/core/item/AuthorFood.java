@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -22,19 +23,18 @@ import java.util.Objects;
 
 public class AuthorFood {
 
-    private static final String FILE = getPath(System.getProperty("user.dir"), "resources", "atutils", "textures", "items", "{0}.jpg");
-    private static final String FILE_PNG = getPath(System.getProperty("user.dir"), "resources", "atutils", "textures", "items", "{0}.png");
-
     public static final List<Item> ITEM_FOODS = new ArrayList<>();
     public static final List<AuthorInformation> AUTHOR_QQ_NUMBER = Lists.newArrayList(
-        AuthorInformation.of(651274009L, "cb", 2, 0.5F),
-        AuthorInformation.of(3398804669L, "teddy", 8, 1.875F),
-        AuthorInformation.of(1422179824L, "yangyang", 2, 0.5F),
-        AuthorInformation.of(825802847L, "ikexing", 20, 1.0F),
-        AuthorInformation.of(3181063382L, "superhelo", 5, 1.6F),
-        AuthorInformation.of(3209636087L, "seleclipse", 16, 0.25F),
-        AuthorInformation.of(372395476L, "six_color", 16, 0.1875F)
+            AuthorInformation.of(651274009L, "cb", 2, 0.5F),
+            AuthorInformation.of(3398804669L, "teddy", 8, 1.875F),
+            AuthorInformation.of(1422179824L, "yangyang", 2, 0.5F),
+            AuthorInformation.of(825802847L, "ikexing", 20, 1.0F),
+            AuthorInformation.of(3181063382L, "superhelo", 5, 1.6F),
+            AuthorInformation.of(3209636087L, "seleclipse", 16, 0.25F),
+            AuthorInformation.of(372395476L, "six_color", 16, 0.1875F)
     );
+    private static final String FILE = getPath(System.getProperty("user.dir"), "resources", "atutils", "textures", "items", "{0}.jpg");
+    private static final String FILE_PNG = getPath(System.getProperty("user.dir"), "resources", "atutils", "textures", "items", "{0}.png");
 
     private static String getAvatarUrl(Long number) {
         return MessageFormat.format("https://q1.qlogo.cn/g?b=qq&nk={0}&s=640", number.toString());
@@ -96,7 +96,7 @@ public class AuthorFood {
         public static ItemFood of(AuthorInformation authorInformation) {
             ItemFood itemFood = new ItemFood(authorInformation.getHealAmount(), authorInformation.getSaturationModifier(), false) {
                 @Override
-                public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltips, ITooltipFlag flagIn) {
+                public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, @NotNull List<String> tooltips, @NotNull ITooltipFlag flagIn) {
                     String tooltip = format(authorInformation.getName());
                     if (!tooltip.contains(".tooltip")) {
                         tooltips.add(tooltip);

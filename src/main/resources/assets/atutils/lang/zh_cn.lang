@@ -25,7 +25,7 @@ item.atutils.crude_steel.legs.name=粗钢护腿
 item.atutils.crude_steel.feet.name=粗钢靴子
 
 item.atutils.flint_hoe.name=燧石锄
-item.atutils.good_feeling.name=好感度
+item.atutils.good_feeling_level.name=好感度等级
 item.atutils.equivalent_fuel.name=燃料等价物
 
 item.atutils.cb.name=C.B
@@ -45,6 +45,8 @@ item.atutils.yangyang.tooltip=我在
 item.atutils.niyan.tooltip=多喝热水
 item.atutils.six_color.tooltip=土豆炒土豆
 item.atutils.seleclipse.tooltip=§o问君能有几多愁，恰似鸡胸肉里卡狗头。
+
+item.atutils.good_feeling_level.tooltip=§4需要与精灵有对应的好感度才可交易。
 
 tile.atutils.rusty_iron.name=锈铁块
 tile.atutils.evil_stone.name=邪恶之石

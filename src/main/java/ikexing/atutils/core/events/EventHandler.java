@@ -59,7 +59,7 @@ public class EventHandler {
         }
     }
 
-    @SubscribeEvent
+    @SuppressWarnings("deprecation") @SubscribeEvent
     public static void onRegenPsi(RegenPsiEvent event) {
         EntityPlayer player = event.getPlayer();
         World world = player.getEntityWorld();
@@ -97,7 +97,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void onFurnaceFuelBurnTime(FurnaceFuelBurnTimeEvent event) {
         if (!event.getItemStack().isEmpty()) {
-            if (event.getItemStack().getItem() == ATUtils.goodFeeling) event.setBurnTime(200);
+            if (event.getItemStack().getItem() == ATUtils.equivalentFuel) event.setBurnTime(200);
         }
     }
 
