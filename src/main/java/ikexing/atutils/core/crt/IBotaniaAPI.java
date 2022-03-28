@@ -6,26 +6,23 @@ import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.goodfeeling.IGoodFeeling;
-import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 import vazkii.botania.api.recipe.RecipeElvenTrade;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @ZenRegister
 @ZenClass("mods.atutils.IBotaniaAPI")
 public class IBotaniaAPI {
 
     @ZenMethod
-    public static void registerElvenTradeRecipe(String recipeName, int level, IIngredient[] input, IItemStack... outputs) {
+    public static void addElvenTradeRecipe(String recipeName, int level, double experience, IIngredient[] input, IItemStack... outputs) {
         RecipeElvenTrade recipe = new RecipeElvenTrade(InputHelper.toStacks(outputs), InputHelper.toObjects(input));
-        ((IGoodFeeling) recipe).setGoodFeeling(level);
+        ((IGoodFeeling) recipe).setGoodFeelingLevel(level);
+        ((IGoodFeeling) recipe).setGoodFeelingExperience(experience);
         CraftTweakerAPI.apply(new IAction() {
             @Override public void apply() {
                 ATUtils.RECIPE_ELVEN_TRADES.put(recipeName, recipe);
@@ -38,13 +35,21 @@ public class IBotaniaAPI {
     }
 
     @ZenMethod
-    public static int searchElvenTradeRecipe(IItemStack[] input, int level) {
-        List<ItemStack> collect = Arrays.stream(CraftTweakerMC.getItemStacks(input)).collect(Collectors.toList());
-        return ATUtils.RECIPE_ELVEN_TRADES.values().stream()
-                .filter(r -> r.matches(collect, false))
-                .mapToInt(v -> ((IGoodFeeling) v).getGoodFeeling())
-                .filter(i -> level >= i)
-                .max().orElse(-1);
+    public static void addAlfPortalExperience(IIngredient input, double experience) {
+        CraftTweakerAPI.apply(new IAction() {
+            @Override public void apply() {
+                ATUtils.ALF_PORTAL_EXPERIENCE.put(input, experience);
+            }
+
+            @Override public String describe() {
+                return "Adding AlfPortal Experience " + experience + "D -> " + input.toCommandString();
+            }
+        });
+    }
+
+    @ZenMethod
+    public static Map<IIngredient, Double> getAllAlfPortalExperience() {
+        return ATUtils.ALF_PORTAL_EXPERIENCE;
     }
 
 }

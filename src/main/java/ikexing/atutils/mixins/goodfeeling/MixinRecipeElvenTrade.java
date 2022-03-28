@@ -7,16 +7,27 @@ import vazkii.botania.api.recipe.RecipeElvenTrade;
 @Mixin(value = RecipeElvenTrade.class, remap = false)
 public class MixinRecipeElvenTrade implements IGoodFeeling {
 
-    private int goodFeeling;
+    private int goodFeelingLevel;
+    private double goodFeelingExperience;
 
     @Override
-    public int getGoodFeeling() {
-        return goodFeeling;
+    public double getGoodFeelingExperience() {
+        return this.goodFeelingExperience;
     }
 
     @Override
-    public void setGoodFeeling(int goodFeeling) {
-        this.goodFeeling = goodFeeling;
+    public void setGoodFeelingExperience(double experience) {
+        this.goodFeelingExperience = experience;
+    }
+
+    @Override
+    public int getGoodFeelingLevel() {
+        return goodFeelingLevel;
+    }
+
+    @Override
+    public void setGoodFeelingLevel(int level) {
+        this.goodFeelingLevel = level;
     }
 
 }

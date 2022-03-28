@@ -1,7 +1,6 @@
 package ikexing.atutils.mixins.goodfeeling;
 
 import com.google.common.collect.ImmutableList;
-import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.goodfeeling.IGoodFeeling;
 import ikexing.atutils.core.item.GoodFeelingLevel;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -31,7 +30,7 @@ public abstract class MixinElvenTradeRecipeWrapper implements IGoodFeeling, IRec
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void init(RecipeElvenTrade recipe, CallbackInfo ci) {
-        goodFeeling = ((IGoodFeeling) recipe).getGoodFeeling();
+        goodFeeling = ((IGoodFeeling) recipe).getGoodFeelingLevel();
         ImmutableList.Builder<List<ItemStack>> builder = ImmutableList.builder();
         for (Object o : recipe.getInputs()) {
             if (o instanceof ItemStack) {
@@ -46,19 +45,27 @@ public abstract class MixinElvenTradeRecipeWrapper implements IGoodFeeling, IRec
     }
 
     @Override
-    public int getGoodFeeling() {
+    public int getGoodFeelingLevel() {
         return this.goodFeeling;
     }
 
     @Override
-    public void setGoodFeeling(int goodFeeling) {
-        this.goodFeeling = goodFeeling;
+    public void setGoodFeelingLevel(int level) {
+        this.goodFeeling = level;
     }
+
+    @Override
+    public double getGoodFeelingExperience() {
+        return 0;
+    }
+
+    @Override
+    public void setGoodFeelingExperience(double experience) {}
 
     @Override
     public void drawInfo(@NotNull Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         IRecipeWrapper.super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
         int posX = 42 + (18 * input.size()) - 4;
-        minecraft.getRenderManager().getFontRenderer().drawString(String.valueOf(getGoodFeeling()), posX, 10, 0xFFFFFF);
+        minecraft.getRenderManager().getFontRenderer().drawString(String.valueOf(getGoodFeelingLevel()), posX, 10, 0xFFFFFF);
     }
 }

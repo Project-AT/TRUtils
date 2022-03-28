@@ -1,19 +1,24 @@
 package ikexing.atutils.core.events;
 
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
+import de.ellpeck.naturesaura.items.ModItems;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.advancement.VisitVillageTrigger;
 import ikexing.atutils.core.block.BlockEvilStone;
+import ikexing.atutils.core.fluids.FluidHandlerAuraBottle;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -98,6 +103,13 @@ public class EventHandler {
     public static void onFurnaceFuelBurnTime(FurnaceFuelBurnTimeEvent event) {
         if (!event.getItemStack().isEmpty()) {
             if (event.getItemStack().getItem() == ATUtils.equivalentFuel) event.setBurnTime(200);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onAttachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
+        if (event.getObject().getItem() == ModItems.AURA_BOTTLE || event.getObject().getItem() == ModItems.BOTTLE_TWO) {
+            event.addCapability(new ResourceLocation(ATUtils.MODID, "aura_bottle"), new FluidHandlerAuraBottle(event.getObject()));
         }
     }
 

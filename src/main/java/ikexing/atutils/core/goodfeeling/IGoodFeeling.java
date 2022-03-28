@@ -2,8 +2,12 @@ package ikexing.atutils.core.goodfeeling;
 
 public interface IGoodFeeling {
 
-    int getGoodFeeling();
+    double getGoodFeelingExperience();
 
-    void setGoodFeeling(int goodFeeling);
+    void setGoodFeelingExperience(double experience);
+
+    int getGoodFeelingLevel();
+
+    void setGoodFeelingLevel(int level);
 
 }

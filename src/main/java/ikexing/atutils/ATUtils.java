@@ -5,6 +5,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import crafttweaker.api.item.IIngredient;
 import epicsquid.roots.integration.crafttweaker.Herbs;
 import epicsquid.roots.properties.Property;
 import epicsquid.roots.properties.PropertyTable;
@@ -69,7 +70,9 @@ public class ATUtils {
     public static final String VERSION = "1.1.5";
     public static final String dependencies = "required-after:crafttweaker;after:contenttweaker;required-after:mixinbooter;after:twilightforest;after:botania;before:mana_craft";
 
+    public static final Map<IIngredient, Double> ALF_PORTAL_EXPERIENCE = Maps.newHashMap();
     public static final Map<String, RecipeElvenTrade> RECIPE_ELVEN_TRADES = Maps.newHashMap();
+
     public static final List<String> CANCEL_ORES = Lists.newArrayList(
             "ingot", "Glass", "nugget", "dust", "coal", "gem", "stone", "ore", "shard", "clamp"
     );
