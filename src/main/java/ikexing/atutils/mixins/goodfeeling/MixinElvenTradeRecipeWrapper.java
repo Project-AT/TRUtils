@@ -2,7 +2,7 @@ package ikexing.atutils.mixins.goodfeeling;
 
 import com.google.common.collect.ImmutableList;
 import ikexing.atutils.core.goodfeeling.IGoodFeeling;
-import ikexing.atutils.core.item.GoodFeelingLevel;
+import ikexing.atutils.core.item.botania.GoodFeelingLevel;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -40,7 +40,7 @@ public abstract class MixinElvenTradeRecipeWrapper implements IGoodFeeling, IRec
                 builder.add(OreDictionary.getOres((String) o));
             }
         }
-        builder.add(ImmutableList.of(new ItemStack(GoodFeelingLevel.INSTANCE)));
+        builder.add(ImmutableList.of(new ItemStack(GoodFeelingLevel.INSTANCE, 1, getGoodFeelingLevel())));
         input = builder.build();
     }
 

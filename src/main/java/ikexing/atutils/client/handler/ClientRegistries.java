@@ -4,12 +4,11 @@ import ikexing.atutils.ATUtils;
 import ikexing.atutils.client.render.BlockOutlineRender;
 import ikexing.atutils.core.block.BlockEvilStone;
 import ikexing.atutils.core.block.BlockRustyIron;
-import ikexing.atutils.core.events.RegisterEvent;
 import ikexing.atutils.core.fluids.FluidAura;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.CrudeSteel;
 import ikexing.atutils.core.item.FlintHoe;
-import ikexing.atutils.core.item.GoodFeelingLevel;
+import ikexing.atutils.core.item.botania.GoodFeelingLevel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.Item;
@@ -27,19 +26,29 @@ public class ClientRegistries {
 
     @SubscribeEvent
     public static void onModelRegistry(ModelRegistryEvent event) {
-        BlockOutlineRender.INSTANCE.init();
-        AuthorFood.convert();
         regModel(FlintHoe.INSTANCE);
-        regModel(GoodFeelingLevel.INSTANCE);
         regModel(BlockEvilStone.ITEM_BLOCK);
         regModel(BlockRustyIron.ITEM_BLOCK);
         regModel(ATUtils.magneticAttraction);
         regModel(ATUtils.equivalentFuel);
+        regModelWithMeta(GoodFeelingLevel.INSTANCE, 6);
+
+        AuthorFood.convert();
+        BlockOutlineRender.INSTANCE.init();
+
         CrudeSteel.ITEMS.forEach(ClientRegistries::regModel);
         AuthorFood.ITEM_FOODS.forEach(ClientRegistries::regModel);
     }
+
+    public static void regModelWithMeta(Item item, int maxMetadata) {
+        for (int i = 0; i < maxMetadata; i++) {
+            ModelLoader.setCustomModelResourceLocation(item, i, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
+        }
+    }
+
     public static void regModel(Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(item, 0,
+                new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
     }
 
     @SubscribeEvent
@@ -53,6 +62,5 @@ public class ClientRegistries {
         textureMap.registerSprite(FluidAura.auraNether.getStill());
         textureMap.registerSprite(FluidAura.auraOverworld.getStill());
         textureMap.registerSprite(FluidAura.auraUnderworld.getStill());
-
     }
 }
