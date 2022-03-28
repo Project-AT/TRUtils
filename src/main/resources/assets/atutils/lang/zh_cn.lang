@@ -28,6 +28,13 @@ item.atutils.flint_hoe.name=燧石锄
 item.atutils.good_feeling_level.name=好感度等级
 item.atutils.equivalent_fuel.name=燃料等价物
 
+item.naturesaura.aura_bottle.atutils:underworld.name=瓶装幽冥
+
+fluid.aura_end=黑暗灵气
+fluid.aura_nether=鬼魂灵气
+fluid.aura_overworld=阳光灵气
+fluid.aura_underworld=幽冥灵气
+
 item.atutils.cb.name=C.B
 item.atutils.teddy.name=Teddy
 item.atutils.ikexing.name=科星

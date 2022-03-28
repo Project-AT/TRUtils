@@ -28,6 +28,13 @@ item.atutils.flint_hoe.name=Flint Hoe
 item.atutils.good_feeling_level.name=Good Feeling Level
 item.atutils.equivalent_fuel.name=Equivalent Fuel
 
+item.naturesaura.aura_bottle.atutils:underworld.name=Bottled Deep Dimness
+
+fluid.aura_end=Darkness Aura
+fluid.aura_nether=Ghost Aura
+fluid.aura_overworld=Sunlight Aura
+fluid.aura_underworld=Deep Dimness Aura
+
 item.atutils.cb.name=C.B
 item.atutils.teddy.name=Teddy
 item.atutils.ikexing.name=ikexing
