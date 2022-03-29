@@ -54,6 +54,8 @@ item.atutils.six_color.tooltip=土豆炒土豆
 item.atutils.seleclipse.tooltip=§o问君能有几多愁，恰似鸡胸肉里卡狗头。
 
 item.atutils.good_feeling_level.tooltip=§4需要与精灵有对应的好感度才可交易。
+item.atutils.alf_portal_experience.tooltip=§a你知道吗？精灵也许喜欢这个物品。
+item.atutils.alf_portal_experience_.tooltip=§c你知道吗？精灵可能并不喜欢这个物品。
 
 tile.atutils.rusty_iron.name=锈铁块
 tile.atutils.evil_stone.name=邪恶之石

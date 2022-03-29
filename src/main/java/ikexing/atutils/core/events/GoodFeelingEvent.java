@@ -12,26 +12,13 @@ import ikexing.atutils.core.goodfeeling.IGoodFeeling;
 import ink.ikx.rt.api.mods.botania.ITileAlfPortal;
 import ink.ikx.rt.impl.mods.botania.event.AlfPortalDroppedEvent;
 import ink.ikx.rt.impl.mods.botania.event.ElvenTradeEvent;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.botania.api.recipe.RecipeElvenTrade;
-import vazkii.botania.api.state.BotaniaStateProps;
-import vazkii.botania.api.state.enums.AlfPortalState;
-import vazkii.botania.common.block.ModBlocks;
-import vazkii.botania.common.block.tile.TileAlfPortal;
-import vazkii.botania.common.core.handler.ModSounds;
-import vazkii.botania.common.item.ModItems;
 
 import java.util.List;
 import java.util.Map;
@@ -91,6 +78,11 @@ public class GoodFeelingEvent {
                 }
             }
         }
+
+        World world = CraftTweakerMC.getWorld(alfPortal.getIWorld());
+        BlockPos pos = CraftTweakerMC.getBlockPos(alfPortal.getBlockPos());
+        if (!world.isRemote)
+            world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3); // 刷新好感度
     }
 
     @SubscribeEvent

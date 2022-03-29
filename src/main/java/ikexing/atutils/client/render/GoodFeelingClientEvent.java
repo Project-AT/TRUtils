@@ -1,5 +1,7 @@
-package ikexing.atutils.client.handler;
+package ikexing.atutils.client.render;
 
+import crafttweaker.api.item.IIngredient;
+import crafttweaker.api.minecraft.CraftTweakerMC;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.events.GoodFeelingEvent;
 import net.minecraft.block.Block;
@@ -16,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -26,6 +29,8 @@ import vazkii.botania.common.block.ModBlocks;
 import vazkii.botania.common.block.tile.TileAlfPortal;
 import vazkii.botania.common.core.helper.PlayerHelper;
 import vazkii.botania.common.item.ItemTwigWand;
+
+import java.util.Map;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class GoodFeelingClientEvent {
@@ -93,6 +98,18 @@ public class GoodFeelingClientEvent {
 
         GlStateManager.disableLighting();
         GlStateManager.disableBlend();
+    }
+
+    @SubscribeEvent
+    public static void onItemTooltip(ItemTooltipEvent event) {
+        for (Map.Entry<IIngredient, Double> entry : ATUtils.ALF_PORTAL_EXPERIENCE.entrySet()) {
+            if (entry.getKey().matches(CraftTweakerMC.getIItemStack(event.getItemStack()))) {
+                if (entry.getValue() > 0)
+                    event.getToolTip().add(I18n.format("item.atutils.alf_portal_experience.tooltip"));
+                else
+                    event.getToolTip().add(I18n.format("item.atutils.alf_portal_experience_.tooltip"));
+            }
+        }
     }
 
     public static void renderItemGoodFeelingLevel(int x, int y, int progress) {

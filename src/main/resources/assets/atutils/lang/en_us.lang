@@ -45,6 +45,9 @@ item.atutils.seleclipse.name=Seleclipse
 
 item.atutils.good_feeling_level.tooltip=§4You need to have a corresponding GoodFeeling level with the elven to trade.
 
+item.atutils.alf_portal_experience.tooltip=§aDid you know? The elven might be interested in the item.
+item.atutils.alf_portal_experience_.tooltip=§cDid you know? The elven might not like the item.
+
 item.atutils.cb.tooltip=Be patient or careful with the rod
 item.atutils.mo.tooltip=It is called immortal dirt which Only-In-No-Out in ancient time
 item.atutils.teddy.tooltip=Got it
