@@ -47,9 +47,4 @@ public class IBotaniaAPI {
         });
     }
 
-    @ZenMethod
-    public static Map<IIngredient, Double> getAllAlfPortalExperience() {
-        return ATUtils.ALF_PORTAL_EXPERIENCE;
-    }
-
 }

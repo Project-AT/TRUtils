@@ -33,9 +33,4 @@ public class GoodFeelingLevel extends Item {
         tooltip.add(I18n.translateToLocal("item.atutils.good_feeling_level.tooltip"));
     }
 
-    @Override
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-        items.clear();
-    }
-
 }

@@ -10,25 +10,19 @@ import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.AuthorFood.AuthorInformation;
 import ikexing.atutils.core.item.CrudeSteel;
 import ikexing.atutils.core.item.FlintHoe;
-import ikexing.atutils.core.item.GoodFeelingLevel;
+import ikexing.atutils.core.item.botania.GoodFeelingLevel;
 import ikexing.atutils.core.item.botania.AdvanceStickThunder;
 import ikexing.atutils.core.item.botania.StickThunder;
 import ikexing.atutils.core.ritual.entity.EntityRitualMagneticAttraction;
 import ikexing.atutils.core.utils.CustomDataSerializers;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
-import net.minecraft.network.datasync.DataSerializer;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.DataSerializerEntry;
 import net.minecraftforge.registries.IForgeRegistry;
-
-import java.util.Objects;
 
 @EventBusSubscriber
 public class RegisterEvent {
@@ -59,7 +53,6 @@ public class RegisterEvent {
     public static void onDataSerializerRegistry(Register<DataSerializerEntry> event) {
         event.getRegistry().register(new DataSerializerEntry(CustomDataSerializers.SERIALIZER_BLOCK_POS_SET).setRegistryName(ATUtils.MODID, "blockpos_set"));
     }
-
 
     @SubscribeEvent
     public static void onRegisterContent(RegisterContentEvent event) {
