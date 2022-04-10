@@ -1,5 +1,6 @@
 package ikexing.atutils.client.handler;
 
+import ikexing.atutils.ATItems;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.client.render.BlockOutlineRender;
 import ikexing.atutils.core.block.BlockEvilStone;
@@ -31,6 +32,7 @@ public class ClientRegistries {
         regModel(BlockRustyIron.ITEM_BLOCK);
         regModel(ATUtils.magneticAttraction);
         regModel(ATUtils.equivalentFuel);
+        regModel(ATItems.WASHING_MACHINE);
         regModelWithMeta(GoodFeelingLevel.INSTANCE, 6);
 
         AuthorFood.convert();
@@ -48,7 +50,7 @@ public class ClientRegistries {
 
     public static void regModel(Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0,
-                new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
+            new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
     }
 
     @SubscribeEvent

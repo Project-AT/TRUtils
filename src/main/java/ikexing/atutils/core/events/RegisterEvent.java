@@ -3,9 +3,11 @@ package ikexing.atutils.core.events;
 import epicsquid.mysticallib.LibRegistry;
 import epicsquid.mysticallib.entity.RenderNull;
 import epicsquid.mysticallib.event.RegisterContentEvent;
+import ikexing.atutils.ATBlocks;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.core.block.BlockEvilStone;
 import ikexing.atutils.core.block.BlockRustyIron;
+import ikexing.atutils.core.block.BlockWashingMachine;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.AuthorFood.AuthorInformation;
 import ikexing.atutils.core.item.CrudeSteel;
@@ -17,6 +19,7 @@ import ikexing.atutils.core.ritual.entity.EntityRitualMagneticAttraction;
 import ikexing.atutils.core.utils.CustomDataSerializers;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemFood;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -38,6 +41,7 @@ public class RegisterEvent {
         registry.register(ATUtils.magneticAttraction);
         registry.register(ATUtils.equivalentFuel);
         registry.register(AdvanceStickThunder.INSTANCE);
+        registry.register(new ItemBlock(ATBlocks.WASHING_MACHINE).setRegistryName("atutils:washing_machine"));
         registry.registerAll(CrudeSteel.ITEMS.toArray(new Item[0]));
         registry.registerAll(AuthorFood.AUTHOR_QQ_NUMBER.stream().map(AuthorInformation::of).peek(AuthorFood.ITEM_FOODS::add).toArray(ItemFood[]::new));
     }
@@ -47,6 +51,7 @@ public class RegisterEvent {
         IForgeRegistry<Block> registry = event.getRegistry();
         registry.register(BlockEvilStone.INSTANCE);
         registry.register(BlockRustyIron.INSTANCE);
+        registry.register(new BlockWashingMachine());
     }
 
     @SubscribeEvent
@@ -59,5 +64,6 @@ public class RegisterEvent {
         LibRegistry.registerEntity(EntityRitualMagneticAttraction.class);
         LibRegistry.registerEntityRenderer(EntityRitualMagneticAttraction.class, new RenderNull.Factory());
     }
+
 
 }

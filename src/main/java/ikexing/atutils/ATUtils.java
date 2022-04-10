@@ -13,6 +13,7 @@ import epicsquid.roots.ritual.RitualBase;
 import epicsquid.roots.ritual.RitualRegistry;
 import epicsquid.roots.spell.SpellBase;
 import epicsquid.roots.spell.SpellRegistry;
+import ikexing.atutils.core.CommonProxy;
 import ikexing.atutils.core.advancement.VisitVillageTrigger;
 import ikexing.atutils.core.aura.ExtraAuras;
 import ikexing.atutils.core.container.gui.GuiProxy;
@@ -20,6 +21,7 @@ import ikexing.atutils.core.events.EventLootTableLoad;
 import ikexing.atutils.core.fluids.FluidAura;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
+import ikexing.atutils.core.tile.TileWashingMachine;
 import mana_craft.init.ManaCraftBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
@@ -31,6 +33,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -39,6 +42,7 @@ import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.eventhandler.IEventListener;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 import sblectric.lightningcraft.api.util.JointList;
@@ -97,6 +101,9 @@ public class ATUtils {
 
     public static Logger logger;
 
+    @SidedProxy(clientSide = "ikexing.atutils.client.ClientProxy", serverSide = "ikexing.atutils.core.CommonProxy")
+    public static CommonProxy proxy;
+
     @Mod.Instance
     public static ATUtils instance;
 
@@ -126,6 +133,8 @@ public class ATUtils {
         modifyRootSpells();
         BotaniaAPI.elvenTradeRecipes.clear();
         BotaniaAPI.elvenTradeRecipes.addAll(RECIPE_ELVEN_TRADES.values());
+
+        proxy.init();
     }
 
     @EventHandler
@@ -136,7 +145,8 @@ public class ATUtils {
         BotaniaAPI.oreWeightsNether.clear();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
         CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
-        FluidAura.registerFluids();
+
+        proxy.preInit();
     }
 
     @EventHandler
@@ -144,7 +154,8 @@ public class ATUtils {
         unregisterDemonicIngotHandlerEvent();
         setDefaultBoreOutput();
         MinecraftForge.EVENT_BUS.register(EventLootTableLoad.class);
-        ExtraAuras.postInit();
+
+        proxy.postInit();
     }
 
     private void unregisterDemonicIngotHandlerEvent() {
