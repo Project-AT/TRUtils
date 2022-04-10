@@ -5,7 +5,9 @@ import hellfirepvp.modularmachinery.common.tiles.base.TileFluidTank;
 import ikexing.atutils.core.tile.IFluidTankGui;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidTank;
@@ -46,7 +48,7 @@ public class PacketFillGuiFluidTank implements IMessage, IMessageHandler<PacketF
     public IMessage onMessage(PacketFillGuiFluidTank message, MessageContext ctx) {
         if (ctx.side == Side.SERVER) {
             FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
-                EntityPlayer player = ctx.getServerHandler().player;
+                EntityPlayerMP player = ctx.getServerHandler().player;
                 if (player.openContainer instanceof IFluidTankGui) {
                     ItemStack holding = player.inventory.getItemStack();
                     if (!holding.isEmpty()) {
@@ -67,6 +69,7 @@ public class PacketFillGuiFluidTank implements IMessage, IMessageHandler<PacketF
                             }
                             if (result.isSuccess()) {
                                 player.inventory.setItemStack(result.getResult());
+                                player.connection.sendPacket(new SPacketSetSlot(-1, 0, player.inventory.getItemStack()));
                             }
                         }
                     }
