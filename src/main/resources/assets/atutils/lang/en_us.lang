@@ -35,28 +35,10 @@ fluid.aura_nether=Ghost Aura
 fluid.aura_overworld=Sunlight Aura
 fluid.aura_underworld=Deep Dimness Aura
 
-item.atutils.cb.name=C.B
-item.atutils.teddy.name=Teddy
-item.atutils.ikexing.name=ikexing
-item.atutils.yangyang.name=Yang Yang
-item.atutils.six_color.name=Six Color
-item.atutils.superhelo.name=SuperHelo
-item.atutils.seleclipse.name=Seleclipse
-
 item.atutils.good_feeling_level.tooltip=§4You need to have a corresponding GoodFeeling level with the elven to trade.
 
 item.atutils.alf_portal_experience.tooltip=§aDid you know? The elven might be interested in the item.
 item.atutils.alf_portal_experience_.tooltip=§cDid you know? The elven might not like the item.
-
-item.atutils.cb.tooltip=Be patient or careful with the rod
-item.atutils.mo.tooltip=It is called immortal dirt which Only-In-No-Out in ancient time
-item.atutils.teddy.tooltip=Got it
-item.atutils.ikexing.tooltip=§oI'm a good man.
-item.atutils.superhelo.tooltip=§6This is a high food :D
-item.atutils.yangyang.tooltip=I‘m here
-item.atutils.niyan.tooltip=Have a cup of coffee
-item.atutils.six_color.tooltip=Fried potatoes with potatoes
-item.atutils.seleclipse.tooltip=§oIf you ask me how much my sorrow has increased, just see the stucked dog in chicken breast.
 
 tile.atutils.rusty_iron.name=Rusty Iron Block
 tile.atutils.evil_stone.name=Evil Stone

@@ -1,5 +1,6 @@
 package ikexing.atutils.core.item;
 
+import cn.hutool.core.img.Img;
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.http.HttpUtil;
@@ -19,25 +20,25 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class AuthorFood {
 
     public static final List<Item> ITEM_FOODS = new ArrayList<>();
-    public static final List<AuthorInformation> AUTHOR_QQ_NUMBER = Lists.newArrayList(
-            AuthorInformation.of(651274009L, "cb", 2, 0.5F),
-            AuthorInformation.of(3398804669L, "teddy", 8, 1.875F),
-            AuthorInformation.of(1422179824L, "yangyang", 2, 0.5F),
-            AuthorInformation.of(825802847L, "ikexing", 20, 1.0F),
-            AuthorInformation.of(3181063382L, "superhelo", 5, 1.6F),
-            AuthorInformation.of(3209636087L, "seleclipse", 16, 0.25F),
-            AuthorInformation.of(372395476L, "six_color", 16, 0.1875F)
-    );
+    public static final List<AuthorInformation> AUTHOR_QQ_NUMBER = Lists.newArrayList();
     private static final String FILE = getPath(System.getProperty("user.dir"), "resources", "atutils", "textures", "items", "{0}.jpg");
     private static final String FILE_PNG = getPath(System.getProperty("user.dir"), "resources", "atutils", "textures", "items", "{0}.png");
 
-    private static String getAvatarUrl(Long number) {
-        return MessageFormat.format("https://q1.qlogo.cn/g?b=qq&nk={0}&s=640", number.toString());
+    private static final String FILE_JSON = getPath(System.getProperty("user.dir"), "resources", "atutils", "models", "item", "{0}.json");
+
+    private static final String JSON = "{\n" +
+            "  \"parent\": \"item/generated\",\n" +
+            "  \"textures\": {\n" +
+            "    \"layer0\": \"atutils:items/${name}\"\n" +
+            "  }\n" +
+            "}";
+
+    private static String getAvatarUrl(String number) {
+        return MessageFormat.format("https://q1.qlogo.cn/g?b=qq&nk={0}&s=640", number);
     }
 
     private static String format(String name) {
@@ -50,20 +51,28 @@ public class AuthorFood {
 
     public static void downloadAvatar() {
         try {
-            AUTHOR_QQ_NUMBER.forEach(author -> HttpUtil.downloadFile(getAvatarUrl(author.getNumber()), getTrueName(FILE, author.getName())));
-        } catch (Exception ignored) {
-        }
+            for (AuthorInformation authorInfo : AUTHOR_QQ_NUMBER) {
+                String name = authorInfo.getName();
+                HttpUtil.downloadFile(getAvatarUrl(authorInfo.getNumber()), getTrueName(FILE, name));
+
+                File fileJson = getTrueName(FILE_JSON, name);
+                if (!FileUtil.getParent(fileJson, 1).exists()) {
+                    FileUtil.mkdir(FileUtil.getParent(fileJson, 1));
+                }
+                if (!FileUtil.exist(fileJson)) {
+                    FileUtil.writeUtf8String(JSON.replace("${name}", name), fileJson);
+                }
+            }
+        } catch (Exception ignored) {}
     }
 
     public static void convert() {
-        try {
-            AUTHOR_QQ_NUMBER.stream()
-                    .filter(author -> Objects.nonNull(getTrueName(FILE, author.getName())))
-                    .peek(author -> ImgUtil.convert(getTrueName(FILE, author.getName()), getTrueName(FILE_PNG, author.getName())))
-                    .peek(author -> ImgUtil.scale(getTrueName(FILE_PNG, author.getName()), getTrueName(FILE_PNG, author.getName()), 144, 144, null))
-                    .forEach(author -> FileUtil.del(getTrueName(FILE, author.getName())));
-        } catch (RuntimeException e) {
-            ATUtils.logger.warn(e);
+        for (AuthorInformation authorInfo : AUTHOR_QQ_NUMBER) {
+            Img.from(getTrueName(FILE, authorInfo.getName()))
+                    .setTargetImageType(ImgUtil.IMAGE_TYPE_PNG)
+                    .setQuality(-1).scale(144, 144)
+                    .round(0.5).write(getTrueName(FILE_PNG, authorInfo.getName()));
+            FileUtil.del(getTrueName(FILE, authorInfo.getName()));
         }
     }
 
@@ -77,19 +86,19 @@ public class AuthorFood {
 
     public static class AuthorInformation {
 
-        private final long number;
+        private final String number;
         private final String name;
         private final int healAmount;
         private final float saturationModifier;
 
-        private AuthorInformation(long number, String name, int healAmount, float saturationModifier) {
+        private AuthorInformation(String number, String name, int healAmount, float saturationModifier) {
             this.number = number;
             this.name = name;
             this.healAmount = healAmount;
             this.saturationModifier = saturationModifier;
         }
 
-        public static AuthorInformation of(long number, String name, int healAmount, float saturationModifier) {
+        public static AuthorInformation of(String number, String name, int healAmount, float saturationModifier) {
             return new AuthorInformation(number, name, healAmount, saturationModifier);
         }
 
@@ -109,7 +118,7 @@ public class AuthorFood {
             return itemFood;
         }
 
-        public long getNumber() {
+        public String getNumber() {
             return number;
         }
 
@@ -124,6 +133,7 @@ public class AuthorFood {
         public float getSaturationModifier() {
             return saturationModifier;
         }
+
     }
 
 }

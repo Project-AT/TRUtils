@@ -107,7 +107,7 @@ public class ATUtils {
     }
 
     @EventHandler
-    public void onInit(FMLInitializationEvent event) throws Exception {
+    public void onInit(FMLInitializationEvent event) {
         proxy.init();
     }
 

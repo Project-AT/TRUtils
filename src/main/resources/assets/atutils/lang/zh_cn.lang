@@ -35,24 +35,6 @@ fluid.aura_nether=鬼魂灵气
 fluid.aura_overworld=阳光灵气
 fluid.aura_underworld=幽冥灵气
 
-item.atutils.cb.name=C.B
-item.atutils.teddy.name=Teddy
-item.atutils.ikexing.name=科星
-item.atutils.yangyang.name=洋洋
-item.atutils.six_color.name=六色
-item.atutils.superhelo.name=小哈罗
-item.atutils.seleclipse.name=Seleclipse
-
-item.atutils.cb.tooltip=忍耐或小心鱼钩
-item.atutils.mo.tooltip=在旧时代被称为只进不出神仙土
-item.atutils.teddy.tooltip=摸到了
-item.atutils.ikexing.tooltip=§o我是好人
-item.atutils.superhelo.tooltip=§6你会感谢我 :D
-item.atutils.yangyang.tooltip=我在
-item.atutils.niyan.tooltip=多喝热水
-item.atutils.six_color.tooltip=土豆炒土豆
-item.atutils.seleclipse.tooltip=§o问君能有几多愁，恰似鸡胸肉里卡狗头。
-
 item.atutils.good_feeling_level.tooltip=§4需要与精灵有对应的好感度才可交易。
 item.atutils.alf_portal_experience.tooltip=§a你知道吗？精灵也许喜欢这个物品。
 item.atutils.alf_portal_experience_.tooltip=§c你知道吗？精灵可能并不喜欢这个物品。
