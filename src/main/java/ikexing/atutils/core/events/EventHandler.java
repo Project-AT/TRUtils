@@ -3,7 +3,6 @@ package ikexing.atutils.core.events;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import de.ellpeck.naturesaura.items.ModItems;
 import ikexing.atutils.ATUtils;
-import ikexing.atutils.core.advancement.VisitVillageTrigger;
 import ikexing.atutils.core.block.BlockEvilStone;
 import ikexing.atutils.core.fluids.FluidHandlerAuraBottle;
 import net.minecraft.block.state.IBlockState;
@@ -11,7 +10,6 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +21,6 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import vazkii.botania.api.mana.ManaItemHandler;
 import vazkii.botania.common.Botania;
 import vazkii.psi.api.cad.RegenPsiEvent;
@@ -89,13 +86,6 @@ public class EventHandler {
                     IS_FIRST.remove(player, true);
                 }
             }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && event.side.isServer()) {
-            VisitVillageTrigger.INSTANCE.trigger(((EntityPlayerMP) event.player));
         }
     }
 

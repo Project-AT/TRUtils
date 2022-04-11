@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class ATUtilsTransformer implements IClassTransformer {
+
     private static final Map<String, Consumer<ClassNode>> tweakedClasses = new HashMap<>();
 
     static {
@@ -46,4 +47,5 @@ public class ATUtilsTransformer implements IClassTransformer {
         }
         return basicClass;
     }
+
 }

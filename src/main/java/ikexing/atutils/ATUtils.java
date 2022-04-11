@@ -1,36 +1,22 @@
 package ikexing.atutils;
 
 import cn.hutool.core.lang.Pair;
-import cn.hutool.core.util.ReflectUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import crafttweaker.api.item.IIngredient;
-import epicsquid.roots.integration.crafttweaker.Herbs;
-import epicsquid.roots.properties.Property;
-import epicsquid.roots.properties.PropertyTable;
 import epicsquid.roots.ritual.RitualBase;
 import epicsquid.roots.ritual.RitualRegistry;
-import epicsquid.roots.spell.SpellBase;
-import epicsquid.roots.spell.SpellRegistry;
 import ikexing.atutils.core.CommonProxy;
-import ikexing.atutils.core.advancement.VisitVillageTrigger;
-import ikexing.atutils.core.aura.ExtraAuras;
-import ikexing.atutils.core.container.gui.GuiProxy;
 import ikexing.atutils.core.events.EventLootTableLoad;
-import ikexing.atutils.core.fluids.FluidAura;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.ritual.RitualMagneticAttraction;
-import ikexing.atutils.core.tile.TileWashingMachine;
-import mana_craft.init.ManaCraftBlocks;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -40,9 +26,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventBus;
 import net.minecraftforge.fml.common.eventhandler.IEventListener;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 import sblectric.lightningcraft.api.util.JointList;
@@ -54,10 +38,8 @@ import teamroots.embers.recipe.RecipeRegistry;
 import teamroots.embers.util.WeightedItemStack;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.api.recipe.RecipeElvenTrade;
-import vazkii.botania.common.block.ModBlocks;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -126,14 +108,6 @@ public class ATUtils {
 
     @EventHandler
     public void onInit(FMLInitializationEvent event) throws Exception {
-        if (Loader.isModLoaded("mana_craft")) {
-            manaCraftOrichalcum();
-        }
-        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiProxy());
-        modifyRootSpells();
-        BotaniaAPI.elvenTradeRecipes.clear();
-        BotaniaAPI.elvenTradeRecipes.addAll(RECIPE_ELVEN_TRADES.values());
-
         proxy.init();
     }
 
@@ -144,7 +118,6 @@ public class ATUtils {
         BotaniaAPI.oreWeights.clear();
         BotaniaAPI.oreWeightsNether.clear();
         RitualRegistry.addRitual(ritualMa = new RitualMagneticAttraction());
-        CriteriaTriggers.register(VisitVillageTrigger.INSTANCE);
 
         proxy.preInit();
     }
@@ -180,24 +153,6 @@ public class ATUtils {
             e.printStackTrace();
         }
         return toReturn;
-    }
-
-    private void manaCraftOrichalcum() throws Exception {
-        Field field = ReflectUtil.getField(ManaCraftBlocks.class, "orichalcum_block");
-        ReflectUtil.setAccessible(field);
-        Field modifiersField = ReflectUtil.getField(Field.class, "modifiers");
-        ReflectUtil.setAccessible(modifiersField).setInt(field, field.getModifiers() & ~Modifier.FINAL);
-        field.set(null, ModBlocks.storage);
-    }
-
-    private void modifyRootSpells() {
-        SpellBase chrysopoeiaSpell = SpellRegistry.getSpell("spell_chrysopoeia");
-        PropertyTable chrysopoeiaSpellPropertiesrops = chrysopoeiaSpell.getProperties();
-        Property<SpellBase.SpellCost> infernalBulbProp = chrysopoeiaSpellPropertiesrops.get("cost_" + Herbs.infernal_bulb.getHerbName());
-        chrysopoeiaSpellPropertiesrops.getProperties().remove(infernalBulbProp);
-        Property<SpellBase.SpellCost> spiritHerbProp = chrysopoeiaSpellPropertiesrops.get("cost_" + Herbs.spirit_herb.getHerbName());
-        SpellBase.SpellCost spiritHerbNewCost = new SpellBase.SpellCost(Herbs.spirit_herb.getHerbName(), 0.5);
-        chrysopoeiaSpellPropertiesrops.set(spiritHerbProp, spiritHerbNewCost);
     }
 
     private void setDefaultBoreOutput() {

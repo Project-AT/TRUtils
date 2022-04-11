@@ -24,29 +24,30 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.commons.lang3.tuple.Pair;
 import vazkii.botania.client.fx.FXWisp;
-import vazkii.botania.common.Botania;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static vazkii.botania.common.block.tile.mana.TilePool.PARTICLE_COLOR;
 
 public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
-    private static final List<Pair<String, String>> oresTransform = Lists.newArrayList(
-        Pair.of("oreIron", "nuggetIron"),
-        Pair.of("oreNickel", "nuggetNickel"),
-        Pair.of("oreCrudeSteel", "nuggetCrudeSteel"),
-        Pair.of("blockRustyIron", "ingotIron")
-    );
-
-    //仪式最多同时转换的矿石个数
-    private static final int searchInterval = 20;
     public static final DataParameter<Optional<BlockPos>> transformingPos = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, DataSerializers.OPTIONAL_BLOCK_POS);
     public static final DataParameter<Boolean> renderParticles = EntityDataManager.createKey(EntityRitualMagneticAttraction.class, DataSerializers.BOOLEAN);
-
-
+    private static final List<Pair<String, String>> oresTransform = Lists.newArrayList(
+            Pair.of("oreIron", "nuggetIron"),
+            Pair.of("oreNickel", "nuggetNickel"),
+            Pair.of("oreCrudeSteel", "nuggetCrudeSteel"),
+            Pair.of("blockRustyIron", "ingotIron")
+    );
+    //仪式最多同时转换的矿石个数
+    private static final int searchInterval = 20;
     private final RitualMagneticAttraction ritual;
+    private int nextSearch = 0;
+    private IBlockState transformingOre = null;
+    private int remainingTicks = 0;
+    private Map<IBlockState, ItemStack> recipe = null;
 
     public EntityRitualMagneticAttraction(World worldIn) {
         super(worldIn);
@@ -55,8 +56,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         getDataManager().register(renderParticles, false);
         ritual = (RitualMagneticAttraction) ATUtils.ritualMa;
     }
-
-    private int nextSearch = 0;
 
     @Override
     public void onUpdate() {
@@ -121,9 +120,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         super.setDead();
     }
 
-    private IBlockState transformingOre = null;
-    private int remainingTicks = 0;
-
     private void doTransform(BlockPos pos, IBlockState state) {
         world.setBlockToAir(pos);
         ItemStack result = recipe.get(state).copy();
@@ -155,7 +151,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         }
     }
 
-
     private void searchPossibleOre() {
         initRecipe();
 
@@ -185,8 +180,6 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
         return 100 + rand.nextInt(101);
     }
 
-    private Map<IBlockState, ItemStack> recipe = null;
-
     private void initRecipe() {
         if (recipe == null) {
             recipe = new HashMap<>();
@@ -205,6 +198,5 @@ public class EntityRitualMagneticAttraction extends EntityRitualBase {
 
         }
     }
-
 
 }

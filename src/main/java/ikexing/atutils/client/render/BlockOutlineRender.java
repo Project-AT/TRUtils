@@ -30,11 +30,10 @@ import java.util.WeakHashMap;
 import java.util.function.Supplier;
 
 public class BlockOutlineRender {
+
     public static final BlockOutlineRender INSTANCE = new BlockOutlineRender();
 
-    private BlockOutlineRender() {
-
-    }
+    private BlockOutlineRender() {}
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -225,5 +224,6 @@ public class BlockOutlineRender {
         }
         return size > 0;
     }
+
 }
 

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FluidAura extends Fluid {
+
     public static final Map<IAuraType, Fluid> fluidsMapping = new HashMap<>();
 
     public static Fluid auraOverworld = new FluidAura(NaturesAuraAPI.TYPE_OVERWORLD);
@@ -53,4 +54,5 @@ public class FluidAura extends Fluid {
     public String getLocalizedName(FluidStack stack) {
         return super.getLocalizedName(stack);
     }
+
 }

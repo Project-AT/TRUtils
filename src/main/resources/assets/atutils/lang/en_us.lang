@@ -61,6 +61,7 @@ item.atutils.seleclipse.tooltip=§oIf you ask me how much my sorrow has increase
 tile.atutils.rusty_iron.name=Rusty Iron Block
 tile.atutils.evil_stone.name=Evil Stone
 tile.atutils.no_energy_table.name=Inactivated Research Table
+tile.atutils.washing_machine.name=Washing Machine
 tile.modularmachinery.blockcircuitry.elite.name=Machine Elite Circuitry
 tile.modularmachinery.blockcircuitry.advanced.name=Machine Advanced Circuitry
 tile.modularmachinery.blockcircuitry.ultimate.name=Machine Ultimate Circuitry

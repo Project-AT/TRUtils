@@ -19,6 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class FluidHandlerAuraBottle implements IFluidHandlerItem, ICapabilityProvider {
+
     @Nonnull
     protected ItemStack container;
 
@@ -151,4 +152,5 @@ public class FluidHandlerAuraBottle implements IFluidHandlerItem, ICapabilityPro
         }
         return null;
     }
+
 }

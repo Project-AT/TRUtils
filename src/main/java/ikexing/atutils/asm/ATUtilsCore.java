@@ -13,10 +13,11 @@ import java.util.Map;
 public class ATUtilsCore implements IFMLLoadingPlugin {
 
     public static final Logger logger = LogManager.getLogger("AtUtils Core");
+
     @Override
     public String[] getASMTransformerClass() {
-        return new String[] {
-            "ikexing.atutils.asm.common.ATUtilsTransformer"
+        return new String[]{
+                "ikexing.atutils.asm.common.ATUtilsTransformer"
         };
     }
 
@@ -40,4 +41,5 @@ public class ATUtilsCore implements IFMLLoadingPlugin {
     public String getAccessTransformerClass() {
         return null;
     }
+
 }

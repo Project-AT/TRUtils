@@ -19,7 +19,6 @@ import java.util.function.IntSupplier;
 
 public class ContainerWashingMachine extends Container implements IFluidTankGui {
 
-
     public ContainerWashingMachine(EntityPlayer player, TileWashingMachine washingMachine) {
         this.washingMachine = washingMachine;
         this.dataSuppliers = new IntSupplier[]
@@ -148,5 +147,6 @@ public class ContainerWashingMachine extends Container implements IFluidTankGui 
 
         return null;
     }
+
 }
 

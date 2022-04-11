@@ -21,6 +21,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public class PacketFillGuiFluidTank implements IMessage, IMessageHandler<PacketFillGuiFluidTank, IMessage> {
+
     public int tankIndex;
     public int mouseButton;
 
@@ -78,4 +79,5 @@ public class PacketFillGuiFluidTank implements IMessage, IMessageHandler<PacketF
         }
         return null;
     }
+
 }

@@ -28,15 +28,16 @@ import java.io.IOException;
 import java.util.List;
 
 public class GuiWashingMachine extends GuiContainer {
+
     public static final ResourceLocation BACKGROUND = new ResourceLocation("atutils", "textures/gui/gui_washing_machine.png");
 
-    private ContainerWashingMachine container;
-    private TileWashingMachine tile;
+    private final ContainerWashingMachine container;
+    private final TileWashingMachine tile;
 
     public GuiWashingMachine(ContainerWashingMachine inventorySlotsIn) {
         super(inventorySlotsIn);
         this.tile = inventorySlotsIn.getWashingMachine();
-        container = inventorySlotsIn;
+        this.container = inventorySlotsIn;
     }
 
     @Override
@@ -169,7 +170,6 @@ public class GuiWashingMachine extends GuiContainer {
 
 
     private void getFluidTooltip(FluidTank tank, List<String> curTip) {
-
         Fluid fluid = null;
         int amt = 0;
         int capacity = 0;
@@ -188,4 +188,5 @@ public class GuiWashingMachine extends GuiContainer {
             curTip.add(TextFormatting.GRAY + fluid.getLocalizedName(new FluidStack(fluid, amt)));
         }
     }
+
 }

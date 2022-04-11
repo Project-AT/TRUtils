@@ -1,10 +1,10 @@
 package ikexing.atutils.client.handler;
 
-import ikexing.atutils.ATItems;
 import ikexing.atutils.ATUtils;
 import ikexing.atutils.client.render.BlockOutlineRender;
 import ikexing.atutils.core.block.BlockEvilStone;
 import ikexing.atutils.core.block.BlockRustyIron;
+import ikexing.atutils.core.block.BlockWashingMachine;
 import ikexing.atutils.core.fluids.FluidAura;
 import ikexing.atutils.core.item.AuthorFood;
 import ikexing.atutils.core.item.CrudeSteel;
@@ -28,11 +28,11 @@ public class ClientRegistries {
     @SubscribeEvent
     public static void onModelRegistry(ModelRegistryEvent event) {
         regModel(FlintHoe.INSTANCE);
+        regModel(ATUtils.equivalentFuel);
         regModel(BlockEvilStone.ITEM_BLOCK);
         regModel(BlockRustyIron.ITEM_BLOCK);
         regModel(ATUtils.magneticAttraction);
-        regModel(ATUtils.equivalentFuel);
-        regModel(ATItems.WASHING_MACHINE);
+        regModel(BlockWashingMachine.ITEM_BLOCK);
         regModelWithMeta(GoodFeelingLevel.INSTANCE, 6);
 
         AuthorFood.convert();
@@ -50,7 +50,7 @@ public class ClientRegistries {
 
     public static void regModel(Item item) {
         ModelLoader.setCustomModelResourceLocation(item, 0,
-            new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
+                new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
     }
 
     @SubscribeEvent
@@ -65,4 +65,5 @@ public class ClientRegistries {
         textureMap.registerSprite(FluidAura.auraOverworld.getStill());
         textureMap.registerSprite(FluidAura.auraUnderworld.getStill());
     }
+
 }

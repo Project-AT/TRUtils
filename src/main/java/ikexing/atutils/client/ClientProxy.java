@@ -1,6 +1,5 @@
 package ikexing.atutils.client;
 
-import ikexing.atutils.client.handler.ClientRegistries;
 import ikexing.atutils.client.tesr.TileWashingMachineRender;
 import ikexing.atutils.core.CommonProxy;
 import ikexing.atutils.core.tile.TileWashingMachine;
@@ -23,4 +22,5 @@ public class ClientProxy extends CommonProxy {
     public void postInit() {
         super.postInit();
     }
+
 }

@@ -47,4 +47,5 @@ public class RitualMagneticAttraction extends RitualBase {
         radius_y = radius[1];
         radius_z = radius[2];
     }
+
 }

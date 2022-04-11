@@ -178,4 +178,5 @@ public class TileWashingMachineRender extends TileEntitySpecialRenderer<TileWash
 
         }
     }
+
 }

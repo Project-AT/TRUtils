@@ -38,32 +38,24 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
 public class TileWashingMachine extends TileEntity implements ITickable, IGuiProvider {
+
     public static final int maxEnergy = 16000;
     public static final int maxFluid = 8000;
-
+    private final ItemStackHandler inputInventory = new SyncableItemHandler(4);
+    private final ItemStackHandler outputInventory = new SyncableItemHandler(4);
+    private final DynamicFluidTank inputTank = new DynamicFluidTank(maxFluid);
+    private final DynamicFluidTank outputTank = new DynamicFluidTank(maxFluid);
+    private final MachineFluidHandler fluidHandler = new MachineFluidHandler();
+    private final IItemHandler itemHandler = new MachineItemHandler();
+    private final IEnergyStorage energyHandler = new MachineEnergyHandler();
     private int washingTime;
     private WashingMachineRecipe currentRecipe;
     private boolean needNetworkSync;
     private int tickExisted;
     private boolean needCheckRecipe;
-
-    private final ItemStackHandler inputInventory = new SyncableItemHandler(4);
-    private final ItemStackHandler outputInventory = new SyncableItemHandler(4);
-
-    private final DynamicFluidTank inputTank = new DynamicFluidTank(maxFluid);
-    private final DynamicFluidTank outputTank = new DynamicFluidTank(maxFluid);
-
-
     private int energy = 0;
-
     private EnumFacing direction;
-
-    private final MachineFluidHandler fluidHandler = new MachineFluidHandler();
-    private final IItemHandler itemHandler = new MachineItemHandler();
-    private final IEnergyStorage energyHandler = new MachineEnergyHandler();
-
 
     @Override
     public boolean hasCapability(@NotNull Capability<?> capability, @Nullable EnumFacing facing) {
@@ -102,7 +94,6 @@ public class TileWashingMachine extends TileEntity implements ITickable, IGuiPro
         }
 
     }
-
 
     public void writeSaveNBT(NBTTagCompound compound) {
         compound.setTag("inputInventory", inputInventory.serializeNBT());
@@ -214,7 +205,7 @@ public class TileWashingMachine extends TileEntity implements ITickable, IGuiPro
     public void broadcastTile() {
         SPacketUpdateTileEntity packet = getUpdatePacket();
         PlayerChunkMapEntry chunk = ((WorldServer) world).getPlayerChunkMap().getEntry(getPos().getX() >> 4, getPos().getZ() >> 4);
-        if (chunk != null) {
+        if (chunk != null && packet != null) {
             chunk.sendPacket(packet);
         }
     }
@@ -267,7 +258,7 @@ public class TileWashingMachine extends TileEntity implements ITickable, IGuiPro
         FluidStack fluidOutput = CraftTweakerMC.getLiquidStack(currentRecipe.getFluidOutput());
 
         return ItemHandlerHelper.insertItem(outputInventory, itemOutput, true).isEmpty() &&
-            outputTank.fill(fluidOutput, false) == fluidOutput.amount;
+                outputTank.fill(fluidOutput, false) == fluidOutput.amount;
 
     }
 
@@ -370,18 +361,17 @@ public class TileWashingMachine extends TileEntity implements ITickable, IGuiPro
 
     public class DynamicFluidTank extends FluidTank {
 
+        private float lastPercentage = -1;
+        private float lastTick = -1;
+        private FluidStack lastFluid = null;
+
         public DynamicFluidTank(int capacity) {
             super(capacity);
         }
 
-
         public float getActualPercentage() {
             return getFluidAmount() / (float) getCapacity();
         }
-
-        private float lastPercentage = -1;
-        private float lastTick = -1;
-        private FluidStack lastFluid = null;
 
         public float getPercentage(float pt) {
             float dt = 0.2f;
@@ -518,4 +508,5 @@ public class TileWashingMachine extends TileEntity implements ITickable, IGuiPro
             return true;
         }
     }
+
 }

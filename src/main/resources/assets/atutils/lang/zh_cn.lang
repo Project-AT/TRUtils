@@ -60,6 +60,7 @@ item.atutils.alf_portal_experience_.tooltip=§c你知道吗？精灵可能并不
 tile.atutils.rusty_iron.name=锈铁块
 tile.atutils.evil_stone.name=邪恶之石
 tile.atutils.no_energy_table.name=未激活的研究台
+tile.atutils.washing_machine.name=清洗机
 tile.modularmachinery.blockcircuitry.elite.name=精英机械电路板
 tile.modularmachinery.blockcircuitry.advanced.name=高级机械电路板
 tile.modularmachinery.blockcircuitry.ultimate.name=终极机械电路板

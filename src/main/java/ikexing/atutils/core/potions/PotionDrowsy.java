@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Objects;
 
 public class PotionDrowsy extends Potion {
+
     private static final ResourceLocation TEXTURE =
             new ResourceLocation(ATUtils.MODID + ":textures/gui/drowsy.png");
 

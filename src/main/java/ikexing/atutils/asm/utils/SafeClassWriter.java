@@ -8,6 +8,7 @@ import org.objectweb.asm.ClassWriter;
  * Created by Thiakil on 16/11/2017.
  */
 public class SafeClassWriter extends ClassWriter {
+
     public SafeClassWriter(int flags) {
         super(flags);
     }
@@ -40,4 +41,5 @@ public class SafeClassWriter extends ClassWriter {
             return c.getName().replace('.', '/');
         }
     }
+
 }

@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import static ikexing.atutils.ATUtils.MODID;
 
 public class ATNetwork {
+
     private static SimpleNetworkWrapper INSTANCE;
 
     public static void init() {
@@ -20,4 +21,5 @@ public class ATNetwork {
     public static void registerMessages() {
         INSTANCE.registerMessage(PacketFillGuiFluidTank.class, PacketFillGuiFluidTank.class, 0, Side.SERVER);
     }
+
 }

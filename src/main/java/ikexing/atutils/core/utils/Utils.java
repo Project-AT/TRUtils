@@ -13,15 +13,6 @@ import java.util.List;
 
 public class Utils {
 
-
-    public static ItemStack getStackFromState(IBlockState state) {
-        Block block = state.getBlock();
-        Item item = Item.getItemFromBlock(state.getBlock());
-        int damage = block.damageDropped(state);
-        return new ItemStack(item, damage);
-    }
-
-
     public static ImmutableList<IBlockState> getBlockStatesByOreDict(String oreDict) {
         ImmutableList.Builder<IBlockState> result = ImmutableList.builder();
         NonNullList<ItemStack> stacks = OreDictionary.getOres(oreDict);
@@ -41,8 +32,6 @@ public class Utils {
             }
         }
         return result.build();
-
     }
-
 
 }
