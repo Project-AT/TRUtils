@@ -61,7 +61,7 @@ jobs:
         uses: EndBug/add-and-commit@v7
         with:
           branch: main
-          author_name: superhelo
-          author_email: xiaohaluo@qq.com
+          author_name: ikexing
+          author_email: ikexing@qq.com
           message: "Update AutoTech Utils Mod"
           cwd: ./modpack
