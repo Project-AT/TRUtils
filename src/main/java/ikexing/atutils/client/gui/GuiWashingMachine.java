@@ -143,7 +143,7 @@ public class GuiWashingMachine extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
-        String containerName = I18n.format("title.name");
+        String containerName = I18n.format("tile.atutils.washing_machine.name");
         fontRenderer.drawString(containerName, xSize / 2 - fontRenderer.getStringWidth(containerName) / 2, 1, 0x404040);
         fontRenderer.drawString(I18n.format("container.inventory"), 8, ySize - 94, 0x404040);
     }
