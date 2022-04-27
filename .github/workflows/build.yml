@@ -38,7 +38,6 @@ jobs:
 
     runs-on: ubuntu-latest
     needs: build
-    if: "!endsWith(github.event.head_commit.message, '[Skip Deploy]')"
 
     steps:
       - name: Download the Build Artifact
