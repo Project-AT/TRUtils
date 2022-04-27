@@ -1,8 +1,8 @@
 [
 {
-  "modid": "atutils",
-  "name": "AutoTech Utils",
-  "description": "for autotech modpack",
+  "modid": "trutils",
+  "name": "ThirdRebirth Utils",
+  "description": "for ThirdRebirth modpack",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

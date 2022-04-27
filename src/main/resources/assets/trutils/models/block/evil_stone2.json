@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "trutils:blocks/evil_stone_2"
+  }
+}

@@ -1,0 +1,54 @@
+effect.trutils.drowsy=Drowsy
+
+potion.effect.trutils.drowsy=Drowsy Potion
+splash_potion.effect.trutils.drowsy=Splash Potion of Drowsy
+lingering_potion.effect.trutils.drowsy=Lingering potion of Drowsy
+
+tipped_arrow.effect.trutils.drowsy=Arrow of Drowsy
+
+item.trutils.stick_thunder.name=Stick Thunder
+item.trutils.advance_stick_thunder.name=Advance Stick Thunder
+
+item.trutils.magnetic_attraction.name=Ritual: Magnetic Attraction
+
+item.trutils.stick_thunder.message=The reserve of mana is not enough to summon lightning.
+
+item.trutils.crude_steel_axe.name=Crude Steel Axe
+item.trutils.crude_steel_hoe.name=Crude Steel Hoe
+item.trutils.crude_steel_sword.name=Crude Steel Sword
+item.trutils.crude_steel_shovel.name=Crude Steel Shovel
+item.trutils.crude_steel_pickaxe.name=Crude Steel Pickaxe
+
+item.trutils.crude_steel.head.name=Crude Steel Helmet
+item.trutils.crude_steel.chest.name=Crude Steel Chestplate
+item.trutils.crude_steel.legs.name=Crude Steel Leggings
+item.trutils.crude_steel.feet.name=Crude Steel Boots
+
+item.trutils.flint_hoe.name=Flint Hoe
+item.trutils.good_feeling_level.name=Good Feeling Level
+item.trutils.equivalent_fuel.name=Equivalent Fuel
+
+item.naturesaura.aura_bottle.trutils:underworld.name=Bottled Deep Dimness
+
+fluid.aura_end=Darkness Aura
+fluid.aura_nether=Ghost Aura
+fluid.aura_overworld=Sunlight Aura
+fluid.aura_underworld=Deep Dimness Aura
+
+item.trutils.good_feeling_level.tooltip=§4You need to have a corresponding GoodFeeling level with the elven to trade.
+
+item.trutils.alf_portal_experience.tooltip=§aDid you know? The elven might be interested in the item.
+item.trutils.alf_portal_experience_.tooltip=§cDid you know? The elven might not like the item.
+
+tile.trutils.rusty_iron.name=Rusty Iron Block
+tile.trutils.evil_stone.name=Evil Stone
+tile.trutils.no_energy_table.name=Inactivated Research Table
+tile.trutils.washing_machine.name=Washing Machine
+tile.modularmachinery.blockcircuitry.elite.name=Machine Elite Circuitry
+tile.modularmachinery.blockcircuitry.advanced.name=Machine Advanced Circuitry
+tile.modularmachinery.blockcircuitry.ultimate.name=Machine Ultimate Circuitry
+tile.modularmachinery.blockbunker.default.name=Machine Bunker
+
+roots.ritual.magnetic_attraction.name=§6Magnetic Attraction
+
+trutils.data.content=§4Nearby auras are no longer sufficient to support Psi energy restoration, place a mana storage item in your inventory or restore a nearby aura.

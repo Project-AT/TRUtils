@@ -1,6 +1,6 @@
 #From https://github.com/ProjectHDS/HerodotusUtils/blob/main/build.sh
 
-BUILD=atutils
+BUILD=trutils
 VERSION=1.1.5
 
 FILE_NAME="$BUILD-$VERSION.jar"

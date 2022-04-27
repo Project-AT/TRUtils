@@ -1,0 +1,48 @@
+{
+    "targets": [
+        "trutils:swap",
+        "trutils:final"
+    ],
+    "passes": [
+        {
+            "name": "minecraft:entity_outline",
+            "intarget": "trutils:final",
+            "outtarget": "trutils:swap"
+        },
+        {
+            "name": "minecraft:blur",
+            "intarget": "trutils:swap",
+            "outtarget": "trutils:final",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 1.0, 0.0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 2.0 ]
+                }
+            ]
+        },
+        {
+            "name": "minecraft:blur",
+            "intarget": "trutils:final",
+            "outtarget": "trutils:swap",
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 0.0, 1.0 ]
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 2.0 ]
+                }
+            ]
+        },
+        {
+            "name": "minecraft:blit",
+            "intarget": "trutils:swap",
+            "outtarget": "trutils:final"
+        }
+    ]
+}
