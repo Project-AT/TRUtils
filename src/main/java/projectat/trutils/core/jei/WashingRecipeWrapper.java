@@ -16,8 +16,8 @@ import java.util.Collections;
 
 @ParametersAreNonnullByDefault
 public class WashingRecipeWrapper implements IRecipeWrapper {
-    private final WashingMachineRecipe recipe;
 
+    private final WashingMachineRecipe recipe;
     public WashingRecipeWrapper(WashingMachineRecipe recipe) {
         this.recipe = recipe;
     }
@@ -40,4 +40,5 @@ public class WashingRecipeWrapper implements IRecipeWrapper {
         ingredients.setOutput(VanillaTypes.ITEM, CraftTweakerMC.getItemStack(recipe.getItemOutput()));
 
     }
+
 }

@@ -10,13 +10,10 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;
 
 @JEIPlugin
-public class ATPlugin implements IModPlugin {
-
+public class TRPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
         registry.addRecipeCategories(new WashingMachineCategory(registry.getJeiHelpers().getGuiHelper()));
-
-
     }
 
     @Override
@@ -24,6 +21,6 @@ public class ATPlugin implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(BlockWashingMachine.ITEM_BLOCK), "trutils.washing_machine");
         registry.handleRecipes(WashingMachineRecipe.class, WashingRecipeWrapper::new, "trutils.washing_machine");
         registry.addRecipes(WashingMachineRecipes.getAllRecipes(), "trutils.washing_machine");
-
     }
+    
 }

@@ -13,6 +13,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 public class WashingMachineCategory implements IRecipeCategory<WashingRecipeWrapper> {
+
     private final IDrawable background;
     private final IDrawable fluidOverlay;
     private final IDrawable progress;
@@ -70,4 +71,5 @@ public class WashingMachineCategory implements IRecipeCategory<WashingRecipeWrap
         itemStacks.init(1, false, 81 - 3, 27 - 3);
         itemStacks.set(ingredients);
     }
+
 }
