@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import vazkii.botania.api.recipe.RecipeElvenTrade;
 
 import java.util.List;
 import java.util.Map;
@@ -67,17 +66,20 @@ public class GoodFeelingEvent {
             return toReturn;
         }));
 
-        for (RecipeElvenTrade value : Main.RECIPE_ELVEN_TRADES.values()) {
-            while (value.matches(stacks, false)) {
-                if (getLevel(getExperience(alfPortal)) >= ((IGoodFeeling) value).getGoodFeelingLevel()) {
-                    value.matches(stacks, true);
-                    addExperience(alfPortal, ((IGoodFeeling) value).getGoodFeelingExperience());
-                    CraftTweakerMC.getIItemStackList(value.getOutputs()).forEach(alfPortal::spawnItemStack);
-                } else {
-                    break;
-                }
+        Main.RECIPE_ELVEN_TRADES.values().stream().filter(recipe -> {
+            int level = ((IGoodFeeling) recipe).getGoodFeelingLevel();
+            return level <= getLevel(getExperience(alfPortal)) && recipe.matches(stacks, false);
+        }).max((r1, r2) -> {
+            int r1Level = ((IGoodFeeling) r1).getGoodFeelingLevel();
+            int r2Level = ((IGoodFeeling) r2).getGoodFeelingLevel();
+            return Integer.compare(r1Level, r2Level);
+        }).ifPresent(recipe -> {
+            while (recipe.matches(stacks, false)) {
+                recipe.matches(stacks, true);
+                addExperience(alfPortal, ((IGoodFeeling) recipe).getGoodFeelingExperience());
+                CraftTweakerMC.getIItemStackList(recipe.getOutputs()).forEach(alfPortal::spawnItemStack);
             }
-        }
+        });
 
         World world = CraftTweakerMC.getWorld(alfPortal.getIWorld());
         BlockPos pos = CraftTweakerMC.getBlockPos(alfPortal.getBlockPos());
