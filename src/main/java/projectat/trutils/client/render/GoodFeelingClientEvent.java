@@ -88,7 +88,8 @@ public class GoodFeelingClientEvent {
             for (int i = 0; i < level; i++) {
                 renderItemGoodFeelingLevel(x + (13 * i), y, 5);
             }
-            double v = experience / GoodFeelingEvent.GOOD_FEELING_LEVEL.inverse().get(level + 1);
+            int _level = level + 1 < 5 ? level : 5;
+            double v = experience / GoodFeelingEvent.GOOD_FEELING_LEVEL.inverse().get(_level);
             renderItemGoodFeelingLevel(x + (13 * (level)), y, (int) Math.round(v * 5));
         } else {
             String text = I18n.format("botaniamisc.statusUnknown");
