@@ -56,7 +56,7 @@ jobs:
 
       - name: Move this mod to ThirdRebirth modpack repo
         run: |
-          rm -f $GITHUB_WORKSPACE/modpack/.minecraft/mods/*
+          rm -f $GITHUB_WORKSPACE/modpack/.minecraft/mods/trutils-*.jar
           mv -f $GITHUB_WORKSPACE/artifacts/* $GITHUB_WORKSPACE/modpack/.minecraft/mods/
 
       - name: Commit this mod to ThirdRebirth modpack repo
