@@ -1,7 +1,9 @@
 package projectat.trutils.core.events;
 
+import com.google.common.collect.Sets;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import de.ellpeck.naturesaura.items.ModItems;
+import net.minecraft.util.EnumFacing;
 import projectat.trutils.Main;
 import projectat.trutils.core.block.BlockEvilStone;
 import projectat.trutils.core.fluids.FluidHandlerAuraBottle;
@@ -27,16 +29,45 @@ import vazkii.psi.api.cad.RegenPsiEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @EventBusSubscriber
 public class EventHandler {
 
     public static final Map<EntityPlayer, Boolean> IS_FIRST = new HashMap<>();
 
+    public static void syncAroundEvilStone(BlockPos pos, World world, IBlockState state, Set<BlockPos> evilStoneBlockPos) {
+        if (!evilStoneBlockPos.contains(pos)) {
+            evilStoneBlockPos.add(pos);
+            if (state.getValue(BlockEvilStone.STATUS) < 5) {
+                Integer status = state.getValue(BlockEvilStone.STATUS);
+                if (!world.isRemote) {
+                    world.setBlockState(pos, state.withProperty(BlockEvilStone.STATUS, status + 1));
+                } else {
+                    wispFx(pos);
+                }
+            }
+        }
+        for (EnumFacing facing : EnumFacing.VALUES) {
+            BlockPos offset = pos.offset(facing);
+            if (evilStoneBlockPos.contains(offset))
+                continue;
+            if (world.getBlockState(offset).getBlock() instanceof BlockEvilStone)
+                syncAroundEvilStone(offset, world, world.getBlockState(offset), evilStoneBlockPos);
+        }
+    }
+
+    private static void wispFx(BlockPos pos) {
+        for (int i = 0; i < 5; i++) {
+            Botania.proxy.wispFX(pos.getX() + Math.random() * 1.55D, pos.getY() * Math.random() * 2.0D, pos.getZ() + Math.random() * 1.55D, 0.5F, 0.0F, 0.0F, (float) Math.random() * 2.35F);
+        }
+    }
+
     @SubscribeEvent
     public static void onEntityDeath(LivingDeathEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         World world = entity.getEntityWorld();
+
 
         if (entity instanceof EntityCreature || entity instanceof EntitySlime) {
             if (!(event.getSource().getTrueSource() instanceof EntityPlayer)) return;
@@ -46,22 +77,17 @@ public class EventHandler {
             for (BlockPos blockPos : allInBox) {
                 IBlockState blockState = world.getBlockState(blockPos);
                 if (world.getBlockState(blockPos).getBlock() instanceof BlockEvilStone) {
-                    Integer status = blockState.getValue(BlockEvilStone.STATUS);
-                    if (blockState.getValue(BlockEvilStone.STATUS) < 5 && world.rand.nextBoolean()) {
-                        if (!world.isRemote) {
-                            world.setBlockState(blockPos, blockState.withProperty(BlockEvilStone.STATUS, status + 1));
-                        } else {
-                            for (int i = 0; i < 5; i++) {
-                                Botania.proxy.wispFX(blockPos.getX() + Math.random() * 1.55D, blockPos.getY() * Math.random() * 2.0D, blockPos.getZ() + Math.random() * 1.55D, 0.5F, 0.0F, 0.0F, (float) Math.random() * 2.35F);
-                            }
-                        }
-                    }
+                    if (world.rand.nextBoolean())
+                        syncAroundEvilStone(blockPos, world, blockState, Sets.newHashSet());
+                    // 只要找到一次就算找到 1/2几率
+                    break;
                 }
             }
         }
     }
 
-    @SuppressWarnings("deprecation") @SubscribeEvent
+    @SuppressWarnings("deprecation")
+    @SubscribeEvent
     public static void onRegenPsi(RegenPsiEvent event) {
         EntityPlayer player = event.getPlayer();
         World world = player.getEntityWorld();
